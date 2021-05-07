@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuUsuarios">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/empresa"
+            android:title="@string/empresas"/>
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/producto"
+            android:title="@string/galer_a_de_productos"/>
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/carrito"
+            android:title="@string/pedidos"/>
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuEmpresas">
+
+        <item
+            android:id="@+id/nav_editar_info_empresa"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/editar_mi_informaci_n" />
+    </group>
+
+    <item android:title="@string/registro">
+        <menu>
+            <item
+                android:id="@+id/logoutMenu"
+                android:title="@string/salir_de_la_cuenta"/>
+            <item
+                android:id="@+id/volverInicio"
+                android:title="@string/volver_a_la_ventana_principal"/>
+            <item
+                android:id="@+id/loginMenu"
+                android:title="@string/iniciar_sesi_n"/>
+        </menu>
+    </item>
+</menu>

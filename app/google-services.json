@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "729546829012",
+    "project_id": "salinapp-services",
+    "storage_bucket": "salinapp-services.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729546829012:android:304378b6a0bca939515f41",
+        "android_client_info": {
+          "package_name": "com.proyectofct.salinappservice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729546829012-hlq8ipjup2vrsn44b6v3u2vd16pcv994.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.proyectofct.salinappservice",
+            "certificate_hash": "ccc8a492593e8dc5420776412c438f65928317fe"
+          }
+        },
+        {
+          "client_id": "729546829012-do68ovs9k6vru7s5pd88e5vm2etqnfpf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVm75fcLXBTwH6zZFDO4wZBIRVzG1Qvvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729546829012-do68ovs9k6vru7s5pd88e5vm2etqnfpf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

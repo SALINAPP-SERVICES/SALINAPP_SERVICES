@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margen1" >
+
+        <ImageView
+            android:id="@+id/imgProductoPublicado"
+            android:layout_width="100sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/img_producto_publicado"
+            android:src="@drawable/producto" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/padding1" >
+
+            <TextView
+                android:id="@+id/txtMarcaProductoPublicado"
+                android:layout_width="@dimen/ancho1_item_reciclerview"
+                android:layout_height="wrap_content"
+                android:text="@string/marca"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txtModeloProductoPublicado"
+                android:layout_width="@dimen/ancho1_item_reciclerview"
+                android:layout_height="wrap_content"
+                android:text="@string/modelo"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtPrecioProductoPublicado"
+                android:layout_width="@dimen/ancho1_item_reciclerview"
+                android:layout_height="wrap_content"
+                android:text="@string/precio"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txtStockProductoPublicado"
+                android:layout_width="@dimen/ancho1_item_reciclerview"
+                android:layout_height="wrap_content"
+                android:text="@string/stock"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txtDescripcionProductoPublicado"
+                android:layout_width="@dimen/ancho1_item_reciclerview"
+                android:layout_height="wrap_content"
+                android:text="@string/descripcion"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

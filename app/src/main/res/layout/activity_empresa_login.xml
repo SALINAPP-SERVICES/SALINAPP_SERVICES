@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    tools:context=".EmpresaLoginActivity">
+
+    <EditText
+        android:id="@+id/edtLECorreo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:background="@drawable/style_edt"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtLEPass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/style_edt"
+        android:ems="10"
+        android:hint="@string/contraseña"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/edtLECorreo"
+        app:layout_constraintStart_toStartOf="@+id/edtLECorreo"
+        app:layout_constraintTop_toBottomOf="@+id/edtLECorreo" />
+
+    <Button
+        android:id="@+id/btnLELogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="loginEmpresa"
+        android:text="@string/iniciar_sesi_n"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:backgroundTint="@color/fondo"
+        app:cornerRadius="20dip"
+        app:layout_constraintEnd_toEndOf="@+id/edtLEPass"
+        app:layout_constraintStart_toStartOf="@+id/edtLEPass"
+        app:layout_constraintTop_toBottomOf="@+id/edtLEPass" />
+
+    <Button
+        android:id="@+id/btnLERegistrarse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="signupEmpresa"
+        android:text="@string/registrarse"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:backgroundTint="@color/fondo"
+        app:cornerRadius="20dip"
+        app:layout_constraintEnd_toEndOf="@+id/btnLELogin"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btnLELogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnLELogin" />
+
+    <TextView
+        android:id="@+id/txtLEPass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:onClick="recordarPassEmpresa"
+        android:text="@string/has_olvidado_tu_contrase_a"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/btnLERegistrarse"
+        app:layout_constraintStart_toStartOf="@+id/btnLERegistrarse"
+        app:layout_constraintTop_toBottomOf="@+id/btnLERegistrarse" />
+
+    <TextView
+        android:id="@+id/txtCorreoBanner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="INICIO SESION"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

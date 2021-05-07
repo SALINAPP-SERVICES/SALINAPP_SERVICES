@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity"
+    android:padding="5sp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civFotoPerfil"
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/txtNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dani"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btEnviarImagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:drawable/ic_menu_gallery"
+            android:contentDescription="@string/enviarimagen"
+            android:onClick="enviarImagen" />
+
+        <EditText
+            android:id="@+id/edtMensaje"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:hint="@string/escriba_un_mensaje"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btEnviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/enviar"
+            android:onClick="enviarMensaje"/>
+
+    </LinearLayout>
+
+</LinearLayout>

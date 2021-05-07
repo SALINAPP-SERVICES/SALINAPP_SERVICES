@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SALINAPPSERVICE" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/fondo</item>
+        <item name="colorPrimaryVariant">@color/fondo</item>
+        <item name="colorOnPrimary">@color/amarillo</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/amarillo</item>
+        <item name="colorSecondaryVariant">@color/fondo</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.SALINAPPSERVICE.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SALINAPPSERVICE.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SALINAPPSERVICE.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
