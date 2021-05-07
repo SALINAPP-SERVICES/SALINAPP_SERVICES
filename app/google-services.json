@@ -1,20 +1,57 @@
 {
   "project_info": {
-    "project_number": "729546829012",
-    "project_id": "salinapp-services",
-    "storage_bucket": "salinapp-services.appspot.com"
+    "project_number": "1002537560752",
+    "project_id": "salinappsdam",
+    "storage_bucket": "salinappsdam.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:729546829012:android:304378b6a0bca939515f41",
+        "mobilesdk_app_id": "1:1002537560752:android:0513cd0c83f4740867a975",
+        "android_client_info": {
+          "package_name": "com.example.tutorialfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002537560752-3f0lioema9s41j9uu5c34nc50ktd2f7q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tutorialfirebase",
+            "certificate_hash": "61322ccfc64dcdd8234176804879788fc3e58c3c"
+          }
+        },
+        {
+          "client_id": "1002537560752-so5tru4q9cu88dalk5p4tlrc8p5pf1na.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhbhfp1gheTsZeyHHaYh9ZbA4CJvIJt3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002537560752-so5tru4q9cu88dalk5p4tlrc8p5pf1na.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002537560752:android:1cc8937f7123f1f067a975",
         "android_client_info": {
           "package_name": "com.proyectofct.salinappservice"
         }
       },
       "oauth_client": [
         {
-          "client_id": "729546829012-hlq8ipjup2vrsn44b6v3u2vd16pcv994.apps.googleusercontent.com",
+          "client_id": "1002537560752-iqb8h32otaolp21miqa0rc6bueeje4g9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.proyectofct.salinappservice",
@@ -22,20 +59,20 @@
           }
         },
         {
-          "client_id": "729546829012-do68ovs9k6vru7s5pd88e5vm2etqnfpf.apps.googleusercontent.com",
+          "client_id": "1002537560752-so5tru4q9cu88dalk5p4tlrc8p5pf1na.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAVm75fcLXBTwH6zZFDO4wZBIRVzG1Qvvw"
+          "current_key": "AIzaSyDhbhfp1gheTsZeyHHaYh9ZbA4CJvIJt3Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "729546829012-do68ovs9k6vru7s5pd88e5vm2etqnfpf.apps.googleusercontent.com",
+              "client_id": "1002537560752-so5tru4q9cu88dalk5p4tlrc8p5pf1na.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
