@@ -12,6 +12,7 @@ public class Empresa implements Serializable {
     private String clave_empr;
     private String datos_empr;
 
+
     public Empresa(String cod_empresa, String clave_empr, String datos_empr) {
         this.cod_empresa = cod_empresa;
         this.clave_empr = clave_empr;
