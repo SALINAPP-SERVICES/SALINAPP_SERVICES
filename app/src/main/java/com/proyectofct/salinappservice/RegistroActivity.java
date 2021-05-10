@@ -18,7 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,9 +54,9 @@ public class RegistroActivity extends AppCompatActivity {
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser usuario = firebaseAuth.getCurrentUser();
             if(usuario != null){
-                firebaseAuth.signOut();
-                Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
-                startActivity(intent);
+                //firebaseAuth.signOut();
+                //Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
+                //startActivity(intent);
             }
         }};
 
@@ -163,9 +166,23 @@ public class RegistroActivity extends AppCompatActivity {
                 Log.i("", "Error al añadir el usuario en firestore", e);
             }
         });
-    }
 
-    private void createDocument(){
+        DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
+        Map<String, Object> carrito = new HashMap<>();
 
+        documentReference.set(carrito).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                Log.i("", "Carrito inicial creado correctamente");
+                firebaseAuth.signOut();
+                Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.i("ERROR", "Error al crear el carrito inicial");
+            }
+        });
     }
 }
