@@ -1,22 +1,23 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
-import com.google.type.DateTime;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Reserva {
     private int idReserva;
-    private LocalDateTime fechaReserva;
+    private ArrayList<LíneaReserva> líneasReserva;
+    private Date fechaReserva;
     private double total;
     private int idDireccionCliente;
 
-    public Reserva(int idReserva, LocalDateTime fechaReserva, double total) {
+    public Reserva(int idReserva, ArrayList<LíneaReserva> líneasReserva, Date fechaReserva, double total) {
         this.idReserva = idReserva;
+        this.líneasReserva = líneasReserva;
         this.fechaReserva = fechaReserva;
         this.total = total;
     }
 
-    public Reserva(int idReserva, LocalDateTime fechaReserva, double total, int idDireccionCliente) {
+    public Reserva(int idReserva, Date fechaReserva, double total, int idDireccionCliente) {
         this.idReserva = idReserva;
         this.fechaReserva = fechaReserva;
         this.total = total;
@@ -31,11 +32,19 @@ public class Reserva {
         this.idReserva = idReserva;
     }
 
-    public LocalDateTime getFechaReserva() {
+    public ArrayList<LíneaReserva> getLíneasReserva() {
+        return líneasReserva;
+    }
+
+    public void setLíneasReserva(ArrayList<LíneaReserva> líneasReserva) {
+        this.líneasReserva = líneasReserva;
+    }
+
+    public Date getFechaReserva() {
         return fechaReserva;
     }
 
-    public void setFechaReserva(LocalDateTime fechaReserva) {
+    public void setFechaReserva(Date fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
 
@@ -59,9 +68,10 @@ public class Reserva {
     public String toString() {
         return "Reserva{" +
                 "idReserva=" + idReserva +
+                ", líneasReserva=" + líneasReserva +
                 ", fechaReserva=" + fechaReserva +
                 ", total=" + total +
-                /*", idDireccionCliente=" + idDireccionCliente +*/
+                ", idDireccionCliente=" + idDireccionCliente +
                 '}';
     }
 }

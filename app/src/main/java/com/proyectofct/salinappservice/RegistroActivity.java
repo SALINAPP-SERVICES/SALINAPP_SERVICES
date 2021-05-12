@@ -140,7 +140,6 @@ public class RegistroActivity extends AppCompatActivity {
         db.collection(tipoUsuario).document(firebaseAuth.getCurrentUser().getUid()).set(usuario).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-
                 Map<String, Object> data = new HashMap<>();
                 db.collection("businessdata")
                         .document(firebaseAuth.getCurrentUser().getEmail())

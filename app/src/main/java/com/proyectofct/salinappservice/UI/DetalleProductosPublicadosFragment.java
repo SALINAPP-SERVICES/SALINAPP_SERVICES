@@ -10,17 +10,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
-import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
-import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Blob;
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_PRODUCTO_PUBLICADO;
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
@@ -38,6 +46,9 @@ public class DetalleProductosPublicadosFragment extends Fragment {
     private EditText edtCantidad;
 
     public static final String EXTRA_OBJETO_LÍNEA_RESERVA = "com.proyectofct.salinappservice.LíneaReserva";
+
+    private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,20 +102,70 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         btAñadirAlCarrito = (Button) vista.findViewById(R.id.btAñadirAlCarrito);
         edtCantidad = (EditText) vista.findViewById(R.id.edtCantidad);
 
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
         btAñadirAlCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Creo la reserva
-                LocalDateTime fechaActual = LocalDateTime.now();
-                double precioTotal = productoPublicado.getCantidad() * productoPublicado.getPrecioventa();
-                Reserva reserva = new Reserva(1, fechaActual, precioTotal); //¿La idReserva como la vamos a actualizar? Cada vez que creemos una nueva reserva
+                int cantidad = 0;
+                String textoCantidad = String.valueOf(edtCantidad.getText());
+                if(!textoCantidad.isEmpty()){
+                    cantidad = Integer.parseInt(textoCantidad);
+                    if (cantidad <= 0){
+                        edtCantidad.setError("La cantidad mínima es 1");
+                    }
+                }else {
+                    Log.i("", "Error");
+                }
 
-                int cantidad = Integer.parseInt(String.valueOf(edtCantidad.getText()));
-                LíneaReserva líneaReserva = new LíneaReserva(1, reserva, productoPublicado, cantidad); //¿La idLíneaReserva como la vamos a actualizar? Cada vez que creemos una nueva líneaReserva
+
+                //¿ES MEJOR USAR ESTE OBJETO CON TODOS LOS CAMPOS O USAR YA EL QUE RECIBO POR EL BUNDLE? EN AMBOS CASOS NO VOY A PODER ACCEDER A TODOS LOS ARGUMENTOS (TALLA, COLOR, MATERIAL...), YA QUE AL USAR LA HERENCIA NO USO ESOS ATRIBUTOS
+                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), cantidad, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
+
+                Map<String, Object> mapaProductoCarrito = new HashMap<>();
+                mapaProductoCarrito.put("Cantidad", cantidad);
+                mapaProductoCarrito.put("Código de producto", productoCarrito.getCodProducto());
+                mapaProductoCarrito.put("Descripción", productoCarrito.getDescripción());
+                mapaProductoCarrito.put("Empresa", productoCarrito.getNombreEmpresa());
+                mapaProductoCarrito.put("Foto URL", productoCarrito.getFotoURL());
+                mapaProductoCarrito.put("Marca", productoCarrito.getMarca());
+                mapaProductoCarrito.put("Modelo", productoCarrito.getModelo());
+                mapaProductoCarrito.put("Precio por unidad", productoCarrito.getPrecio());
+
+                db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid()).set(productoCarrito, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        Log.i("", "Producto añadido al carrito");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.i("", "Error al añadir productos al carrito");
+                    }
+                });
+
+                /*
+                //Creo la reserva
+                int idReserva = ReservaController.obtenerNuevoIDReserva();
+                ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
+                líneasReserva.add(líneaReserva);
+                Date fechaActual = new Date();
+                double precioTotal = productoPublicado.getCantidad() * productoPublicado.getPrecioventa();
+                Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(EXTRA_OBJETO_LÍNEA_RESERVA, líneaReserva);
                 Navigation.findNavController(view).navigate(R.id.nav_fragment_carrito, bundle);
+
+                //Creo la línea de reserva
+                int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
+                int cantidad = Integer.parseInt(String.valueOf(edtCantidad.getText()));
+                if (cantidad <= 0){
+                    edtCantidad.setError("La cantidad mínima es 1");
+                }
+                LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, reserva, productoPublicado, cantidad);
+                */
             }
         });
 
