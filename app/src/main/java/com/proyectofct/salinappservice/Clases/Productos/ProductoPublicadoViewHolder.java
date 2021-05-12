@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.proyectofct.salinappservice.R;
 
 public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener  {
-    public static final String EXTRA_OBJETO_PRODUCTO_PUBLICADO = "com.proyectofct.salinappservice.ProductosPublicados";
+    public static final String EXTRA_OBJETO_PRODUCTO_PUBLICADO = "com.proyectofct.salinappservice.ProductoPublicado";
     //public static final String EXTRA_IMAGEN_PRODUCTO_PUBLICADO = "com.proyectofct.salinappservice.ProductoPublicadoViewHolder.imagen_productoPublicado";
 
     public ListaProductosPublicadosAdapter listaProductosPublicadosAdapter;
@@ -38,10 +38,10 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
     @Override
     public void onClick(View v) {
         int posición = getLayoutPosition();
-        ProductosPublicados productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
+        ProductoPublicado productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
         listaProductosPublicadosAdapter.notifyDataSetChanged();
 
-        ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdproductoempresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
+        ProductoPublicado productoPublicado = new ProductoPublicado(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO, productoPublicado);
         Navigation.findNavController(v).navigate(R.id.nav_fragment_detalle_productos_publicados, bundle);

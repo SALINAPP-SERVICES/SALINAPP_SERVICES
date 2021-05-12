@@ -97,7 +97,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Navigation.findNavController(vista).navigate(R.id.nav_home);
+                            Navigation.findNavController(vista).navigate(R.id.nav_editar_info_empresa);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

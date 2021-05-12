@@ -17,9 +17,9 @@ import android.widget.Button;
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Productos.ListaProductosPublicadosAdapter;
-import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
-import com.proyectofct.salinappservice.Modelos.ProductosPublicadosDB;
+import com.proyectofct.salinappservice.Modelos.ProductoPublicadoDB;
 import com.proyectofct.salinappservice.R;
 import com.proyectofct.salinappservice.Utilidades.PaginationListener;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class ProductosPublicadosFragment extends Fragment {
     private Button btAtras = null;
     private RecyclerView rvProductosPublicados;
-    private ArrayList<ProductosPublicados> productosPublicados;
+    private ArrayList<ProductoPublicado> productosPublicados;
     private ListaProductosPublicadosAdapter listaProductosPublicadosAdapter = null;
     private int páginaActual;
     private int totalRegistros;
@@ -60,7 +60,7 @@ public class ProductosPublicadosFragment extends Fragment {
         */
 
         //RECYCLER VIEW CON LOS PRODUCTOS
-        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
+        totalRegistros = ProductoPublicadoDB.obtenerCantidadProductosPublicados();
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
 
         Log.i("SQL", "Total de registros -> " + String.valueOf(totalRegistros));
@@ -70,7 +70,7 @@ public class ProductosPublicadosFragment extends Fragment {
         String codEmpresa = infoEmpresa.getCod_empresa();
 
         páginaActual = 0;
-        productosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductoPublicadoDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
         páginaActual = páginaActual + 1;
         if(productosPublicados != null) {
             Log.i("SQL", "Página actual -> " + String.valueOf(páginaActual));
@@ -93,7 +93,7 @@ public class ProductosPublicadosFragment extends Fragment {
                 protected void loadMoreItems() {
                     int totalRegistrosLeídos = rvProductosPublicados.getLayoutManager().getItemCount();
                     if (totalRegistrosLeídos < totalRegistros) {
-                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+                        ArrayList<ProductoPublicado> nuevosProductosPublicados = ProductoPublicadoDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
                         productosPublicadosLeídos = nuevosProductosPublicados.size();
                         páginaActual++;
 
@@ -101,7 +101,7 @@ public class ProductosPublicadosFragment extends Fragment {
                             @Override
                             public void run() {
                                 ListaProductosPublicadosAdapter listaProductosPublicadosAdapter1 = (ListaProductosPublicadosAdapter) rvProductosPublicados.getAdapter();
-                                ArrayList<ProductosPublicados> productosPublicadosRv = listaProductosPublicadosAdapter1.getListaProductosPublicados();
+                                ArrayList<ProductoPublicado> productosPublicadosRv = listaProductosPublicadosAdapter1.getListaProductosPublicados();
                                 productosPublicadosRv.addAll(nuevosProductosPublicados);
                                 rvProductosPublicados.getAdapter().notifyDataSetChanged();
                             }});

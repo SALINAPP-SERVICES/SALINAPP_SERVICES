@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
-    private MenuItem logoutMenu, loginMenu, volverInicio;
+    private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_editar_info_empresas).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_carrito , R.id.nav_fragment_editar_info_empresas).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -71,59 +71,59 @@ public class HomeActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser usuario = firebaseAuth.getCurrentUser();
-                if(usuario != null){
-                    View headerView = navigationView.getHeaderView(0);
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser usuario = firebaseAuth.getCurrentUser();
+            if(usuario != null){
+                View headerView = navigationView.getHeaderView(0);
 
-                    TextView txtUsuarioMenu = (TextView) headerView.findViewById(R.id.txtUsuarioBanner);
-                    TextView txtCorreoMenu = (TextView) headerView.findViewById(R.id.txtCorreoBanner);
+                TextView txtUsuarioMenu = (TextView) headerView.findViewById(R.id.txtUsuarioBanner);
+                TextView txtCorreoMenu = (TextView) headerView.findViewById(R.id.txtCorreoBanner);
 
-                    txtUsuarioMenu.setText(usuario.getDisplayName());
-                    txtCorreoMenu.setText(usuario.getEmail());
+                txtUsuarioMenu.setText(usuario.getDisplayName());
+                txtCorreoMenu.setText(usuario.getEmail());
 
-                    logoutMenu.setVisible(true);
-                    loginMenu.setVisible(false);
+                logoutMenu.setVisible(true);
+                loginMenu.setVisible(false);
 
-                    DocumentReference docRef = db.collection("Usuarios").document(usuario.getUid());
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) { //El documento corresponde a un usuario
-                                    navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, true);
-                                    navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, false);
-                                    Log.d("", "DocumentSnapshot data: " + document.getData());
-                                } else { //El documento corresponde a una empresa
-                                    navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, false);
-                                    navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, true);
-                                    Log.d("", "No such document");
-                                }
-                            } else {
-                                Log.d("", "get failed with ", task.getException());
+                DocumentReference docRef = db.collection("Usuarios").document(usuario.getUid());
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) { //El documento corresponde a un usuario
+                                navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, true);
+                                navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, false);
+                                Log.d("", "DocumentSnapshot data: " + document.getData());
+                            } else { //El documento corresponde a una empresa
+                                navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, false);
+                                navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, true);
+                                Log.d("", "No such document");
                             }
+                        } else {
+                            Log.d("", "get failed with ", task.getException());
                         }
-                    });
-                }else {
-                    View headerView = navigationView.getHeaderView(0);
+                    }
+                });
+            }else {
+                View headerView = navigationView.getHeaderView(0);
 
-                    TextView txtUsuarioMenu = (TextView) headerView.findViewById(R.id.txtUsuarioBanner);
-                    TextView txtCorreoMenu = (TextView) headerView.findViewById(R.id.txtCorreoBanner);
+                TextView txtUsuarioMenu = (TextView) headerView.findViewById(R.id.txtUsuarioBanner);
+                TextView txtCorreoMenu = (TextView) headerView.findViewById(R.id.txtCorreoBanner);
 
-                    txtUsuarioMenu.setText("INVITADO");
-                    txtCorreoMenu.setText("");
+                txtUsuarioMenu.setText("INVITADO");
+                txtCorreoMenu.setText("");
 
-                    logoutMenu.setVisible(false);
-                    loginMenu.setVisible(true);
+                logoutMenu.setVisible(false);
+                loginMenu.setVisible(true);
 
-                    navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, false); //Como es lógico, los invitados no pueden ver el menú de usuarios
-                    navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, false); //Como es lógico, los invitados no pueden ver el menú de empresas
-                }
-            }};
+                navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, false); //Como es lógico, los invitados no pueden ver el menú de usuarios
+                navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, false); //Como es lógico, los invitados no pueden ver el menú de empresas
+            }
+        }};
 
-            logoutMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        logoutMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 firebaseAuth.signOut();
@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-            loginMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        loginMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
@@ -142,13 +142,41 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-            volverInicio.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        volverInicio.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                    Intent intent = new Intent(HomeActivity.this, BienvenidaActivity.class);
-                    startActivity(intent);
-                    return false;
-                }
+                Intent intent = new Intent(HomeActivity.this, BienvenidaActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        nav_empresas = (MenuItem) navigationView.getMenu().findItem(R.id.nav_empresas);
+        nav_galeria_productos = (MenuItem) navigationView.getMenu().findItem(R.id.nav_galeria_productos);
+        nav_carrito = (MenuItem) navigationView.getMenu().findItem(R.id.nav_carrito);
+
+        nav_empresas.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //Navigation.findNavController(menuItem.getActionView()).navigate(R.id.nav_fragment_empresas);
+                return false;
+            }
+        });
+
+        nav_galeria_productos.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //Navigation.findNavController(menuItem.getActionView()).navigate(R.id.nav_fragment_galeria_productos);
+                return false;
+            }
+        });
+
+        nav_carrito.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                //Navigation.findNavController(menuItem.getActionView()).navigate(R.id.nav_fragment_carrito);
+                return false;
+            }
         });
     }
 

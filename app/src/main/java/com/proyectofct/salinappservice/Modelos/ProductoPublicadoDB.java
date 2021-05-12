@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Moda;
-import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ProductosPublicadosDB {
+public class ProductoPublicadoDB {
     //OBTENER TODOS LOS PRODUCTOS PUBLICADOS DE MOMENTO NO SE ESTÁ USANDO
     /*
     public static ArrayList<ProductosPublicados> obtenerProductosPublicados(int página) {
@@ -98,13 +98,13 @@ public class ProductosPublicadosDB {
     }
     */
 
-    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
+    public static ArrayList<ProductoPublicado> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
             return null;
         }
-        ArrayList<ProductosPublicados> productosPublicadosDevueltos = new ArrayList<ProductosPublicados>();
+        ArrayList<ProductoPublicado> productosPublicadosDevueltos = new ArrayList<ProductoPublicado>();
         try {
             Empresa empresa = new Empresa("", "", "");
             Statement sentencia = conexión.createStatement();
@@ -182,7 +182,7 @@ public class ProductosPublicadosDB {
                     archivado = false;
                 }
 
-                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
+                ProductoPublicado productoPublicado = new ProductoPublicado(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
                 productosPublicadosDevueltos.add(productoPublicado);
             }
             resultado2.close();

@@ -11,8 +11,7 @@ import com.proyectofct.salinappservice.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EmpresaViewHolder extends RecyclerView.ViewHolder{
-
-    public static final String EXTRA_OBJETO_EMPRESA = "com.proyectofct.salinappservice.Empresa";
+    public static final String EXTRA_OBJETO_EMPRESA = "com.proyectofct.salinappservice.InfoEmpresa";
     //public static final String EXTRA_IMAGEN_EMPRESA = "com.proyectofct.salinappservice.EmpresaViewHolder.imagen_empresa";
 
     public TextView txt_rv_nombre_empresa = null;

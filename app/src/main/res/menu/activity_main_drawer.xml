@@ -6,22 +6,21 @@
     <group android:checkableBehavior="single"
         android:id="@+id/menuUsuarios">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_empresas"
             android:icon="@drawable/empresa"
             android:title="@string/empresas"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_galeria_productos"
             android:icon="@drawable/producto"
             android:title="@string/galer_a_de_productos"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_carrito"
             android:icon="@drawable/carrito"
             android:title="@string/pedidos"/>
     </group>
 
     <group android:checkableBehavior="single"
         android:id="@+id/menuEmpresas">
-
         <item
             android:id="@+id/nav_editar_info_empresa"
             android:icon="@drawable/ic_menu_info"

@@ -52,7 +52,6 @@
     <string name="galer_a_usuarios">GALERÍA USUARIOS</string>
     <string name="usuarios">USUARIOS</string>
     <string name="slideshow_usuarios">SLIDESHOW USUARIOS</string>
-    <string name="empresas">EMPRESAS</string>
     <string name="galer_a_empresas">GALERÍA EMPRESAS</string>
     <string name="slideshow_empresas">SLIDESHOW EMPRESAS</string>
     <string name="ajustes">Ajustes</string>
@@ -96,4 +95,10 @@
     <string name="sector">Sector</string>
     <string name="imagencarrito">imagenCarrito</string>
     <string name="buscar">Buscar...</string>
+    <string name="añadir_al_carrito">Añadir al carrito</string>
+    <string name="editar_informacion">EDITAR INFORMACIÓN</string>
+    <string name="carrito">CARRITO</string>
+    <string name="productos_publicados">PRODUCTOS PUBLICADOS</string>
+    <string name="empresas">EMPRESAS</string>
+    <string name="unidades_deseadas">Unidades deseadas...</string>
 </resources>
