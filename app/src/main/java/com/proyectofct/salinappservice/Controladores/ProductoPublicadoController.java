@@ -60,10 +60,10 @@ public class ProductoPublicadoController {
         return productosPublicadosDevuelto;
     }
 
-    //REPASAR MÉTODO
-    public static ArrayList<ProductosPublicados> buscarProductoPublicado(String cod_producto){
+    //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
+    public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página,String marca){
         ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
-        FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(cod_producto));
+        FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca, página));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
