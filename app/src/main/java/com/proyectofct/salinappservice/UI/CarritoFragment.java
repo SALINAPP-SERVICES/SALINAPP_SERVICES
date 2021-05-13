@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment;
 import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
 import com.proyectofct.salinappservice.R;
 
-import static com.proyectofct.salinappservice.UI.DetalleProductosPublicadosFragment.EXTRA_OBJETO_LÍNEA_RESERVA;
+import static com.proyectofct.salinappservice.UI.DetalleProductosPublicadosFragment.EXTRA_OBJETO_RESERVA;
 
 public class CarritoFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
 
-        LíneaReserva líneaReserva = (LíneaReserva) getArguments().getSerializable(EXTRA_OBJETO_LÍNEA_RESERVA);
+        LíneaReserva líneaReserva = (LíneaReserva) getArguments().getSerializable(EXTRA_OBJETO_RESERVA);
         if (líneaReserva != null){
 
         }else {

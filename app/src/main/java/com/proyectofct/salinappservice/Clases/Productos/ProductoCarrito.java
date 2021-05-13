@@ -1,31 +1,33 @@
 package com.proyectofct.salinappservice.Clases.Productos;
 
-public class ProductoCarrito {
-    private int codProducto;
+import java.io.Serializable;
+
+public class ProductoCarrito implements Serializable {
+    private String codProducto;
     private int cantidad;
     private String descripción;
-    private String nombreEmpresa;
+    private String codEmpresa;
     private String fotoURL;
     private String marca;
     private String modelo;
     private double precio;
 
-    public ProductoCarrito(int codProducto, int cantidad, String descripción, String nombreEmpresa, String fotoURL, String marca, String modelo, double precio) {
+    public ProductoCarrito(String codProducto, int cantidad, String descripción, String codEmpresa, String fotoURL, String marca, String modelo, double precio) {
         this.codProducto = codProducto;
         this.cantidad = cantidad;
         this.descripción = descripción;
-        this.nombreEmpresa = nombreEmpresa;
+        this.codEmpresa = codEmpresa;
         this.fotoURL = fotoURL;
         this.marca = marca;
         this.modelo = modelo;
         this.precio = precio;
     }
 
-    public int getCodProducto() {
+    public String getCodProducto() {
         return codProducto;
     }
 
-    public void setCodProducto(int codProducto) {
+    public void setCodProducto(String codProducto) {
         this.codProducto = codProducto;
     }
 
@@ -45,12 +47,12 @@ public class ProductoCarrito {
         this.descripción = descripción;
     }
 
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
+    public String getCodEmpresa() {
+        return codEmpresa;
     }
 
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
+    public void setCodEmpresa(String codEmpresa) {
+        this.codEmpresa = codEmpresa;
     }
 
     public String getFotoURL() {
@@ -91,7 +93,7 @@ public class ProductoCarrito {
                 "codProducto=" + codProducto +
                 ", cantidad=" + cantidad +
                 ", descripción='" + descripción + '\'' +
-                ", nombreEmpresa='" + nombreEmpresa + '\'' +
+                ", codEmpresa='" + codEmpresa + '\'' +
                 ", fotoURL='" + fotoURL + '\'' +
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +

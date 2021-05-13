@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
@@ -24,12 +26,11 @@ import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.Blob;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_PRODUCTO_PUBLICADO;
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
 
@@ -45,7 +46,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
 
     private EditText edtCantidad;
 
-    public static final String EXTRA_OBJETO_LÍNEA_RESERVA = "com.proyectofct.salinappservice.LíneaReserva";
+    public static final String EXTRA_OBJETO_RESERVA = "com.proyectofct.salinappservice.Reserva";
 
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
@@ -119,44 +120,40 @@ public class DetalleProductosPublicadosFragment extends Fragment {
                     Log.i("", "Error");
                 }
 
+                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getP().getCod_producto(), cantidad, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
 
-                //¿ES MEJOR USAR ESTE OBJETO CON TODOS LOS CAMPOS O USAR YA EL QUE RECIBO POR EL BUNDLE? EN AMBOS CASOS NO VOY A PODER ACCEDER A TODOS LOS ARGUMENTOS (TALLA, COLOR, MATERIAL...), YA QUE AL USAR LA HERENCIA NO USO ESOS ATRIBUTOS
-                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), cantidad, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
-
+                DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
                 Map<String, Object> mapaProductoCarrito = new HashMap<>();
-                mapaProductoCarrito.put("Cantidad", cantidad);
-                mapaProductoCarrito.put("Código de producto", productoCarrito.getCodProducto());
-                mapaProductoCarrito.put("Descripción", productoCarrito.getDescripción());
-                mapaProductoCarrito.put("Empresa", productoCarrito.getNombreEmpresa());
-                mapaProductoCarrito.put("Foto URL", productoCarrito.getFotoURL());
-                mapaProductoCarrito.put("Marca", productoCarrito.getMarca());
-                mapaProductoCarrito.put("Modelo", productoCarrito.getModelo());
-                mapaProductoCarrito.put("Precio por unidad", productoCarrito.getPrecio());
+                mapaProductoCarrito.put(productoCarrito.getCodProducto(), productoCarrito);
 
-                db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid()).set(productoCarrito, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                documentReference.set(mapaProductoCarrito, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        Log.i("", "Producto añadido al carrito");
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getActivity(), "Producto añadido al carrito correctamente", LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.i("", "Error al añadir productos al carrito");
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(""," Error al añadir el producto al carrito");
                     }
                 });
 
                 /*
                 //Creo la reserva
+                Cliente cliente = new Cliente(1, "email", "pass", "datos");
+                Direcciones direccion = new Direcciones(1, "direccion");
+                DireccionesClientes direccionesClientes = new DireccionesClientes(1, direccion, cliente);
+
                 int idReserva = ReservaController.obtenerNuevoIDReserva();
                 ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
-                líneasReserva.add(líneaReserva);
                 Date fechaActual = new Date();
                 double precioTotal = productoPublicado.getCantidad() * productoPublicado.getPrecioventa();
-                Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal);
+                Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(EXTRA_OBJETO_LÍNEA_RESERVA, líneaReserva);
+                bundle.putSerializable(EXTRA_OBJETO_RESERVA, reserva);
                 Navigation.findNavController(view).navigate(R.id.nav_fragment_carrito, bundle);
+
 
                 //Creo la línea de reserva
                 int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();

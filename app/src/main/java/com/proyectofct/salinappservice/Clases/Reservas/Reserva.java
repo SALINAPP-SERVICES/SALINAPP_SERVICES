@@ -1,14 +1,17 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
+import com.proyectofct.salinappservice.Clases.DireccionesClientes;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Reserva {
+public class Reserva implements Serializable {
     private int idReserva;
     private ArrayList<LíneaReserva> líneasReserva;
     private Date fechaReserva;
     private double total;
-    private int idDireccionCliente;
+    private DireccionesClientes idDireccionCliente;
 
     public Reserva(int idReserva, ArrayList<LíneaReserva> líneasReserva, Date fechaReserva, double total) {
         this.idReserva = idReserva;
@@ -17,8 +20,9 @@ public class Reserva {
         this.total = total;
     }
 
-    public Reserva(int idReserva, Date fechaReserva, double total, int idDireccionCliente) {
+    public Reserva(int idReserva, ArrayList<LíneaReserva> líneasReserva, Date fechaReserva, double total, DireccionesClientes idDireccionCliente) {
         this.idReserva = idReserva;
+        this.líneasReserva = líneasReserva;
         this.fechaReserva = fechaReserva;
         this.total = total;
         this.idDireccionCliente = idDireccionCliente;
@@ -56,11 +60,11 @@ public class Reserva {
         this.total = total;
     }
 
-    public int getIdDireccionCliente() {
+    public DireccionesClientes getIdDireccionCliente() {
         return idDireccionCliente;
     }
 
-    public void setIdDireccionCliente(int idDireccionCliente) {
+    public void setIdDireccionCliente(DireccionesClientes idDireccionCliente) {
         this.idDireccionCliente = idDireccionCliente;
     }
 
