@@ -28,7 +28,7 @@
         android:id="@+id/edtLEPass"
         android:layout_width="237dp"
         android:layout_height="46dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/style_edt"
         android:ems="10"
         android:hint="@string/contraseña"
@@ -37,7 +37,7 @@
         android:textColorHint="@color/black"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="@+id/edtLECorreo"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/edtLECorreo"
         app:layout_constraintTop_toBottomOf="@+id/edtLECorreo" />
 
