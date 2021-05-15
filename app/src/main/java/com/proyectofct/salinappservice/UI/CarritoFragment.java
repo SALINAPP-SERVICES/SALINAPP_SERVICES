@@ -62,6 +62,7 @@ public class CarritoFragment extends Fragment {
 
                         //Sacamos el objeto ProductoCarrito (el objeto que se añade cuando pulsamos añadir al carro)
                         ProductoCarrito productoCarrito = mapper.convertValue(productosCarrito.get(i), ProductoCarrito.class);
+
                         /*
                         //Creo la reserva
                         Cliente cliente = new Cliente(1, "email", "pass", "datos");
