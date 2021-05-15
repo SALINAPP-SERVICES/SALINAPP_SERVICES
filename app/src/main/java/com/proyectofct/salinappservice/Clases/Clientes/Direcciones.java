@@ -1,4 +1,4 @@
-package com.proyectofct.salinappservice.Clases;
+package com.proyectofct.salinappservice.Clases.Clientes;
 
 import java.io.Serializable;
 

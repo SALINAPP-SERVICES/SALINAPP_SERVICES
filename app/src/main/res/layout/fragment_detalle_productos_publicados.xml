@@ -153,8 +153,8 @@
         android:id="@+id/btAñadirAlCarrito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="75dp"
-        android:layout_marginTop="625dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="600dp"
         android:text="@string/añadir_al_carrito"
         android:textColor="@color/black"
         android:textStyle="bold" />
@@ -162,23 +162,9 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="275dp"
-        android:layout_marginTop="627dp"
+        android:layout_marginStart="275dp"
+        android:layout_marginTop="600dp"
         android:contentDescription="@string/imagencarrito"
         android:src="@drawable/carrito" />
-
-    <EditText
-        android:id="@+id/edtCantidad"
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="560dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="18dp"
-        android:background="@drawable/style_edt"
-        android:hint="@string/unidades_deseadas"
-        android:inputType="textPersonName"
-        android:textStyle="bold" />
 
 </androidx.cardview.widget.CardView>

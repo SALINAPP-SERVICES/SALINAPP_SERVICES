@@ -23,6 +23,10 @@ public class ProductoCarrito implements Serializable {
         this.precio = precio;
     }
 
+    public ProductoCarrito() {
+
+    }
+
     public String getCodProducto() {
         return codProducto;
     }
