@@ -1,6 +1,6 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
-import com.proyectofct.salinappservice.Clases.DireccionesClientes;
+import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
