@@ -28,6 +28,9 @@ public class Reserva implements Serializable {
         this.idDireccionCliente = idDireccionCliente;
     }
 
+    public Reserva() {
+    }
+
     public int getIdReserva() {
         return idReserva;
     }

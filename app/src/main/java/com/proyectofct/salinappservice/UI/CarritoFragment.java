@@ -18,10 +18,16 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
+import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
+import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
+import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
+import com.proyectofct.salinappservice.Controladores.ReservaController;
 import com.proyectofct.salinappservice.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class CarritoFragment extends Fragment {
@@ -63,8 +69,6 @@ public class CarritoFragment extends Fragment {
                         //Sacamos el objeto ProductoCarrito (el objeto que se añade cuando pulsamos añadir al carro)
                         ProductoCarrito productoCarrito = mapper.convertValue(productosCarrito.get(i), ProductoCarrito.class);
 
-                        /*
-                        //Creo la reserva
                         Cliente cliente = new Cliente(1, "email", "pass", "datos");
                         Direcciones direccion = new Direcciones(1, "direccion");
                         DireccionesClientes direccionesClientes = new DireccionesClientes(1, direccion, cliente);
@@ -72,25 +76,18 @@ public class CarritoFragment extends Fragment {
                         int idReserva = ReservaController.obtenerNuevoIDReserva();
                         ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
                         Date fechaActual = new Date();
-                        double precioTotal = productoPublicado.getCantidad() * productoPublicado.getPrecioventa();
-                        Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
+                        double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(EXTRA_OBJETO_RESERVA, reserva);
-                        Navigation.findNavController(view).navigate(R.id.nav_fragment_carrito, bundle);
-
-
-                        //Creo la línea de reserva
                         int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
-                        int cantidad = Integer.parseInt(String.valueOf(edtCantidad.getText()));
-                        if (cantidad <= 0){
-                            edtCantidad.setError("La cantidad mínima es 1");
-                        }
-                        LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, reserva, productoPublicado, cantidad);
+                        //LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, null, productoCarrito, productoCarrito.getCantidad());
+                        //¿EL TERCER PARÁMETRO DEBERÍA DE SER DE TIPO DE PRODUCTO PUBLICADO O PRODUCTO CARRITO?
+                        //Si es de tipo producto publicado, habría que cambiar la consulta de inserción de la base de datos
+                        //¿Como creo una línea de reserva si necesito una reserva y para crear una reserva necesito un arraylist con las lineas de reserva?
+                        //líneasReserva.add(líneaReserva);
 
-                        En este punto puedes añadir el producto a un rv o una tabla
-                        adapter.addShoppingProduct(myshop);
-                        */
+                        //Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
+
+                        //ReservaController.insertarReserva(reserva);
                     }
                 }
             }
