@@ -33,6 +33,7 @@ import com.proyectofct.salinappservice.R;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CarritoFragment extends Fragment {
@@ -53,45 +54,54 @@ public class CarritoFragment extends Fragment {
                 DocumentSnapshot documento = task.getResult();
                 Map<String, Object> misDatos = documento.getData();
 
+                //Recorro el HashMap que devuelve Firebase
                 for(Map.Entry<String, Object> objeto : misDatos.entrySet()){
-                    //System.out.println(objeto.getValue());
-                    Object objetoProductoFirestore = objeto.getValue(); //AQUÍ SALTA ERROR POR CASTING
-                    //LA GENTE LO HACE ASÍ O ACCEDIENDO SOLO A LOS VALORES, DA IGUAL LA FORMA
-                    ProductoCarrito productoFirestore = (ProductoCarrito) objetoProductoFirestore;
+                    Object objetoProductoFirestore = objeto.getValue();
 
+                    //Creo un objeto ProductoCarrito con los atributos que recibo del HashMap
+                    long codProductoLong = (long) ((HashMap<Long, Object>) objetoProductoFirestore).get("codProducto"); //El tipo Integer en Firestore, no se usa en su defecto se usa el tipo Long
+                    int codProducto = Math.toIntExact(codProductoLong);
+                    long cantidadLong = (long) ((HashMap<Long, Object>) objetoProductoFirestore).get("cantidad"); //El tipo Integer en Firestore, no se usa en su defecto se usa el tipo Long
+                    int cantidad = Math.toIntExact(cantidadLong);
+                    String descripción = (String)((HashMap<String, Object>) objetoProductoFirestore).get("descripción");
+                    String codEmpresa = (String)((HashMap<String, Object>) objetoProductoFirestore).get("codEmpresa");
+                    String fotoURL = (String)((HashMap<String, Object>) objetoProductoFirestore).get("fotoURL");
+                    String marca = (String)((HashMap<String, Object>) objetoProductoFirestore).get("marca");
+                    String modelo = (String)((HashMap<String, Object>) objetoProductoFirestore).get("modelo");
+                    double precio = (double) ((HashMap<Double, Object>) objetoProductoFirestore).get("precio"); //El tipo Double si es admitido en Firestore
+                    ProductoCarrito productoFirestore = new ProductoCarrito(codProducto, cantidad, descripción, codEmpresa, fotoURL, marca, modelo, precio);
+
+                    //Creo un ArrayList de ProductoCarrito y añado el objeto creado
                     ArrayList<ProductoCarrito> productosCarrito = new ArrayList<ProductoCarrito>();
                     productosCarrito.add(productoFirestore);
 
-                    //Cada iteración de este for recorre cada uno de los productos del carrito de la empresa
+                    //Recorro el ArrayList de ProductoCarrito
                     for(int i = 0; productosCarrito.size() > i; i++){
-
-                        //Creamos un objeto ObjectMapper, necesita en gradle: implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
-                        ObjectMapper mapper = new ObjectMapper(); // jackson's objectmapper
-
-                        //Sacamos el objeto ProductoCarrito (el objeto que se añade cuando pulsamos añadir al carro)
+                        //Creo un objeto ObjectMapper, necesita la implementación en gradle: implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+                        ObjectMapper mapper = new ObjectMapper();
                         ProductoCarrito productoCarrito = mapper.convertValue(productosCarrito.get(i), ProductoCarrito.class);
 
-                        ProductoPublicado productoPublicadoCarrito = new ProductoPublicado(Integer.parseInt(productoCarrito.getCodProducto()), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(productoCarrito.getCodProducto(), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
-
-                        int idReserva = ReservaController.obtenerNuevoIDReserva();
+                        Log.i("PRUEBA", productoCarrito.toString());
 
                         //Creo la línea de reserva
                         int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
+                        int idReserva = ReservaController.obtenerNuevoIDReserva();
+                        ProductoPublicado productoPublicadoCarrito = new ProductoPublicado(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+
                         LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productoPublicadoCarrito, productoCarrito.getCantidad());
 
+                        //Creo la reserva, el ArrayList de LíneaReserva y añado el objeto creado
                         ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
                         líneasReserva.add(líneaReserva);
-
-                        //Creo la reserva
+                        Date fechaActual = new Date();
+                        double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
                         Cliente cliente = new Cliente(1, "email", "pass", "datos");
                         Direcciones direccion = new Direcciones(1, "direccion");
                         DireccionesClientes direccionesClientes = new DireccionesClientes(1, direccion, cliente);
 
-                        Date fechaActual = new Date();
-                        double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
-
                         Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
 
+                        //Inserto la reserva
                         boolean insertadoOk = ReservaController.insertarReserva(reserva);
                         if (insertadoOk){
                             Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();

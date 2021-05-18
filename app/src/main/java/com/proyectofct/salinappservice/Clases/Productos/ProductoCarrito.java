@@ -3,7 +3,7 @@ package com.proyectofct.salinappservice.Clases.Productos;
 import java.io.Serializable;
 
 public class ProductoCarrito implements Serializable {
-    private String codProducto;
+    private int codProducto; //idProductoEmpresa
     private int cantidad;
     private String descripción;
     private String codEmpresa;
@@ -12,7 +12,7 @@ public class ProductoCarrito implements Serializable {
     private String modelo;
     private double precio;
 
-    public ProductoCarrito(String codProducto, int cantidad, String descripción, String codEmpresa, String fotoURL, String marca, String modelo, double precio) {
+    public ProductoCarrito(int codProducto, int cantidad, String descripción, String codEmpresa, String fotoURL, String marca, String modelo, double precio) {
         this.codProducto = codProducto;
         this.cantidad = cantidad;
         this.descripción = descripción;
@@ -27,11 +27,11 @@ public class ProductoCarrito implements Serializable {
 
     }
 
-    public String getCodProducto() {
+    public int getCodProducto() {
         return codProducto;
     }
 
-    public void setCodProducto(String codProducto) {
+    public void setCodProducto(int codProducto) {
         this.codProducto = codProducto;
     }
 

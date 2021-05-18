@@ -38,7 +38,7 @@ public class ReservaDB {
             Timestamp fechaHoraActualTimestamp = Timestamp.valueOf(fechaHoraActual);
             sentenciaPreparada.setTimestamp(2, fechaHoraActualTimestamp);
             sentenciaPreparada.setDouble(3, reserva.getTotal());
-            sentenciaPreparada.setInt(4, 1); /*líneaReserva.getR().getIdDireccionCliente() DE MOMENTO PONGO 1 PORQUE LOS MÉTODOS DE LOS CLIENTES NO ESTAN IMPLEMENTADOS*/
+            sentenciaPreparada.setInt(4, reserva.getIdDireccionCliente().getIdDireccionCliente());
             int filasAfectadas = sentenciaPreparada.executeUpdate();
             sentenciaPreparada.close();
 
