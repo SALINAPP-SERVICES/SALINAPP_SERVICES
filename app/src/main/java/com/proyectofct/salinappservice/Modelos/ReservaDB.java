@@ -27,9 +27,11 @@ public class ReservaDB {
             conexión.setAutoCommit(false);
 
             //Inserto la reserva
+            int idReserva = reserva.getIdReserva();
+
             String ordenSQL = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
             PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL);
-            sentenciaPreparada.setInt(1, reserva.getIdReserva());
+            sentenciaPreparada.setInt(1, idReserva);
             SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date fechaHora = reserva.getFechaReserva();
             String fechaHoraActual = formatoHoraFecha.format(fechaHora);
@@ -51,7 +53,7 @@ public class ReservaDB {
                 String ordenSQL2 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
                 PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
                 sentenciaPreparada.setInt(1, líneaReserva.getIdLíneaReserva());
-                sentenciaPreparada.setInt(2, líneaReserva.getReserva().getIdReserva());
+                sentenciaPreparada.setInt(2, idReserva);
                 sentenciaPreparada.setInt(3, idProductoEmpresa);
                 sentenciaPreparada.setInt(4, cantidadSolicitada);
                 filasAfectadas2 = sentenciaPreparada.executeUpdate();

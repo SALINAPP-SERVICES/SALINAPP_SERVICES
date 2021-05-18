@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class Cliente implements Serializable {
     private int idCliente;
     private String email;
-    private String pass;
+    private String contraseña;
     private String datos;
 
-    public Cliente(int idCliente, String email, String pass, String datos) {
+    public Cliente(int idCliente, String email, String contraseña, String datos) {
         this.idCliente = idCliente;
         this.email = email;
-        this.pass = pass;
+        this.contraseña = contraseña;
         this.datos = datos;
     }
 
@@ -31,12 +31,12 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public String getPass() {
-        return pass;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     public String getDatos() {

@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 public class LíneaReserva implements Serializable {
     private int idLíneaReserva;
-    private Reserva reserva;
+    private int idReserva;
     private ProductoPublicado productoPublicado;
     private int cantidad;
 
-    public LíneaReserva(int idLíneaReserva, Reserva idReserva, ProductoPublicado productoPublicado, int cantidad) {
+    public LíneaReserva(int idLíneaReserva, int idReserva, ProductoPublicado productoPublicado, int cantidad) {
         this.idLíneaReserva = idLíneaReserva;
-        this.reserva = idReserva;
+        this.idReserva = idReserva;
         this.productoPublicado = productoPublicado;
         this.cantidad = cantidad;
     }
@@ -25,12 +25,12 @@ public class LíneaReserva implements Serializable {
         this.idLíneaReserva = idLíneaReserva;
     }
 
-    public Reserva getReserva() {
-        return reserva;
+    public int getReserva() {
+        return idReserva;
     }
 
-    public void setReserva(Reserva reserva) {
-        this.reserva = reserva;
+    public void setReserva(int reserva) {
+        this.idReserva = idReserva;
     }
 
     public ProductoPublicado getProductoPublicado() {
@@ -53,7 +53,7 @@ public class LíneaReserva implements Serializable {
     public String toString() {
         return "LíneaReserva{" +
                 "idLíneaReserva=" + idLíneaReserva +
-                ", idReserva=" + reserva +
+                ", idReserva=" + idReserva +
                 ", idProductoEmpresa=" + productoPublicado +
                 ", cantidad=" + cantidad +
                 '}';

@@ -150,6 +150,17 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        /*
+        nav_carrito = (MenuItem) findViewById(R.id.nav_fragment_carrito);
+        nav_carrito.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Navigation.findNavController(nav_carrito.getActionView()).navigate(R.id.nav_fragment_carrito);
+                return false;
+            }
+        });
+        */
     }
 
     @Override
