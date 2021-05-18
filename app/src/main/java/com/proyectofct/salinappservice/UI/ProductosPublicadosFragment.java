@@ -17,7 +17,9 @@ import android.widget.Button;
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Productos.ListaProductosPublicadosAdapter;
+import com.proyectofct.salinappservice.Clases.Productos.Moda;
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Controladores.ProductoPublicadoController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.Modelos.ProductosPublicadosDB;
 import com.proyectofct.salinappservice.R;
@@ -70,7 +72,9 @@ public class ProductosPublicadosFragment extends Fragment {
         String codEmpresa = infoEmpresa.getCod_empresa();
 
         páginaActual = 0;
-        productosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicadosPorEmpresa(codEmpresa);
+        totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
         páginaActual = páginaActual + 1;
         if(productosPublicados != null) {
             Log.i("SQL", "Página actual -> " + String.valueOf(páginaActual));
@@ -129,4 +133,5 @@ public class ProductosPublicadosFragment extends Fragment {
 
         return vista;
     }
+
 }

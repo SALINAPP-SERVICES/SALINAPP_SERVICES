@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.proyectofct.salinappservice.Clases.Productos.Coches;
+import com.proyectofct.salinappservice.Clases.Productos.Moda;
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
@@ -70,9 +72,9 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         ProductosPublicados productoPublicado = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
         if (productoPublicado != null){
             Blob imagenProductoPublicado = productoPublicado.getP().getImagen();
-            if (imagenProductoPublicado != null){
+            if (imagenProductoPublicado != null) {
                 imgDetalleProductoPublicado.setImageBitmap(blob_to_bitmap(imagenProductoPublicado, ConfiguracionesGeneralesDB.ANCHO_FOTO, ConfiguracionesGeneralesDB.ALTO_FOTO));
-            }else {
+            } else {
                 imgDetalleProductoPublicado.setImageResource(R.drawable.producto);
             }
             txtCantidadDetalleProductoPublicado.setText(String.valueOf(productoPublicado.getCantidad()) + " unidades");
