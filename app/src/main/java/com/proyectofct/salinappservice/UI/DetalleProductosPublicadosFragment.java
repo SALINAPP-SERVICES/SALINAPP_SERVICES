@@ -83,7 +83,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         btAñadirAlCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getP().getCod_producto(), 1, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
+                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), 1, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
 
                 DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -92,10 +92,10 @@ public class DetalleProductosPublicadosFragment extends Fragment {
                         if(task.isComplete()){
                             task.getResult();
                             DocumentSnapshot data = task.getResult();
-                            ProductoCarrito miProductoCarrito = data.get(productoPublicado.getP().getCod_producto(), ProductoCarrito.class);
+                            ProductoCarrito miProductoCarrito = data.get(String.valueOf(productoPublicado.getIdProductoEmpresa()), ProductoCarrito.class);
                             if(miProductoCarrito != null){
-                                int cantidad = miProductoCarrito.getCantidad() + 1;
-                                miProductoCarrito.setCantidad(cantidad);
+                                int nuevaCantidad = miProductoCarrito.getCantidad() + 1;
+                                miProductoCarrito.setCantidad(nuevaCantidad);
                                 ActualizarProductoCarrito(miProductoCarrito, documentReference);
                             }else{
                                 ActualizarProductoCarrito(productoCarrito, documentReference);
@@ -111,7 +111,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
 
     public void ActualizarProductoCarrito(ProductoCarrito productoCarrito, DocumentReference documentReference){
         Map<String, Object> mapaProductoCarrito = new HashMap<>();
-        mapaProductoCarrito.put(productoCarrito.getCodProducto(), productoCarrito);
+        mapaProductoCarrito.put(String.valueOf(productoCarrito.getCodProducto()), productoCarrito);
 
         documentReference.set(mapaProductoCarrito, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
