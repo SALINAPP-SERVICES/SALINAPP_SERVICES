@@ -51,26 +51,63 @@ public class EditarInfoEmpresasFragment extends Fragment {
 
     private CircleImageView logoEmpresa;
     private EditText nombreEmpresa;
-    private EditText localizacionEmpresa, sector;
+    private EditText direccionEmpresa;
     private EditText cifEmpresa;
+    private EditText sectorEmpresa;
+    private EditText codEmpEmpresa;
+    private EditText resumenEmpresa;
     private Button btnEditar;
 
     private InfoEmpresa infoEmpresa = new InfoEmpresa();
 
+    public EditarInfoEmpresasFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment editinfoempresaFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static EditarInfoEmpresasFragment newInstance(String param1, String param2) {
+        EditarInfoEmpresasFragment fragment = new EditarInfoEmpresasFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_editar_info_empresas, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_editar_info_empresas, container, false);
 
         storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        logoEmpresa = vista.findViewById(R.id.img_logo_editInfoE);
-        nombreEmpresa = vista.findViewById(R.id.edt_nombre_editInfoE);
-        localizacionEmpresa = vista.findViewById(R.id.edt_localizacion_editInfoE);
-        cifEmpresa = vista.findViewById(R.id.edt_CIF_editInfoE);
-        btnEditar = vista.findViewById(R.id.btn_editar_editInfoE);
-        sector = vista.findViewById(R.id.edt_sector);
+        logoEmpresa = view.findViewById(R.id.img_logo_editInfoE);
+        nombreEmpresa = view.findViewById(R.id.edt_nombre_editInfoE);
+        direccionEmpresa = view.findViewById(R.id.edt_direccion_editInfoE);
+        cifEmpresa = view.findViewById(R.id.edt_CIF_editInfoE);
+        sectorEmpresa = view.findViewById(R.id.edt_sector_editInfoE);
+        codEmpEmpresa = view.findViewById(R.id.edt_codEmpr_editInfoE);
+        resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
+        btnEditar = view.findViewById(R.id.btn_editar_editInfoE);
 
         ObtenerDatos();
         logoEmpresa.setOnClickListener(new View.OnClickListener() {
@@ -87,17 +124,20 @@ public class EditarInfoEmpresasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 infoEmpresa.setNombre(nombreEmpresa.getText().toString());
-                infoEmpresa.setDireccion(localizacionEmpresa.getText().toString());
-                infoEmpresa.setResumen(cifEmpresa.getText().toString());
+                infoEmpresa.setDireccion(direccionEmpresa.getText().toString());
+                infoEmpresa.setCif(cifEmpresa.getText().toString());
+                infoEmpresa.setSector(sectorEmpresa.getText().toString());
+                infoEmpresa.setCod_empresa(codEmpEmpresa.getText().toString());
+                infoEmpresa.setResumen(resumenEmpresa.getText().toString());
                 infoEmpresa.setCod_empresa(firebaseAuth.getCurrentUser().getEmail());
-                infoEmpresa.setSector(sector.getText().toString());
+
                 DocumentReference documentReference = db.collection("businessdata").document(firebaseAuth.getCurrentUser().getEmail());
                 documentReference.collection("editinfoempresa")
                         .document("infoEmpresa").set(infoEmpresa).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Navigation.findNavController(vista).navigate(R.id.nav_home);
+                            Navigation.findNavController(view).navigate(R.id.nav_home);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -108,8 +148,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
                 });
             }
         });
-
-        return vista;
+        return view;
     }
 
     private void ObtenerDatos(){
@@ -125,8 +164,11 @@ public class EditarInfoEmpresasFragment extends Fragment {
                         infoEmpresa = document.toObject((InfoEmpresa.class));
                         Glide.with(EditarInfoEmpresasFragment.this).load(infoEmpresa.getLogoURL()).into(logoEmpresa);
                         nombreEmpresa.setText(infoEmpresa.getNombre());
-                        localizacionEmpresa.setText(infoEmpresa.getDireccion());
+                        direccionEmpresa.setText(infoEmpresa.getDireccion());
                         cifEmpresa.setText(infoEmpresa.getCif());
+                        sectorEmpresa.setText(infoEmpresa.getSector());
+                        codEmpEmpresa.setText(infoEmpresa.getCod_empresa());
+                        resumenEmpresa.setText(infoEmpresa.getResumen());
                     }
 
                 }
