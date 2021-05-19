@@ -26,11 +26,16 @@ public class ReservaDB {
         try {
             conexión.setAutoCommit(false);
 
+            //Inserto los clientes, las direcciones y las direcciones de cliente
+            /*
+            * POR HACER
+            */
+
             //Inserto la reserva
             int idReserva = reserva.getIdReserva();
 
-            String ordenSQL = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
-            PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL);
+            String ordenSQL1 = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
+            PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL1);
             sentenciaPreparada.setInt(1, idReserva);
             SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date fechaHora = reserva.getFechaReserva();
@@ -52,11 +57,11 @@ public class ReservaDB {
 
                 String ordenSQL2 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
                 PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
-                sentenciaPreparada.setInt(1, líneaReserva.getIdLíneaReserva());
-                sentenciaPreparada.setInt(2, idReserva);
-                sentenciaPreparada.setInt(3, idProductoEmpresa);
-                sentenciaPreparada.setInt(4, cantidadSolicitada);
-                filasAfectadas2 = sentenciaPreparada.executeUpdate();
+                sentenciaPreparada2.setInt(1, líneaReserva.getIdLíneaReserva());
+                sentenciaPreparada2.setInt(2, idReserva);
+                sentenciaPreparada2.setInt(3, idProductoEmpresa);
+                sentenciaPreparada2.setInt(4, cantidadSolicitada);
+                filasAfectadas2 = sentenciaPreparada2.executeUpdate();
                 sentenciaPreparada2.close();
 
                 //Obtengo el stock del producto de la DB

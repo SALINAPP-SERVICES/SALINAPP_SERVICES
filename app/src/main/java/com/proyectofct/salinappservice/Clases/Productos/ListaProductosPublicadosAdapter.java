@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
@@ -59,7 +58,7 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
         holder.txtMarcaProductoPublicado.setText(String.valueOf("Marca : " + productoPublicadoActual.getP().getMarca()));
         holder.txtModeloProductoPublicado.setText(String.valueOf("Modelo : " + productoPublicadoActual.getP().getModelo()));
         holder.txtPrecioProductoPublicado.setText(String.valueOf("Precio : " + productoPublicadoActual.getPrecioventa() + " €"));
-        holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productoPublicadoActual.getCantidad()));
+        holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productoPublicadoActual.getCantidad() + " unidades"));
         holder.txtDescripciónProductoPublicado.setText(String.valueOf("Descripción : " + productoPublicadoActual.getP().getDescripción()));
         if(productoPublicadoActual.getP().getImagen() == null){
             holder.imgProductoPublicado.setImageResource(R.drawable.producto);
