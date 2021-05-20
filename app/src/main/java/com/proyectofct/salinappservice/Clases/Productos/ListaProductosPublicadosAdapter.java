@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
@@ -19,11 +18,11 @@ import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob
 
 public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<ProductoPublicadoViewHolder> {
     private Context c;
-    private ArrayList<ProductosPublicados> listaProductosPublicados;
+    private ArrayList<ProductoPublicado> listaProductosPublicados;
     private LayoutInflater mInflater;
     private int página;
 
-    public ListaProductosPublicadosAdapter(Context c, ArrayList<ProductosPublicados> listaProductosPublicados) {
+    public ListaProductosPublicadosAdapter(Context c, ArrayList<ProductoPublicado> listaProductosPublicados) {
         this.c = c;
         this.listaProductosPublicados = listaProductosPublicados;
         mInflater = LayoutInflater.from(c);
@@ -38,11 +37,11 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
         this.c = c;
     }
 
-    public ArrayList<ProductosPublicados> getListaProductosPublicados() {
+    public ArrayList<ProductoPublicado> getListaProductosPublicados() {
         return listaProductosPublicados;
     }
 
-    public void setListaProductosPublicados(ArrayList<ProductosPublicados> listaProductosPublicados) {
+    public void setListaProductosPublicados(ArrayList<ProductoPublicado> listaProductosPublicados) {
         this.listaProductosPublicados = listaProductosPublicados;
     }
 
@@ -55,11 +54,11 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
 
     @Override
     public void onBindViewHolder(@NonNull ProductoPublicadoViewHolder holder, int position) {
-        ProductosPublicados productoPublicadoActual = listaProductosPublicados.get(position);
+        ProductoPublicado productoPublicadoActual = listaProductosPublicados.get(position);
         holder.txtMarcaProductoPublicado.setText(String.valueOf("Marca : " + productoPublicadoActual.getP().getMarca()));
         holder.txtModeloProductoPublicado.setText(String.valueOf("Modelo : " + productoPublicadoActual.getP().getModelo()));
         holder.txtPrecioProductoPublicado.setText(String.valueOf("Precio : " + productoPublicadoActual.getPrecioventa() + " €"));
-        holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productoPublicadoActual.getCantidad()));
+        holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productoPublicadoActual.getCantidad() + " unidades"));
         holder.txtDescripciónProductoPublicado.setText(String.valueOf("Descripción : " + productoPublicadoActual.getP().getDescripción()));
         if(productoPublicadoActual.getP().getImagen() == null){
             holder.imgProductoPublicado.setImageResource(R.drawable.producto);
@@ -69,8 +68,8 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
         }
     }
 
-    public ProductosPublicados getProductoPublicado(int position){
-        ProductosPublicados pp = listaProductosPublicados.get(position);
+    public ProductoPublicado getProductoPublicado(int position){
+        ProductoPublicado pp = listaProductosPublicados.get(position);
         return pp;
     }
 

@@ -8,30 +8,37 @@
     <fragment
         android:id="@+id/nav_fragment_empresas"
         android:name="com.proyectofct.salinappservice.UI.EmpresasFragment"
-        android:label="@string/menu_home"
+        android:label="@string/empresas"
         tools:layout="@layout/fragment_empresas" />
 
     <fragment
         android:id="@+id/nav_fragment_productos_publicados"
         android:name="com.proyectofct.salinappservice.UI.ProductosPublicadosFragment"
-        android:label="fragment_productos_publicados"
+        android:label="@string/productos_publicados"
         tools:layout="@layout/fragment_productos_publicados" />
+
     <fragment
         android:id="@+id/nav_fragment_detalle_productos_publicados"
         android:name="com.proyectofct.salinappservice.UI.DetalleProductosPublicadosFragment"
-        android:label="fragment_detalle_productos_publicados"
+        android:label="@string/productos_publicados"
         tools:layout="@layout/fragment_detalle_productos_publicados" />
+
+    <fragment
+        android:id="@+id/nav_fragment_carrito"
+        android:name="com.proyectofct.salinappservice.UI.CarritoFragment"
+        android:label="@string/carrito"
+        tools:layout="@layout/fragment_carrito" />
 
     <fragment
         android:id="@+id/nav_fragment_galeria_productos"
         android:name="com.proyectofct.salinappservice.UI.GaleriaProductosFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/galer_a_de_productos"
         tools:layout="@layout/fragment_galeria_productos" />
 
     <fragment
         android:id="@+id/nav_fragment_editar_info_empresas"
         android:name="com.proyectofct.salinappservice.UI.EditarInfoEmpresasFragment"
-        android:label="fragment_editar_info_empresas"
+        android:label="@string/editar_informacion"
         tools:layout="@layout/fragment_editar_info_empresas" />
     <fragment
         android:id="@+id/nav_fragment_detalle_grupo_productos_publicados"

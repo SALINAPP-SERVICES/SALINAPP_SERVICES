@@ -1,13 +1,13 @@
 package com.proyectofct.salinappservice.Tareas.TareasProductoPublicado;
 
-import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
-import com.proyectofct.salinappservice.Modelos.ProductosPublicadosDB;
+import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
+import com.proyectofct.salinappservice.Modelos.ProductoPublicadoDB;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-public class TareaObtenerProductoPublicadoPorEmpresa implements Callable<ArrayList<ProductosPublicados>> {
-    private ArrayList<ProductosPublicados> productosPublicadosDevueltos = null;
+public class TareaObtenerProductoPublicadoPorEmpresa implements Callable<ArrayList<ProductoPublicado>> {
+    private ArrayList<ProductoPublicado> productosPublicadosDevueltos = null;
     private int página;
     private String cod_empr;
 
@@ -18,8 +18,8 @@ public class TareaObtenerProductoPublicadoPorEmpresa implements Callable<ArrayLi
     }
 
     @Override
-    public ArrayList<ProductosPublicados> call() throws Exception {
-        productosPublicadosDevueltos = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(página, cod_empr);
+    public ArrayList<ProductoPublicado> call() throws Exception {
+        productosPublicadosDevueltos = ProductoPublicadoDB.obtenerProductosPublicadosPorEmpresa(página, cod_empr);
         return productosPublicadosDevueltos;
     }
 }

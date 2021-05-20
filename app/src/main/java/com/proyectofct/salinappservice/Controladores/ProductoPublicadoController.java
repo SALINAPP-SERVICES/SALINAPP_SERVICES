@@ -1,7 +1,6 @@
 package com.proyectofct.salinappservice.Controladores;
 
-import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
-import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerVariantesProductoPublicado;
+import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaCantidadProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerProductoPublicado;
@@ -15,13 +14,13 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 public class ProductoPublicadoController {
-    public static ArrayList<ProductosPublicados> obtenerProductosPublicados(int página) {
-        ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
+    public static ArrayList<ProductoPublicado> obtenerProductosPublicados(int página) {
+        ArrayList<ProductoPublicado> productosPublicadosDevuelto = null;
         FutureTask tarea = new FutureTask(new TareaObtenerProductoPublicado(página));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
-            productosPublicadosDevuelto = (ArrayList<ProductosPublicados>) tarea.get();
+            productosPublicadosDevuelto = (ArrayList<ProductoPublicado>) tarea.get();
             es.shutdown();
             try {
                 if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -38,13 +37,13 @@ public class ProductoPublicadoController {
         return productosPublicadosDevuelto;
     }
 
-    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empr) {
-        ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
+    public static ArrayList<ProductoPublicado> obtenerProductosPublicadosPorEmpresa(int página, String cod_empr) {
+        ArrayList<ProductoPublicado> productosPublicadosDevuelto = null;
         FutureTask tarea = new FutureTask(new TareaObtenerProductoPublicadoPorEmpresa(página, cod_empr));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
-            productosPublicadosDevuelto = (ArrayList<ProductosPublicados>) tarea.get();
+            productosPublicadosDevuelto = (ArrayList<ProductoPublicado>) tarea.get();
             es.shutdown();
             try {
                 if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -62,13 +61,13 @@ public class ProductoPublicadoController {
     }
 
     //REPASAR MÉTODO
-    public static ArrayList<ProductosPublicados> buscarProductoPublicado(String cod_producto){
-        ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
+    public static ArrayList<ProductoPublicado> buscarProductoPublicado(String cod_producto){
+        ArrayList<ProductoPublicado> productoPublicadoEncontrado = null;
         FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(cod_producto));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
-            productoPublicadoEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
+            productoPublicadoEncontrado = (ArrayList<ProductoPublicado>) tarea.get();
             es.shutdown();
             try {
                 if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -106,28 +105,5 @@ public class ProductoPublicadoController {
             e.printStackTrace();
         }
         return cantidadProductoPublicado;
-    }
-
-    public static ArrayList<ProductosPublicados> obtenerVariantesProductoPublicado(String cod_producto) {
-        ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
-        FutureTask tarea = new FutureTask(new TareaObtenerVariantesProductoPublicado(cod_producto));
-        ExecutorService es = Executors.newSingleThreadExecutor();
-        es.submit(tarea);
-        try {
-            productosPublicadosDevuelto = (ArrayList<ProductosPublicados>) tarea.get();
-            es.shutdown();
-            try {
-                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-                    es.shutdownNow();
-                }
-            } catch (InterruptedException e) {
-                es.shutdownNow();
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return productosPublicadosDevuelto;
     }
 }

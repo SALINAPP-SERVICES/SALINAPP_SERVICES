@@ -9,8 +9,8 @@ import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ProductosPublicados implements Serializable {
-    private int idproductoempresa;
+public class ProductoPublicado implements Serializable {
+    private int idProductoEmpresa;
     private int cantidad;
     private double precioventa;
     private boolean habilitado;
@@ -18,8 +18,8 @@ public class ProductosPublicados implements Serializable {
     private Producto p;
     private Empresa e;
 
-    public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
-        this.idproductoempresa = idproductoempresa;
+    public ProductoPublicado(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
+        this.idProductoEmpresa = idproductoempresa;
         this.cantidad = cantidad;
         this.precioventa = precioventa;
         this.habilitado = habilitado;
@@ -28,12 +28,12 @@ public class ProductosPublicados implements Serializable {
         this.e = e;
     }
 
-    public int getIdproductoempresa() {
-        return idproductoempresa;
+    public int getIdProductoEmpresa() {
+        return idProductoEmpresa;
     }
 
-    public void setIdproductoempresa(int idproductoempresa) {
-        this.idproductoempresa = idproductoempresa;
+    public void setIdProductoEmpresa(int idProductoEmpresa) {
+        this.idProductoEmpresa = idProductoEmpresa;
     }
 
     public int getCantidad() {
@@ -88,27 +88,26 @@ public class ProductosPublicados implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductosPublicados that = (ProductosPublicados) o;
-        return idproductoempresa == that.idproductoempresa;
+        ProductoPublicado that = (ProductoPublicado) o;
+        return idProductoEmpresa == that.idProductoEmpresa;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(idproductoempresa);
+        return Objects.hash(idProductoEmpresa);
     }
 
     @Override
     public String toString() {
-        return  ((Moda) p).getTalla() + " " + ((Moda) p).getColor();
-                /*"ProductosPublicados{" +
-                "idproductoempresa=" + idproductoempresa +
+        return "ProductosPublicados{" +
+                "idproductoempresa=" + idProductoEmpresa +
                 ", cantidad=" + cantidad +
                 ", precioventa=" + precioventa +
                 ", habilitado=" + habilitado +
                 ", archivado=" + archivado +
                 ", p=" + p +
                 ", e=" + e +
-                '}';*/
+                '}';
     }
 }
