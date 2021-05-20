@@ -38,10 +38,10 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
     @Override
     public void onClick(View v) {
         int posición = getLayoutPosition();
-        ProductoPublicado productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
+        ProductosPublicados productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
         listaProductosPublicadosAdapter.notifyDataSetChanged();
 
-        ProductoPublicado productoPublicado = new ProductoPublicado(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
+        ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO, productoPublicado);
         Navigation.findNavController(v).navigate(R.id.nav_fragment_detalle_productos_publicados, bundle);

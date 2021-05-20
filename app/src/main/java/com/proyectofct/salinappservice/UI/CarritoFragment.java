@@ -30,7 +30,7 @@ import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Producto;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
-import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Clases.Reservas.ListaProductosCarritoAdapter;
 import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
 import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
@@ -118,9 +118,9 @@ public class CarritoFragment extends Fragment {
                                     //Creo la línea de reserva y la añado a un ArrayList
                                     int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
                                     int idReserva = ReservaController.obtenerNuevoIDReserva();
-                                    ProductoPublicado productoPublicadoCarrito = new ProductoPublicado(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
 
-                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productoPublicadoCarrito, productoCarrito.getCantidad());
+                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, productoCarrito.getCantidad());
                                     ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
                                     líneasReserva.add(líneaReserva);
 

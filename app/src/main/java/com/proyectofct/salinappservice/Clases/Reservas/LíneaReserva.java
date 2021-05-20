@@ -1,19 +1,19 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
-import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 
 import java.io.Serializable;
 
 public class LíneaReserva implements Serializable {
     private int idLíneaReserva;
     private int idReserva;
-    private ProductoPublicado productoPublicado;
+    private ProductosPublicados productosPublicados;
     private int cantidad;
 
-    public LíneaReserva(int idLíneaReserva, int idReserva, ProductoPublicado productoPublicado, int cantidad) {
+    public LíneaReserva(int idLíneaReserva, int idReserva, ProductosPublicados productosPublicados, int cantidad) {
         this.idLíneaReserva = idLíneaReserva;
         this.idReserva = idReserva;
-        this.productoPublicado = productoPublicado;
+        this.productosPublicados = productosPublicados;
         this.cantidad = cantidad;
     }
 
@@ -33,12 +33,12 @@ public class LíneaReserva implements Serializable {
         this.idReserva = idReserva;
     }
 
-    public ProductoPublicado getProductoPublicado() {
-        return productoPublicado;
+    public ProductosPublicados getProductoPublicado() {
+        return productosPublicados;
     }
 
-    public void setProductoPublicado(ProductoPublicado productoPublicado) {
-        this.productoPublicado = productoPublicado;
+    public void setProductoPublicado(ProductosPublicados productosPublicados) {
+        this.productosPublicados = productosPublicados;
     }
 
     public int getCantidad() {
@@ -54,7 +54,7 @@ public class LíneaReserva implements Serializable {
         return "LíneaReserva{" +
                 "idLíneaReserva=" + idLíneaReserva +
                 ", idReserva=" + idReserva +
-                ", idProductoEmpresa=" + productoPublicado +
+                ", idProductoEmpresa=" + productosPublicados +
                 ", cantidad=" + cantidad +
                 '}';
     }

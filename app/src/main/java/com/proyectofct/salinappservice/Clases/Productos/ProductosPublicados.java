@@ -9,7 +9,7 @@ import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ProductoPublicado implements Serializable {
+public class ProductosPublicados implements Serializable {
     private int idProductoEmpresa;
     private int cantidad;
     private double precioventa;
@@ -18,7 +18,7 @@ public class ProductoPublicado implements Serializable {
     private Producto p;
     private Empresa e;
 
-    public ProductoPublicado(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
+    public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
         this.idProductoEmpresa = idproductoempresa;
         this.cantidad = cantidad;
         this.precioventa = precioventa;
@@ -88,7 +88,7 @@ public class ProductoPublicado implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductoPublicado that = (ProductoPublicado) o;
+        ProductosPublicados that = (ProductosPublicados) o;
         return idProductoEmpresa == that.idProductoEmpresa;
     }
 
