@@ -30,8 +30,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProductosPublicados"
-        android:layout_width="0dp"
-        android:layout_height="625dp"
+        android:layout_width="383dp"
+        android:layout_height="592dp"
         android:layout_margin="10dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
