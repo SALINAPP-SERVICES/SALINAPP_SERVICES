@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-
 import androidx.fragment.app.Fragment;
 
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
@@ -25,7 +24,6 @@ import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
 
 public class DetalleGrupoProductosPublicadosFragment extends Fragment {
-
     private ImageView imgDetalleProductoPublicado;
     private TextView txtCantidadDetalleProductoPublicado;
     private TextView txtPrecioDetalleProductoPublicado;
@@ -49,8 +47,6 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
         ArrayAdapter<ProductosPublicados> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_tallas_color_item,R.id.txtSpinnerTallaColor,productosPublicado);
         adapter.setDropDownViewResource(R.layout.spinner_tallas_color_item);
         spTallasColor.setAdapter(adapter);
-
-
 
         if (productosPublicado != null){
             spTallasColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

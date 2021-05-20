@@ -40,10 +40,11 @@
         android:name="com.proyectofct.salinappservice.UI.EditarInfoEmpresasFragment"
         android:label="@string/editar_informacion"
         tools:layout="@layout/fragment_editar_info_empresas" />
+
     <fragment
         android:id="@+id/nav_fragment_detalle_grupo_productos_publicados"
         android:name="com.proyectofct.salinappservice.UI.DetalleGrupoProductosPublicadosFragment"
-        android:label="fragment_detalle_grupo_productos_publicados"
+        android:label="@string/productos_publicados"
         tools:layout="@layout/fragment_detalle_grupo_productos_publicados" />
 
 </navigation>
