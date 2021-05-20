@@ -2,24 +2,23 @@ package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Productos.ListaProductosPublicadosAdapter;
-import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
-import com.proyectofct.salinappservice.Modelos.ProductoPublicadoDB;
+import com.proyectofct.salinappservice.Modelos.ProductosPublicadosDB;
 import com.proyectofct.salinappservice.R;
 import com.proyectofct.salinappservice.Utilidades.PaginationListener;
 
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 public class ProductosPublicadosFragment extends Fragment {
     private Button btAtras = null;
     private RecyclerView rvProductosPublicados;
-    private ArrayList<ProductoPublicado> productosPublicados;
+    private ArrayList<ProductosPublicados> productosPublicados;
     private ListaProductosPublicadosAdapter listaProductosPublicadosAdapter = null;
     private int páginaActual;
     private int totalRegistros;
@@ -60,7 +59,7 @@ public class ProductosPublicadosFragment extends Fragment {
         */
 
         //RECYCLER VIEW CON LOS PRODUCTOS
-        totalRegistros = ProductoPublicadoDB.obtenerCantidadProductosPublicados();
+        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
 
         Log.i("SQL", "Total de registros -> " + String.valueOf(totalRegistros));
@@ -70,7 +69,7 @@ public class ProductosPublicadosFragment extends Fragment {
         String codEmpresa = infoEmpresa.getCod_empresa();
 
         páginaActual = 0;
-        productosPublicados = ProductoPublicadoDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
         páginaActual = páginaActual + 1;
         if(productosPublicados != null) {
             Log.i("SQL", "Página actual -> " + String.valueOf(páginaActual));
@@ -93,7 +92,7 @@ public class ProductosPublicadosFragment extends Fragment {
                 protected void loadMoreItems() {
                     int totalRegistrosLeídos = rvProductosPublicados.getLayoutManager().getItemCount();
                     if (totalRegistrosLeídos < totalRegistros) {
-                        ArrayList<ProductoPublicado> nuevosProductosPublicados = ProductoPublicadoDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
                         productosPublicadosLeídos = nuevosProductosPublicados.size();
                         páginaActual++;
 
@@ -101,7 +100,7 @@ public class ProductosPublicadosFragment extends Fragment {
                             @Override
                             public void run() {
                                 ListaProductosPublicadosAdapter listaProductosPublicadosAdapter1 = (ListaProductosPublicadosAdapter) rvProductosPublicados.getAdapter();
-                                ArrayList<ProductoPublicado> productosPublicadosRv = listaProductosPublicadosAdapter1.getListaProductosPublicados();
+                                ArrayList<ProductosPublicados> productosPublicadosRv = listaProductosPublicadosAdapter1.getListaProductosPublicados();
                                 productosPublicadosRv.addAll(nuevosProductosPublicados);
                                 rvProductosPublicados.getAdapter().notifyDataSetChanged();
                             }});

@@ -23,7 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
-import com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
@@ -58,18 +58,18 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         txtMarcaDetalleProductoPublicado = (TextView) vista.findViewById(R.id.txtMarcaDetalleProductoPublicado);
         txtModeloDetalleProductoPublicado = (TextView) vista.findViewById(R.id.txtModeloDetalleProductoPublicado);
 
-        ProductoPublicado productoPublicado = (ProductoPublicado) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
-        if (productoPublicado != null){
-            Blob imagenProductoPublicado = productoPublicado.getP().getImagen();
+        ProductosPublicados productosPublicados = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
+        if (productosPublicados != null){
+            Blob imagenProductoPublicado = productosPublicados.getP().getImagen();
             if (imagenProductoPublicado != null){
                 imgDetalleProductoPublicado.setImageBitmap(blob_to_bitmap(imagenProductoPublicado, ConfiguracionesGeneralesDB.ANCHO_FOTO, ConfiguracionesGeneralesDB.ALTO_FOTO));
             }else {
                 imgDetalleProductoPublicado.setImageResource(R.drawable.producto);
             }
-            txtCantidadDetalleProductoPublicado.setText(productoPublicado.getCantidad() + " unidades");
-            txtPrecioDetalleProductoPublicado.setText(productoPublicado.getPrecioventa() + "€");
-            txtMarcaDetalleProductoPublicado.setText(productoPublicado.getP().getMarca());
-            txtModeloDetalleProductoPublicado.setText(productoPublicado.getP().getModelo());
+            txtCantidadDetalleProductoPublicado.setText(productosPublicados.getCantidad() + " unidades");
+            txtPrecioDetalleProductoPublicado.setText(productosPublicados.getPrecioventa() + "€");
+            txtMarcaDetalleProductoPublicado.setText(productosPublicados.getP().getMarca());
+            txtModeloDetalleProductoPublicado.setText(productosPublicados.getP().getModelo());
         }else {
             Log.i("ERROR", "El producto publicado no se ha recibido del fragment anterior correctamente");
         }
@@ -83,7 +83,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         btAñadirAlCarrito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), 1, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
+                ProductoCarrito productoCarrito = new ProductoCarrito(productosPublicados.getIdProductoEmpresa(), 1, productosPublicados.getP().getDescripción(), productosPublicados.getE().getCod_empresa(), "fotoURL", productosPublicados.getP().getMarca(), productosPublicados.getP().getModelo(), productosPublicados.getPrecioventa());
 
                 DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -92,7 +92,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
                         if(task.isComplete()){
                             task.getResult();
                             DocumentSnapshot data = task.getResult();
-                            ProductoCarrito miProductoCarrito = data.get(String.valueOf(productoPublicado.getIdProductoEmpresa()), ProductoCarrito.class);
+                            ProductoCarrito miProductoCarrito = data.get(String.valueOf(productosPublicados.getIdProductoEmpresa()), ProductoCarrito.class);
                             if(miProductoCarrito != null){
                                 int nuevaCantidad = miProductoCarrito.getCantidad() + 1;
                                 miProductoCarrito.setCantidad(nuevaCantidad);
