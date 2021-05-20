@@ -62,7 +62,6 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
         holder.txtMarcaProductoCarrito.setText("Marca: " + String.valueOf(productoCarritoActual.getMarca()));
         holder.txtCantidadProductoCarrito.setText("Cantidad: " + String.valueOf(productoCarritoActual.getCantidad()) + " unidades");
         holder.txtPrecioProductoCarrito.setText("Precio :" + String.valueOf(productoCarritoActual.getPrecio()) + "€");
-
     }
 
     @Override

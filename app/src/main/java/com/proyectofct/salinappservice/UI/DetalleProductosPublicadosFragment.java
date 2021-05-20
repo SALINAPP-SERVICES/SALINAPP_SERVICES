@@ -35,7 +35,6 @@ import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicado
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
 
 public class DetalleProductosPublicadosFragment extends Fragment {
-    private Button btAtras;
     private Button btAñadirAlCarrito;
 
     private ImageView imgDetalleProductoPublicado;

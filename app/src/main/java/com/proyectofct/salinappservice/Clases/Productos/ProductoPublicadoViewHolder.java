@@ -48,12 +48,12 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
             ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
             ArrayList<ProductosPublicados> grupoProductos = ProductoPublicadoController.obtenerVariantesProductoPublicado(productoPublicado.getP().getCod_producto());
             if (grupoProductos != null && grupoProductos.size() == 0){
-                //PAGINA NORMAL
+                //PAGINA NORMAL SIN SPINNER
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO, productoPublicado);
                 Navigation.findNavController(v).navigate(R.id.nav_fragment_detalle_productos_publicados, bundle);
             }else if (grupoProductos != null){
-                //ADAPTAR CODIGO
+                //PÁGINA NORMAL CON SPINNER
                 grupoProductos.add(productoPublicado);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(EXTRA_OBJETO_GRUPO_PRODUCTO_PUBLICADO, grupoProductos);
@@ -63,10 +63,5 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
         else if (productosPublicados.getP() instanceof Coches){
 
         }
-
-        /*ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO, productoPublicado);
-        Navigation.findNavController(v).navigate(R.id.nav_fragment_detalle_productos_publicados, bundle);*/
     }
 }
