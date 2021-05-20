@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.Controladores;
 
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerVariantesProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaCantidadProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerProductoPublicado;
@@ -105,5 +106,28 @@ public class ProductoPublicadoController {
             e.printStackTrace();
         }
         return cantidadProductoPublicado;
+    }
+
+    public static ArrayList<ProductosPublicados> obtenerVariantesProductoPublicado(String cod_producto) {
+        ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
+        FutureTask tarea = new FutureTask(new TareaObtenerVariantesProductoPublicado(cod_producto));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(tarea);
+        try {
+            productosPublicadosDevuelto = (ArrayList<ProductosPublicados>) tarea.get();
+            es.shutdown();
+            try {
+                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                    es.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                es.shutdownNow();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return productosPublicadosDevuelto;
     }
 }

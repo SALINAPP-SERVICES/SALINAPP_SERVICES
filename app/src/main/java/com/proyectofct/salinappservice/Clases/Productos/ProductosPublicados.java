@@ -100,7 +100,8 @@ public class ProductosPublicados implements Serializable {
 
     @Override
     public String toString() {
-        return "ProductosPublicados{" +
+        return  ((Moda) p).getTalla() + " " + ((Moda) p).getColor();
+                /*"ProductosPublicados{" +
                 "idproductoempresa=" + idproductoempresa +
                 ", cantidad=" + cantidad +
                 ", precioventa=" + precioventa +
@@ -108,6 +109,6 @@ public class ProductosPublicados implements Serializable {
                 ", archivado=" + archivado +
                 ", p=" + p +
                 ", e=" + e +
-                '}';
+                '}';*/
     }
 }
