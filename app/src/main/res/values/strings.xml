@@ -97,4 +97,5 @@
     <string name="sector">Sector</string>
     <string name="imagencarrito">imagenCarrito</string>
     <string name="buscar">Buscar...</string>
+    <string name="imagenbuscar">imagenbuscar</string>
 </resources>

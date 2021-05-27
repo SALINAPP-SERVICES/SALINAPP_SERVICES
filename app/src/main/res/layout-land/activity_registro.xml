@@ -11,7 +11,8 @@
         android:id="@+id/btRRegistrarU"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="248dp"
         android:onClick="registrarUsuario"
         android:text="@string/confirmar_registro_de_usuario"
         android:textColor="@color/black"
@@ -19,7 +20,6 @@
         app:backgroundTint="@color/fondo"
         app:cornerRadius="20dip"
         app:layout_constraintEnd_toEndOf="@+id/edtRConfirmarContraseña"
-        app:layout_constraintStart_toStartOf="@+id/edtRConfirmarContraseña"
         app:layout_constraintTop_toBottomOf="@+id/edtRConfirmarContraseña" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:id="@+id/edtRContraseña"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="372dp"
         android:autofillHints="@string/contraseña"
         android:background="@drawable/style_edt"
         android:ems="10"
@@ -52,21 +52,20 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/edtRE"
         app:layout_constraintStart_toStartOf="@+id/edtRE"
-        app:layout_constraintTop_toBottomOf="@+id/edtRE" />
+        tools:layout_editor_absoluteY="101dp" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:text="@string/registro"
         android:textColor="@color/black"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,7 +90,8 @@
         android:id="@+id/edtRNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="128dp"
         android:autofillHints="Nomre"
         android:background="@drawable/style_edt"
         android:ems="10"
@@ -101,7 +101,6 @@
         android:textColorHint="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

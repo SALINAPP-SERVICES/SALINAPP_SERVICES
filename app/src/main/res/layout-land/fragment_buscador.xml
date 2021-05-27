@@ -20,21 +20,6 @@
         android:inputType="text"/>
 
     <ImageButton
-        android:id="@+id/btn_buscar"
-        android:layout_width="86dp"
-        android:layout_height="50dp"
-        android:layout_alignTop="@+id/buscar_producto"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-5dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginRight="10dp"
-        android:layout_toStartOf="@+id/buscar_producto"
-        android:contentDescription="@string/imagenbuscar"
-        android:scaleType="centerInside"
-        android:src="@drawable/lupa"
-        />
-
-    <ImageButton
         android:id="@+id/btn_carrito_compra"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -43,7 +28,6 @@
         android:layout_marginTop="-5dp"
         android:contentDescription="@string/imagencarrito"
         android:scaleType="centerInside"
-        android:src="@drawable/carrito"
-        android:layout_toStartOf="@+id/btn_buscar"/>
+        android:src="@drawable/carrito" />
 
 </RelativeLayout>
