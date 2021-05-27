@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".UI.EditarInfoEmpresasFragment">
+    tools:context=".UI.EditarInfoEmpresasFragment" >
 
     <TextView
         android:id="@+id/txt_titulo_editInfoE"
         android:layout_width="match_parent"
-        android:layout_height="108dp"
+        android:layout_height="136dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center"
         android:paddingTop="40dp"
         android:paddingBottom="30dp"
         android:text="@string/txt_titulo_editInfoE"
-        android:textColor="#2bab63"
+        android:textColor="@color/black"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="-9dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_logo_editInfoE"
-        android:layout_width="match_parent"
-        android:layout_height="158dp"
-
-        android:layout_marginEnd="16dp"
+        android:layout_width="158dp"
+        android:layout_height="113dp"
+        android:layout_marginEnd="476dp"
         android:maxWidth="100sp"
         android:maxHeight="100sp"
         android:requestLegacyExternalStorage="true"
@@ -32,23 +33,14 @@
         app:civ_border_overlay="true"
         app:civ_border_width="1sp"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="110dp" />
-
-        android:src="#2bab63"/>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
-
+        tools:layout_editor_absoluteY="136dp" />
 
     <EditText
         android:id="@+id/edt_nombre_editInfoE"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="344dp"
         android:autofillHints="@string/nombre"
         android:background="@drawable/style_edt"
         android:hint="@string/edt_nombre_editInfoE"
@@ -56,33 +48,29 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="277dp" />
-
+        tools:layout_editor_absoluteY="92dp" />
 
     <EditText
-        android:id="@+id/edt_direccion_editInfoE"
+        android:id="@+id/edt_localizacion_editInfoE"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="344dp"
         android:background="@drawable/style_edt"
-        android:hint="@string/edt_direccion_editInfoE"
+        android:ems="10"
+        android:hint="@string/edt_localizacion_editInfoE"
         android:importantForAutofill="no"
-
         android:inputType="textPersonName"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="353dp" />
-
-        
+        tools:layout_editor_absoluteY="168dp" />
 
     <EditText
         android:id="@+id/edt_CIF_editInfoE"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
         android:autofillHints="@string/edt_CIF_editInfoE"
         android:background="@drawable/style_edt"
         android:ems="10"
@@ -91,18 +79,16 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="463dp" />
-
+        tools:layout_editor_absoluteY="316dp" />
 
     <EditText
-        android:id="@+id/edt_sector_editInfoE"
+        android:id="@+id/edt_sector"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="344dp"
         android:autofillHints="@string/sector"
         android:background="@drawable/style_edt"
         android:ems="10"
@@ -111,8 +97,7 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="407dp" />
-
+        tools:layout_editor_absoluteY="243dp" />
 
     <Button
         android:id="@+id/btn_editar_editInfoE"
@@ -122,17 +107,16 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="@string/btn_editar_editInfoE"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
-
         app:backgroundTint="@color/fondo"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.839" />
+        app:layout_constraintVertical_bias="0.83" />
 
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

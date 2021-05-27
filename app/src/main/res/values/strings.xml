@@ -101,6 +101,9 @@
     <string name="imagencarrito">imagenCarrito</string>
     <string name="buscar">Buscar...</string>
 
+    <string name="imagenbuscar">imagenbuscar</string>
+
+
     <string name="nav_camara">CÁMARA</string>
 
     <string name="añadir_al_carrito">Añadir al carrito</string>
@@ -115,5 +118,6 @@
     <string name="marca_producto_carrito">Marca producto carrito</string>
     <string name="cantidad_producto_carrito">Cantidad producto carrito</string>
     <string name="precio_producto_carrito">Precio producto carrito</string>
+
 
 </resources>

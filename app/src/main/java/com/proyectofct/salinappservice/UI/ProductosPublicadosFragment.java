@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,10 +35,60 @@ public class ProductosPublicadosFragment extends Fragment {
     private int páginaActual;
     private int totalRegistros;
     private int totalPáginas;
+    private ImageButton btn_buscar;
+    private EditText text_busqueda;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
+
+
+        btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar);
+        text_busqueda = (EditText) vista.findViewById(R.id.buscar_producto);
+
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String busqueda = String.valueOf(text_busqueda.getText());
+                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicado(0, busqueda);
+
+                if (productosbuscados !=null){
+                    rvProductosPublicados = vista.findViewById(R.id.rvProductosPublicados);
+                    listaProductosPublicadosAdapter = new ListaProductosPublicadosAdapter(getActivity(), productosbuscados);
+                    rvProductosPublicados.setAdapter(listaProductosPublicadosAdapter);
+
+                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    } else {
+                        rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
+                    }
+                }
+
+            }
+        });
+
+
+        /*
+        //BOTÓN IR ATRÁS
+        btAtras = (Button) vista.findViewById(R.id.btn_Atras);
+        btAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = NavHostFragment.findNavController(fragment_producto_publicado.this);
+                navController.popBackStack();
+            }
+        });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+            }
+        };
+
+        //requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+        */
+
 
         //RECYCLER VIEW CON LOS PRODUCTOS
         totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
