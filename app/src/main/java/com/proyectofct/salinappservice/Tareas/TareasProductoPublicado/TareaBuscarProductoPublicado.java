@@ -9,11 +9,12 @@ import java.util.concurrent.Callable;
 public class TareaBuscarProductoPublicado implements Callable<ArrayList<ProductosPublicados>> {
     private String marca = null;
     private int página= 0;
-    private ArrayList<ProductosPublicados> productosPublicadosEncontrados = null;
+    private ArrayList<ProductosPublicados> productosPublicadosEncontrados;
 
     public TareaBuscarProductoPublicado(String marca, int página) {
         this.marca = marca;
         this.página = página;
+        this.productosPublicadosEncontrados= new ArrayList<>();
     }
 
     @Override
