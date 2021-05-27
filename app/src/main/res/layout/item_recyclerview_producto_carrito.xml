@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProductoCarrito"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
+            android:layout_weight="1"
+            android:contentDescription="@string/img_producto_carrito"
+            android:src="@drawable/producto" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txtDescripcionProductoCarrito"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/descripci_n_producto_carrito"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtMarcaProductoCarrito"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/marca_producto_carrito"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtCantidadProductoCarrito"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cantidad_producto_carrito"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtPrecioProductoCarrito"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/precio_producto_carrito"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,6 +1,8 @@
 package com.proyectofct.salinappservice.Clases.Productos;
 
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Moda extends Producto{
     private String talla;

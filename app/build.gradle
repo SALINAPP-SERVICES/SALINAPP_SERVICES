@@ -4,13 +4,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "com.proyectofct.salinappservice"
+
         minSdkVersion 21
-        targetSdkVersion 30
+
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -48,6 +50,7 @@ dependencies {
 
     implementation files('libs/mysql-connector-java-5.1.49.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     //Para corregir el error de compilacion 'com.android.tools.r8.utils.b: Cannot fit requested classes in a single dex file (# methods: 107455 > 65536)'
 
@@ -66,4 +69,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.7.0' //Base de Datos
     implementation 'com.google.firebase:firebase-storage:19.2.2'  //Base de Archivos
     implementation 'com.google.firebase:firebase-firestore' //Firestore
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1' //Object Mapper
 }

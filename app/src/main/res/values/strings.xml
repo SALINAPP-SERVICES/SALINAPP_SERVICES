@@ -52,16 +52,20 @@
     <string name="galer_a_usuarios">GALERÍA USUARIOS</string>
     <string name="usuarios">USUARIOS</string>
     <string name="slideshow_usuarios">SLIDESHOW USUARIOS</string>
-    <string name="empresas">EMPRESAS</string>
     <string name="galer_a_empresas">GALERÍA EMPRESAS</string>
     <string name="slideshow_empresas">SLIDESHOW EMPRESAS</string>
     <string name="ajustes">Ajustes</string>
     <string name="editar_mi_informaci_n">EDITAR MI INFORMACIÓN</string>
+
     <string name="txt_titulo_editInfoE">EDITAR INFORMACIÓN</string>
-    <string name="btn_editar_editInfoE">Editar información</string>
     <string name="edt_nombre_editInfoE">Nombre</string>
-    <string name="edt_localizacion_editInfoE">Localización</string>
+    <string name="edt_direccion_editInfoE">Dirección</string>
     <string name="edt_CIF_editInfoE">CIF</string>
+    <string name="edt_sector_editInfoE">Sector</string>
+    <string name="edt_resumen_editInfoE">Resumen</string>
+    <string name="edt_codEmpr_editInfoE">Codigo empresa</string>
+    <string name="btn_editar_editInfoE">Editar información</string>
+
     <string name="descripcion_img_producto_publicado">descripcion_img_producto_publicado</string>
     <string name="categoria">categoria</string>
     <string name="marca">marca</string>
@@ -88,7 +92,6 @@
     <string name="descripcion2">Descripción</string>
     <string name="galer_a_de_productos">GALERÍA DE PRODUCTOS</string>
     <string name="pedidos">PEDIDOS</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lista_de_empresas">LISTA DE EMPRESAS</string>
     <string name="lista_de_productos_publicados">LISTA DE PRODUCTOS PUBLICADOS</string>
@@ -97,5 +100,24 @@
     <string name="sector">Sector</string>
     <string name="imagencarrito">imagenCarrito</string>
     <string name="buscar">Buscar...</string>
+
     <string name="imagenbuscar">imagenbuscar</string>
+
+
+    <string name="nav_camara">CÁMARA</string>
+
+    <string name="añadir_al_carrito">Añadir al carrito</string>
+    <string name="editar_informacion">EDITAR INFORMACIÓN</string>
+    <string name="carrito">CARRITO</string>
+    <string name="productos_publicados">PRODUCTOS PUBLICADOS</string>
+    <string name="empresas">EMPRESAS</string>
+    <string name="unidades_deseadas">Unidades deseadas...</string>
+    <string name="crear_reserva">CREAR RESERVA</string>
+    <string name="img_producto_carrito">img_producto_carrito</string>
+    <string name="descripci_n_producto_carrito">Descripción producto carrito</string>
+    <string name="marca_producto_carrito">Marca producto carrito</string>
+    <string name="cantidad_producto_carrito">Cantidad producto carrito</string>
+    <string name="precio_producto_carrito">Precio producto carrito</string>
+
+
 </resources>

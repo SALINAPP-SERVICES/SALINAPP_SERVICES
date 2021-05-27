@@ -2,12 +2,6 @@ package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
@@ -42,6 +41,7 @@ public class ProductosPublicadosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
+
 
         btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar);
         text_busqueda = (EditText) vista.findViewById(R.id.buscar_producto);
@@ -89,6 +89,7 @@ public class ProductosPublicadosFragment extends Fragment {
         //requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
         */
 
+
         //RECYCLER VIEW CON LOS PRODUCTOS
         totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
@@ -100,7 +101,9 @@ public class ProductosPublicadosFragment extends Fragment {
         String codEmpresa = infoEmpresa.getCod_empresa();
 
         páginaActual = 0;
-        productosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicadosPorEmpresa(codEmpresa);
+        totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
         páginaActual = páginaActual + 1;
         if(productosPublicados != null) {
             Log.i("SQL", "Página actual -> " + String.valueOf(páginaActual));

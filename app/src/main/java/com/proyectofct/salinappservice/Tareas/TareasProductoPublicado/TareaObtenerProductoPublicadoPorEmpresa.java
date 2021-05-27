@@ -12,6 +12,7 @@ public class TareaObtenerProductoPublicadoPorEmpresa implements Callable<ArrayLi
     private String cod_empr;
 
     public TareaObtenerProductoPublicadoPorEmpresa(int página, String cod_empr) {
+        this.productosPublicadosDevueltos = new ArrayList<ProductosPublicados>();
         this.página = página;
         this.cod_empr = cod_empr;
     }
