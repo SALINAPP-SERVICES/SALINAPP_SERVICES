@@ -1,15 +1,18 @@
 package com.proyectofct.salinappservice.UI;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.proyectofct.salinappservice.Camara;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
+import com.proyectofct.salinappservice.HomeActivity;
 import com.proyectofct.salinappservice.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -113,10 +118,8 @@ public class EditarInfoEmpresasFragment extends Fragment {
         logoEmpresa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/jpeg");
-                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(intent.createChooser(intent, "Seleccione una foto"), LOGO_SEND);
+                cargarImagen();
+
             }
         });
 
@@ -137,7 +140,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Navigation.findNavController(view).navigate(R.id.nav_home);
+                            Navigation.findNavController(view).navigate(R.id.nav_fragment_editar_info_empresas);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -179,6 +182,33 @@ public class EditarInfoEmpresasFragment extends Fragment {
                 Log.i("Error al leer datos", "", e);
             }
         });
+    }
+
+
+    public void cargarImagen() {
+        final CharSequence[] opciones={"Tomar Foto","Cargar Imagen","Cancelar"};
+        final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(getContext());
+        alertOpciones.setTitle("Seleccione una opción");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (opciones[i].equals("Tomar Foto")){
+                    Intent intent = new Intent(getContext(), Camara.class);
+                    startActivity(intent);
+                }else{
+                    if (opciones[i].equals("Cargar Imagen")){
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("image/jpeg");
+                        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                        startActivityForResult(intent.createChooser(intent, "Seleccione una imagen"), LOGO_SEND);
+                    }else{
+                        dialogInterface.dismiss();
+                    }
+                }
+            }
+        });
+        alertOpciones.show();
+
     }
 
     @Override
