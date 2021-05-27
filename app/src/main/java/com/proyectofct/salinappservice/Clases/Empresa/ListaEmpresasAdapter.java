@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class ListaEmpresasAdapter extends RecyclerView.Adapter<EmpresaViewHolder> {
 
     private Context c;
-    private ArrayList<Empresa> listaEmpresas;
     private ArrayList<InfoEmpresa> listaInfoEmpresa;
     private LayoutInflater mInflater;
     private int pagina;

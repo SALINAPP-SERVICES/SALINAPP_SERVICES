@@ -9,7 +9,9 @@ android {
 
     defaultConfig {
         applicationId "com.proyectofct.salinappservice"
+
         minSdkVersion 21
+
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -67,4 +69,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.7.0' //Base de Datos
     implementation 'com.google.firebase:firebase-storage:19.2.2'  //Base de Archivos
     implementation 'com.google.firebase:firebase-firestore' //Firestore
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1' //Object Mapper
 }

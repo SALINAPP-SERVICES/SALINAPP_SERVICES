@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class ProductosPublicados implements Serializable {
-    private int idproductoempresa;
+    private int idProductoEmpresa;
     private int cantidad;
     private double precioventa;
     private boolean habilitado;
@@ -19,7 +19,7 @@ public class ProductosPublicados implements Serializable {
     private Empresa e;
 
     public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
-        this.idproductoempresa = idproductoempresa;
+        this.idProductoEmpresa = idproductoempresa;
         this.cantidad = cantidad;
         this.precioventa = precioventa;
         this.habilitado = habilitado;
@@ -28,12 +28,12 @@ public class ProductosPublicados implements Serializable {
         this.e = e;
     }
 
-    public int getIdproductoempresa() {
-        return idproductoempresa;
+    public int getIdProductoEmpresa() {
+        return idProductoEmpresa;
     }
 
-    public void setIdproductoempresa(int idproductoempresa) {
-        this.idproductoempresa = idproductoempresa;
+    public void setIdProductoEmpresa(int idProductoEmpresa) {
+        this.idProductoEmpresa = idProductoEmpresa;
     }
 
     public int getCantidad() {
@@ -89,25 +89,17 @@ public class ProductosPublicados implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductosPublicados that = (ProductosPublicados) o;
-        return idproductoempresa == that.idproductoempresa;
+        return idProductoEmpresa == that.idProductoEmpresa;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
-        return Objects.hash(idproductoempresa);
+        return Objects.hash(idProductoEmpresa);
     }
 
     @Override
     public String toString() {
-        return "ProductosPublicados{" +
-                "idproductoempresa=" + idproductoempresa +
-                ", cantidad=" + cantidad +
-                ", precioventa=" + precioventa +
-                ", habilitado=" + habilitado +
-                ", archivado=" + archivado +
-                ", p=" + p +
-                ", e=" + e +
-                '}';
+        return ((Moda) p).getTalla() + " " + ((Moda) p).getColor();
     }
 }
