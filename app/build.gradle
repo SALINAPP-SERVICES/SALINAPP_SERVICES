@@ -9,7 +9,9 @@ android {
 
     defaultConfig {
         applicationId "com.proyectofct.salinappservice"
-        minSdkVersion 28
+
+        minSdkVersion 21
+
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -48,6 +50,7 @@ dependencies {
 
     implementation files('libs/mysql-connector-java-5.1.49.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     //Para corregir el error de compilacion 'com.android.tools.r8.utils.b: Cannot fit requested classes in a single dex file (# methods: 107455 > 65536)'
 

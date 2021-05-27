@@ -37,7 +37,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
-    private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito;
+
+    private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito, camara;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         logoutMenu = (MenuItem) navigationView.getMenu().findItem(R.id.logoutMenu);
         loginMenu = (MenuItem) navigationView.getMenu().findItem(R.id.loginMenu);
         volverInicio = (MenuItem) navigationView.getMenu().findItem(R.id.volverInicio);
+        camara= (MenuItem) navigationView.getMenu().findItem(R.id.nav_camara);
 
         firebaseAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -161,6 +164,17 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         */
+
+
+            camara.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(HomeActivity.this, Camara.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
     }
 
     @Override

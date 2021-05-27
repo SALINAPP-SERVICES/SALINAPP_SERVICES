@@ -22,6 +22,12 @@
     <group android:checkableBehavior="single"
         android:id="@+id/menuEmpresas">
         <item
+
+            android:id="@+id/nav_camara"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/nav_camara" />
+        <item
+
             android:id="@+id/nav_fragment_editar_info_empresas"
             android:icon="@drawable/ic_menu_info"
             android:title="@string/editar_mi_informaci_n" />
