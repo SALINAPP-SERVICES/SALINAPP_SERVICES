@@ -58,7 +58,7 @@
         android:layout_marginStart="344dp"
         android:background="@drawable/style_edt"
         android:ems="10"
-        android:hint="@string/edt_localizacion_editInfoE"
+        android:hint="edt_localizacion_editInfoE"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textColor="@color/black"
