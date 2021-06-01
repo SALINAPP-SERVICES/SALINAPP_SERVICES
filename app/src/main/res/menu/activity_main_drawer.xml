@@ -17,6 +17,11 @@
             android:id="@+id/nav_fragment_carrito"
             android:icon="@drawable/carrito"
             android:title="@string/carrito"/>
+
+        <item
+            android:id="@+id/nav_fragment_reservas"
+            android:icon="@drawable/reserva"
+            android:title="@string/reservas" />
     </group>
 
     <group android:checkableBehavior="single"

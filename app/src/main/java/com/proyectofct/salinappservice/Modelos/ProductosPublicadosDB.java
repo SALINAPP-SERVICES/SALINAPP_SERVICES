@@ -5,7 +5,6 @@ import android.util.Log;
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Coches;
 import com.proyectofct.salinappservice.Clases.Productos.Moda;
-import com.proyectofct.salinappservice.Clases.Productos.Producto;
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
@@ -201,15 +200,11 @@ public class ProductosPublicadosDB {
         }
     }*/
 
-
-    //public static int obtenerCantidadProductosPublicados() {
-
     public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
-
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
-            return 0;
+            return null;
         }
 
        // int cantidadProductosPublicados = 0;
@@ -356,7 +351,7 @@ public class ProductosPublicadosDB {
     }
 
     //CORRECCIÓN DE VÍCTOR ABAJO obtenerCantidadProductosPublicados()
-    /*public static int obtenerCantidadProductosPublicados() {
+    public static int obtenerCantidadProductosPublicados() {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
@@ -381,11 +376,7 @@ public class ProductosPublicadosDB {
             Log.i("SQL", "Error al devolver el número de productos publicados de la base de datos");
             return 0;
         }
-
     }
-
-    }*/
-
 
     public static ArrayList<ProductosPublicados> buscarProductoPublicados(int página, String marca) {
         Connection conexión = BaseDB.conectarConBaseDeDatos();

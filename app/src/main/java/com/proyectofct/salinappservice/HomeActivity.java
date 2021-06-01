@@ -37,9 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
-
     private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito, camara;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_carrito , R.id.nav_fragment_editar_info_empresas).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_carrito, R.id.nav_fragment_reservas, R.id.nav_fragment_editar_info_empresas).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

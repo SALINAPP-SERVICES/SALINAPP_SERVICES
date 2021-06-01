@@ -1,7 +1,5 @@
 package com.proyectofct.salinappservice.Controladores;
 
-import android.text.Editable;
-
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaCantidadProductoPublicado;
@@ -63,8 +61,6 @@ public class ProductoPublicadoController {
         return productosPublicadosDevuelto;
     }
 
-
-    //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
     public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página, String marca){
         ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
         FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca, página));
@@ -72,7 +68,7 @@ public class ProductoPublicadoController {
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
-            productosPublicadosEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
+            productoPublicadoEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
             es.shutdown();
             try {
                 if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -86,7 +82,7 @@ public class ProductoPublicadoController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return productosPublicadosEncontrado;
+        return productoPublicadoEncontrado;
     }
 
     public static int obtenerCantidadProductoPublicado() {

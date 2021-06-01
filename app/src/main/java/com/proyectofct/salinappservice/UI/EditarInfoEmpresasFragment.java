@@ -5,16 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
-import android.provider.MediaStore;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +14,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -41,7 +32,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.proyectofct.salinappservice.Camara;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
-import com.proyectofct.salinappservice.HomeActivity;
 import com.proyectofct.salinappservice.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -117,8 +107,6 @@ public class EditarInfoEmpresasFragment extends Fragment {
         direccionEmpresa = view.findViewById(R.id.edt_direccion_editInfoE);
         cifEmpresa = view.findViewById(R.id.edt_CIF_editInfoE);
         sectorEmpresa = view.findViewById(R.id.edt_sector_editInfoE);
-        codEmpEmpresa = view.findViewById(R.id.edt_codEmpr_editInfoE);
-        resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
         btnEditar = view.findViewById(R.id.btn_editar_editInfoE);
 
         ObtenerDatos();
