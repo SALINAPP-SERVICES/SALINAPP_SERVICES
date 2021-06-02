@@ -13,6 +13,9 @@ public class DireccionesClientes implements Serializable {
         this.cliente = cliente;
     }
 
+    public DireccionesClientes() {
+    }
+
     public int getIdDireccionCliente() {
         return idDireccionCliente;
     }
