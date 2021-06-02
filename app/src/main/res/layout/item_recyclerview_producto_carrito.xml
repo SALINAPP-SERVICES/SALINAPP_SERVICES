@@ -13,8 +13,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProductoCarrito"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
+            android:layout_width="146dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/img_producto_carrito"
             android:src="@drawable/producto" />
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp" >
 
             <TextView
                 android:id="@+id/txtDescripcionProductoCarrito"
@@ -53,6 +53,30 @@
                 android:layout_height="wrap_content"
                 android:text="@string/precio_producto_carrito"
                 android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btAumentarCantidad"
+                android:layout_gravity="left"
+                android:layout_width="95dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/aumentar_cantidad"
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/fondo"
+                app:cornerRadius="25dip" />
+
+            <Button
+                android:id="@+id/btDisminuirCantidad"
+                android:layout_gravity="right"
+                android:layout_marginTop="-50dp"
+                android:layout_width="95dp"
+                android:layout_height="50dp"
+                android:text="@string/disminuir_cantidad"
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/fondo"
+                app:cornerRadius="25dip" />
 
         </LinearLayout>
 

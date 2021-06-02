@@ -178,4 +178,34 @@ public class ReservaDB {
             return 0;
         }
     }
+
+    public static ArrayList<Reserva> obtenerReservas(){
+        Connection conexión = BaseDB.conectarConBaseDeDatos();
+        if(conexión == null) {
+            Log.i("SQL", "Error al establecer la conexión con la base de datos");
+            return null;
+        }
+        ArrayList<Reserva> reservasDevueltas = new ArrayList<Reserva>();
+        try {
+            Statement sentencia = conexión.createStatement();
+            String ordenSQL = "SELECT * FROM reserva";
+            ResultSet resultado = sentencia.executeQuery(ordenSQL);
+            while(resultado.next()) {
+                /*PENDIENTE*/
+                /*POR*/
+                /*HACER*/
+                Reserva r = new Reserva();
+                reservasDevueltas.add(r);
+            }
+            resultado.close();
+            sentencia.close();
+
+            conexión.close();
+
+            return reservasDevueltas;
+        } catch (SQLException e) {
+            Log.i("SQL", "Error al mostrar las reservas de la base de datos");
+            return null;
+        }
+    }
 }

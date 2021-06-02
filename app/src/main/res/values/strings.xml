@@ -120,4 +120,6 @@
     <string name="reservas">RESERVAS</string>
 
     <string name="edt_localizacion_editInfoE">Localización</string>
+    <string name="disminuir_cantidad">Disminuir cantidad</string>
+    <string name="aumentar_cantidad">Aumentar cantidad</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
@@ -44,6 +47,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_PRODUCTO_PUBLICADO;
+
 public class CarritoFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
@@ -54,6 +59,11 @@ public class CarritoFragment extends Fragment {
     private ListaProductosCarritoAdapter listaProductosCarritoAdapter;
 
     private Button btCrearReserva;
+
+    private Button btAumentarCantidad;
+    private Button btDisminuirCantidad;
+
+    private int cantidadActual;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
@@ -75,6 +85,7 @@ public class CarritoFragment extends Fragment {
 
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot documento = task.getResult();
@@ -110,6 +121,43 @@ public class CarritoFragment extends Fragment {
                             //CARGO EL RECYCLER VIEW CON EL ARRAY LIST DE LOS PRODUCTOS QUE OBTENGO DE FIRESTORE
                             listaProductosCarritoAdapter.cargarRecyclerView(productoCarrito);
 
+
+                            //AUMENTAR O DISMINUIR CANTIDAD
+                            cantidadActual = productoCarrito.getCantidad();
+
+                            btAumentarCantidad = vista.findViewById(R.id.btAumentarCantidad);
+                            btDisminuirCantidad = vista.findViewById(R.id.btDisminuirCantidad);
+
+                            btAumentarCantidad.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cantidadActual = cantidadActual + 1;
+                                    productoCarrito.setCantidad(cantidadActual);
+                                    aumentarCantidadProductoFirestore(productoCarrito);
+                                    //refrescarRecyclerView()
+                                }
+                            });
+
+                            btDisminuirCantidad.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (cantidadActual == 1){
+                                        cantidadActual = cantidadActual - 1;
+                                        productoCarrito.setCantidad(cantidadActual);
+                                        //borrarProductoFirestore(productoCarrito);
+                                        //LLEGADO AQUÍ HAY QUE HACER QUE NO SE CREE LA RESERVA CON ESTE PRODUCTO CARRITO YA QUE AL SER LA CANTIDAD 0 ESTÁ BORRADO DEL CARRITO (LÍNEA 169)
+                                        //refrescarRecyclerView()
+                                    }else if (cantidadActual <= 0){
+                                        Toast.makeText(getActivity(), "No hay suficientes unidades de este producto", Toast.LENGTH_SHORT).show();
+                                    }else if(cantidadActual > 1){
+                                        cantidadActual = cantidadActual - 1;
+                                        productoCarrito.setCantidad(cantidadActual);
+                                        disminuirCantidadProductoFirestore(productoCarrito);
+                                        //refrescarRecyclerView()
+                                    }
+                                }
+                            });
+
                             //CREAR RESERVA
                             btCrearReserva = vista.findViewById(R.id.btCrearReserva);
                             btCrearReserva.setOnClickListener(new View.OnClickListener() {
@@ -118,15 +166,15 @@ public class CarritoFragment extends Fragment {
                                     //Creo la línea de reserva y la añado a un ArrayList
                                     int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
                                     int idReserva = ReservaController.obtenerNuevoIDReserva();
-                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(productoCarrito.getCodProducto(), cantidadActual, productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
 
-                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, productoCarrito.getCantidad());
+                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, cantidadActual);
                                     ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
                                     líneasReserva.add(líneaReserva);
 
                                     //Creo la reserva
                                     Date fechaActual = new Date();
-                                    double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
+                                    double precioTotal = cantidadActual * productoCarrito.getPrecio();
                                     int idCliente = ClienteController.obtenerNuevoIDCliente();
                                     int idDirección = ClienteController.obtenerNuevoIDDirección();
                                     int idDirecciónCliente = ClienteController.obtenerNuevoIDDirecciónCliente();
@@ -160,5 +208,68 @@ public class CarritoFragment extends Fragment {
 
 
         return vista;
+    }
+
+    public void aumentarCantidadProductoFirestore(ProductoCarrito productoCarrito){
+        ProductosPublicados productosPublicados = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
+
+        DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if(task.isComplete()){
+                    task.getResult();
+                    DocumentSnapshot data = task.getResult();
+                    ProductoCarrito miProductoCarrito = data.get(String.valueOf(productosPublicados.getIdProductoEmpresa()), ProductoCarrito.class);
+                    if(miProductoCarrito != null){
+                        int nuevaCantidad = miProductoCarrito.getCantidad() + 1;
+                        miProductoCarrito.setCantidad(nuevaCantidad);
+                        ActualizarProductoCarrito(miProductoCarrito, documentReference);
+                    }else{
+                        ActualizarProductoCarrito(productoCarrito, documentReference);
+                    }
+                }
+            }
+        });
+    }
+
+    public void disminuirCantidadProductoFirestore(ProductoCarrito productoCarrito){
+        ProductosPublicados productosPublicados = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
+
+        DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if(task.isComplete()){
+                    task.getResult();
+                    DocumentSnapshot data = task.getResult();
+                    ProductoCarrito miProductoCarrito = data.get(String.valueOf(productosPublicados.getIdProductoEmpresa()), ProductoCarrito.class);
+                    if(miProductoCarrito != null){
+                        int nuevaCantidad = miProductoCarrito.getCantidad() - 1;
+                        miProductoCarrito.setCantidad(nuevaCantidad);
+                        ActualizarProductoCarrito(miProductoCarrito, documentReference);
+                    }else{
+                        ActualizarProductoCarrito(productoCarrito, documentReference);
+                    }
+                }
+            }
+        });
+    }
+
+    public void ActualizarProductoCarrito(ProductoCarrito productoCarrito, DocumentReference documentReference){
+        Map<String, Object> mapaProductoCarrito = new HashMap<>();
+        mapaProductoCarrito.put(String.valueOf(productoCarrito.getCodProducto()), productoCarrito);
+
+        documentReference.set(mapaProductoCarrito, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getActivity(), "Producto actualizado correctamente en Firestore", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("","Error al actualizar el producto en Firestore");
+            }
+        });
     }
 }
