@@ -72,7 +72,7 @@ public class ProductoPublicadoController {
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
-            productosPublicadosEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
+            productoPublicadoEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
             es.shutdown();
             try {
                 if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -86,12 +86,12 @@ public class ProductoPublicadoController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return productosPublicadosEncontrado;
+        return productoPublicadoEncontrado;
     }
 
-    public static int obtenerCantidadProductoPublicado() {
+    public static int obtenerCantidadProductoPublicado(String codEmpresa) {
         int cantidadProductoPublicado = 0;
-        FutureTask tarea = new FutureTask (new TareaCantidadProductoPublicado());
+        FutureTask tarea = new FutureTask (new TareaCantidadProductoPublicado(codEmpresa));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {

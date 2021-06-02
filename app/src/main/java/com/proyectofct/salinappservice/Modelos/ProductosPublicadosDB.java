@@ -209,7 +209,7 @@ public class ProductosPublicadosDB {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
-            return 0;
+            return null;
         }
 
        // int cantidadProductosPublicados = 0;
@@ -217,7 +217,7 @@ public class ProductosPublicadosDB {
 
         ArrayList<ProductosPublicados> productosPublicadosDevueltos = new ArrayList<ProductosPublicados>();
         try {
-            Empresa empresa = new Empresa("", "", "");
+
 
             Statement sentencia2 = conexión.createStatement();
             int desplazamiento = página * ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA;
@@ -243,7 +243,7 @@ public class ProductosPublicadosDB {
                 String cod_empr = resultado2.getString("cod_empr");
                 String clave_empr = resultado2.getString("clave_empr");
                 String datos_empr = resultado2.getString("datos_empr");
-                empresa = new Empresa(cod_empr, clave_empr, datos_empr);
+                Empresa empresa = new Empresa(cod_empr, clave_empr, datos_empr);
 
                 if (id_foto == 1){
                     moda = new Moda(cod_producto, cod_QR, marca, modelo, descripción, null, talla, color, material, sexo, categoria_moda);
@@ -284,7 +284,7 @@ public class ProductosPublicadosDB {
 
 
             Statement sentencia3 = conexión.createStatement();
-            String ordenSQL4 = "SELECT p.cod_producto, p.cod_QR, p.marca, p.modelo, p.descripcion, p.idfoto, m.matricula, m.modeloCoche, m.numeroBastidor, m.ano, m.color, m.kilometros, pp.idproductoempresa, pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado FROM productos p INNER JOIN coches m INNER JOIN productospublicados pp INNER JOIN empresas e ON (m.cod_producto = p.cod_producto AND p.cod_producto = pp.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0 AND p.variante IS NULL and e.cod_empr = ? LIMIT " + desplazamiento + ", " + ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA;
+            String ordenSQL4 = "SELECT p.cod_producto, p.cod_QR, p.marca, p.modelo, p.descripcion, p.idfoto, m.matricula, m.modeloCoche, m.numeroBastidor, m.ano, m.color, m.kilometros, pp.idproductoempresa, pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado,e.* FROM productos p INNER JOIN coches m INNER JOIN productospublicados pp INNER JOIN empresas e ON (m.cod_producto = p.cod_producto AND p.cod_producto = pp.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0 AND p.variante IS NULL and e.cod_empr = ? LIMIT " + desplazamiento + ", " + ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA;
             PreparedStatement sentenciaPreparada3 = conexión.prepareStatement(ordenSQL4);
             sentenciaPreparada3.setString(1, cod_empresa);
             ResultSet resultado4 = sentenciaPreparada3.executeQuery();
@@ -304,6 +304,10 @@ public class ProductosPublicadosDB {
                 String ano = resultado4.getString("ano");
                 String color = resultado4.getString("color");
                 int kilometros = resultado4.getInt("kilometros");
+                String cod_empr = resultado2.getString("cod_empr");
+                String clave_empr = resultado2.getString("clave_empr");
+                String datos_empr = resultado2.getString("datos_empr");
+                Empresa empresa = new Empresa(cod_empr, clave_empr, datos_empr);
 
                 if (id_foto == 1){
                     coches = new Coches(cod_producto, cod_QR, marca, modelo, descripción, null, matricula,modeloCoche,numeroBastidor,ano,color,kilometros);

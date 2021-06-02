@@ -90,15 +90,17 @@ public class ProductosPublicadosFragment extends Fragment {
         */
 
 
+
+
+        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
+        String codEmpresa = infoEmpresa.getCod_empresa();
+
         //RECYCLER VIEW CON LOS PRODUCTOS
-        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
+        totalRegistros = ProductoPublicadoController.obtenerCantidadProductoPublicado(codEmpresa);
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
 
         Log.i("SQL", "Total de registros -> " + String.valueOf(totalRegistros));
         Log.i("SQL", "Total de páginas -> " + String.valueOf(totalPáginas));
-
-        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
-        String codEmpresa = infoEmpresa.getCod_empresa();
 
         páginaActual = 0;
         productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
