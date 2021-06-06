@@ -5,6 +5,9 @@ import android.util.Log;
 import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
+import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
+import com.proyectofct.salinappservice.Clases.Productos.Producto;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
 import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
@@ -225,12 +228,44 @@ public class ReservaDB {
                 ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
 
                 Statement sentencia2 = conexión.createStatement();
-                //String ordenSQL2 = "SELECT * FROM ";
-                //¿ES NECESARIO SACAR EL PRODUCTO PUBLICADO AL COMPLETO (HASTA LA TABLA PRODUCTO)?
+                String ordenSQL2 = "SELECT * FROM lineasreserva";
+                ResultSet resultado2 = sentencia2.executeQuery(ordenSQL2);
+                while (resultado2.next()){
+                    //Obtengo el id de línea de reserva
+                    int idLíneaReserva = resultado2.getInt("idlineasreserva");
+                    //Obtengo el id de producto empresa
+                    int idProductoEmpresa = resultado2.getInt("idproductoempresa");
+                    //Obtengo el producto de la línea de reserva
+                    String ordenSQL3 = "SELECT pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado, pp.cod_producto, pp.cod_empresa, e.clave_empr, e.datos_empr, p.cod_QR, p.marca, p.modelo, p.descripcion FROM productospublicados pp INNER JOIN empresas e INNER JOIN productos p ON (pp.cod_producto = p.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0;";
+                    int cantidadEnStock = resultado2.getInt("cantidad");
+                    double precioVenta = resultado2.getDouble("precioventa");
+                    int habilitadoI = resultado2.getInt("habilitado");
+                    int archivadoI = resultado2.getInt("archivado");
+                    String cod_producto = resultado2.getString("cod_producto");
+                    String cod_QR = resultado2.getString("cod_QR");
+                    String marca = resultado2.getString("marca");
+                    String modelo = resultado2.getString("modelo");
+                    String descripción = resultado2.getString("descripcion");
+                    String cod_empr = resultado2.getString("cod_empr");
+                    String clave_empr = resultado2.getString("clave_empr");
+                    String datos_empr = resultado2.getString("datos_empr");
 
-                //LíneaReserva líneaReserva = new LíneaReserva();
-                //líneasReserva.add(líneaReserva);
+                    boolean habilitado = false;
+                    boolean archivado = false;
 
+                    if (habilitadoI == 1) {
+                        habilitado = true;
+                    }
+                    if (archivadoI == 1) {
+                        archivado = true;
+                    }
+
+                    ProductosPublicados productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr));
+                    //Obtengo la cantidad solicitada de línea de reserva
+                    int cantidadSolicitada = resultado2.getInt("cantidad");
+                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicados, cantidadSolicitada);
+                    líneasReserva.add(líneaReserva);
+                }
                 //Obtengo la fecha de la reserva
                 Timestamp fechaReservaTimestamp = resultado1.getTimestamp("fechar");
                 Date fechaReserva = new Date(fechaReservaTimestamp.getTime());
