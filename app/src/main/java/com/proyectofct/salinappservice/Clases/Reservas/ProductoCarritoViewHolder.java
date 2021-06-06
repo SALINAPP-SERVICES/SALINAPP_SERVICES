@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,9 @@ public class ProductoCarritoViewHolder extends RecyclerView.ViewHolder {
 
     final ListaProductosCarritoAdapter listaProductosCarritoAdapter;
 
+    public Button btAumentarCantidad;
+    public Button btDisminuirCantidad;
+
     public ProductoCarritoViewHolder(@NonNull View itemView, ListaProductosCarritoAdapter listaProductosCarritoAdapter) {
         super(itemView);
         imgProductoCarrito = (CircleImageView) itemView.findViewById(R.id.imgProductoCarrito);
@@ -27,5 +31,8 @@ public class ProductoCarritoViewHolder extends RecyclerView.ViewHolder {
         txtCantidadProductoCarrito = (TextView) itemView.findViewById(R.id.txtCantidadProductoCarrito);
         txtPrecioProductoCarrito = (TextView) itemView.findViewById(R.id.txtPrecioProductoCarrito);
         this.listaProductosCarritoAdapter = listaProductosCarritoAdapter;
+
+        btAumentarCantidad = (Button) itemView.findViewById(R.id.btAumentarCantidad);
+        btDisminuirCantidad = (Button) itemView.findViewById(R.id.btDisminuirCantidad);
     }
 }
