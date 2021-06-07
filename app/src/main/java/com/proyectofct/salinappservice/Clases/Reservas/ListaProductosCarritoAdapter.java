@@ -37,6 +37,8 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
+    private int cantidadActual;
+
     public ListaProductosCarritoAdapter(Context c, ArrayList<ProductoCarrito> listaProductosCarrito) {
         this.c = c;
         this.listaProductosCarrito = listaProductosCarrito;
@@ -63,8 +65,7 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
     @Override
     public ProductoCarritoViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View item = inflater.inflate(R.layout.item_recyclerview_producto_carrito, parent, false);
-        db = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
+
         return new ProductoCarritoViewHolder(item, this);
     }
 
@@ -87,7 +88,11 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
             public void onClick(View v) {
                 productoCarritoActual.setCantidad(productoCarritoActual.getCantidad() + 1);
                 aumentarCantidadProductoFirestore(productoCarritoActual);
-                cargarRecyclerView(productoCarritoActual);
+                if (productoCarritoActual.getCantidad() > 0){
+                    holder.txtCantidadProductoCarrito.setText("Cantidad: " + String.valueOf(productoCarritoActual.getCantidad()) + " unidades");
+                }else {
+                    Log.i("", "La cantidad de Firestore obtenida ha sido 0");
+                }
             }
         });
 
@@ -97,11 +102,15 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
                 if (productoCarritoActual.getCantidad() <= 1){
                     productoCarritoActual.setCantidad(productoCarritoActual.getCantidad() - 1);
                     borrarProductoFirestore(productoCarritoActual);
-                    cargarRecyclerView(productoCarritoActual);
+                    listaProductosCarrito.remove(productoCarritoActual); //¿Esto es correcto?
                 }else if(productoCarritoActual.getCantidad() > 1){
                     productoCarritoActual.setCantidad(productoCarritoActual.getCantidad() - 1);
                     disminuirCantidadProductoFirestore(productoCarritoActual);
-                    cargarRecyclerView(productoCarritoActual);
+                    if (productoCarritoActual.getCantidad() > 0){
+                        holder.txtCantidadProductoCarrito.setText("Cantidad: " + String.valueOf(productoCarritoActual.getCantidad()) + " unidades");
+                    }else {
+                        Log.i("", "La cantidad de Firestore obtenida ha sido 0");
+                    }
                 }
             }
         });
@@ -124,6 +133,8 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
 
     //MÉTODO PARA BORRAR EL PRODUCTO DE FIRESTORE
     public void borrarProductoFirestore(ProductoCarrito productoCarrito) {
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
         Map<String, Object> productosCarrito = new HashMap<>();
         productosCarrito.put(String.valueOf(productoCarrito.getCodProducto()), FieldValue.delete());
@@ -143,8 +154,10 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
         });
     }
 
-    //MÉTODO PARA AUMENTAR LA CANTIDAD DEL PRODUCTO DE FIRESTORE
+    //MÉTODO PARA AUMENTAR LA CANTIDAD DEL PRODUCTO DE FIRESTORE Y DEVOLVER LA CANTIDAD ACTUAL
     public void aumentarCantidadProductoFirestore(ProductoCarrito productoCarrito){
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -165,8 +178,10 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
         });
     }
 
-    //MÉTODO PARA DISMINUIR LA CANTIDAD DEL PRODUCTO DE FIRESTORE
+    //MÉTODO PARA DISMINUIR LA CANTIDAD DEL PRODUCTO DE FIRESTORE Y DEVOLVER LA CANTIDAD ACTUAL
     public void disminuirCantidadProductoFirestore(ProductoCarrito productoCarrito){
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -187,7 +202,10 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
         });
     }
 
+    //MÉTODO PARA ACTUALIZAR LA CANTIDAD DEL PRODUCTO DE FIRESTORE
     public void actualizarProductoFirestore(ProductoCarrito productoCarrito, DocumentReference documentReference){
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         Map<String, Object> mapaProductoCarrito = new HashMap<>();
         mapaProductoCarrito.put(String.valueOf(productoCarrito.getCodProducto()), productoCarrito);
 
@@ -195,11 +213,6 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(getC(), "Producto actualizado correctamente en Firestore", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("","Error al actualizar el producto en Firestore");
             }
         });
     }

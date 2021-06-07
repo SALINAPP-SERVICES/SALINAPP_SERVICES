@@ -44,7 +44,6 @@ public class ReservaDB {
             sentenciaPreparada1.setString(3, reserva.getIdDireccionCliente().getCliente().getContraseña());
             sentenciaPreparada1.setString(4, reserva.getIdDireccionCliente().getCliente().getDatos());
             int filasAfectadas1 = sentenciaPreparada1.executeUpdate();
-            sentenciaPreparada1.close();
 
             //Inserto las direcciones
             String ordenSQL2 = "INSERT INTO direcciones (iddireccion, direccion) VALUES (?, ?);";
@@ -52,7 +51,6 @@ public class ReservaDB {
             sentenciaPreparada2.setInt(1, idDirección);
             sentenciaPreparada2.setString(2, reserva.getIdDireccionCliente().getDireccion().getDireccion());
             int filasAfectadas2 = sentenciaPreparada2.executeUpdate();
-            sentenciaPreparada2.close();
 
             //Inserto las direcciones de cliente
             String ordenSQL3 = "INSERT INTO direccionesclientes (iddireccioncliente, iddireccion, idcliente) VALUES (?, ?, ?);";
@@ -61,7 +59,6 @@ public class ReservaDB {
             sentenciaPreparada3.setInt(2, idDirección);
             sentenciaPreparada3.setInt(3, idCliente);
             int filasAfectadas3 = sentenciaPreparada3.executeUpdate();
-            sentenciaPreparada3.close();
 
             //Inserto la reserva
             int idReserva = reserva.getIdReserva();
@@ -76,7 +73,6 @@ public class ReservaDB {
             sentenciaPreparada4.setDouble(3, reserva.getTotal());
             sentenciaPreparada4.setInt(4, idDireccionesCliente);
             int filasAfectadas4 = sentenciaPreparada4.executeUpdate();
-            sentenciaPreparada4.close();
 
             int filasAfectadas5 = 0;
             int filasAfectadas6 = 0;
@@ -93,7 +89,6 @@ public class ReservaDB {
                 sentenciaPreparada5.setInt(3, idProductoEmpresa);
                 sentenciaPreparada5.setInt(4, cantidadSolicitada);
                 filasAfectadas5 = sentenciaPreparada5.executeUpdate();
-                sentenciaPreparada5.close();
 
                 //Obtengo el stock del producto de la DB
                 String ordenSQL6 = "SELECT cantidad FROM productospublicados WHERE idproductoempresa = ?";
@@ -105,6 +100,11 @@ public class ReservaDB {
                     cantidadAlmacenadaEnDB = resultado.getInt("cantidad");
                 }
                 resultado.close();
+                sentenciaPreparada1.close();
+                sentenciaPreparada2.close();
+                sentenciaPreparada3.close();
+                sentenciaPreparada4.close();
+                sentenciaPreparada5.close();
                 sentenciaPreparada6.close();
 
                 if (cantidadAlmacenadaEnDB == 0){
