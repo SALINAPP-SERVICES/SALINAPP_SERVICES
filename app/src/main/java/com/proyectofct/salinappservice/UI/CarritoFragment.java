@@ -26,8 +26,6 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
-import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Producto;
@@ -127,16 +125,12 @@ public class CarritoFragment extends Fragment {
                                     ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
                                     líneasReserva.add(líneaReserva);
 
+                                    //Obtengo el objeto DireccionesClientes
+                                    DireccionesClientes direccionesClientes = ClienteController.obtenerDireccionesCliente();
+
                                     //Creo la reserva
                                     Date fechaActual = new Date();
                                     double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
-                                    int idCliente = ClienteController.obtenerNuevoIDCliente();
-                                    int idDirección = ClienteController.obtenerNuevoIDDirección();
-                                    int idDirecciónCliente = ClienteController.obtenerNuevoIDDirecciónCliente();
-                                    Cliente cliente = new Cliente(idCliente, "email", "pass", "datos");
-                                    Direcciones direccion = new Direcciones(idDirección, "direccion");
-                                    DireccionesClientes direccionesClientes = new DireccionesClientes(idDirecciónCliente, direccion, cliente);
-
                                     Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
 
                                     //Inserto la reserva
@@ -160,7 +154,6 @@ public class CarritoFragment extends Fragment {
                 Log.i("ERROR", "Error al obtener los productos del carrito de Firestore");
             }
         });
-
         return vista;
     }
 }

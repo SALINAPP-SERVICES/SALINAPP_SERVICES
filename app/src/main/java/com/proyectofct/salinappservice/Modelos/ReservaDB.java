@@ -32,69 +32,41 @@ public class ReservaDB {
         try {
             conexión.setAutoCommit(false);
 
-            int idCliente = reserva.getIdDireccionCliente().getCliente().getIdCliente();
-            int idDirección = reserva.getIdDireccionCliente().getDireccion().getIdDireccion();
-            int idDireccionesCliente = reserva.getIdDireccionCliente().getIdDireccionCliente();
-
-            //Inserto el cliente
-            String ordenSQL1 = "INSERT INTO clientes (idcliente, emailc, clavec, datosc) VALUES (?, ?, ?, ?);";
-            PreparedStatement sentenciaPreparada1 = conexión.prepareStatement(ordenSQL1);
-            sentenciaPreparada1.setInt(1, idCliente);
-            sentenciaPreparada1.setString(2, reserva.getIdDireccionCliente().getCliente().getEmail());
-            sentenciaPreparada1.setString(3, reserva.getIdDireccionCliente().getCliente().getContraseña());
-            sentenciaPreparada1.setString(4, reserva.getIdDireccionCliente().getCliente().getDatos());
-            int filasAfectadas1 = sentenciaPreparada1.executeUpdate();
-
-            //Inserto las direcciones
-            String ordenSQL2 = "INSERT INTO direcciones (iddireccion, direccion) VALUES (?, ?);";
-            PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
-            sentenciaPreparada2.setInt(1, idDirección);
-            sentenciaPreparada2.setString(2, reserva.getIdDireccionCliente().getDireccion().getDireccion());
-            int filasAfectadas2 = sentenciaPreparada2.executeUpdate();
-
-            //Inserto las direcciones de cliente
-            String ordenSQL3 = "INSERT INTO direccionesclientes (iddireccioncliente, iddireccion, idcliente) VALUES (?, ?, ?);";
-            PreparedStatement sentenciaPreparada3 = conexión.prepareStatement(ordenSQL3);
-            sentenciaPreparada3.setInt(1, idDireccionesCliente);
-            sentenciaPreparada3.setInt(2, idDirección);
-            sentenciaPreparada3.setInt(3, idCliente);
-            int filasAfectadas3 = sentenciaPreparada3.executeUpdate();
-
             //Inserto la reserva
             int idReserva = reserva.getIdReserva();
-            String ordenSQL4 = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
-            PreparedStatement sentenciaPreparada4 = conexión.prepareStatement(ordenSQL4);
-            sentenciaPreparada4.setInt(1, idReserva);
+            String ordenSQL1 = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
+            PreparedStatement sentenciaPreparada1 = conexión.prepareStatement(ordenSQL1);
+            sentenciaPreparada1.setInt(1, idReserva);
             SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date fechaHora = reserva.getFechaReserva();
             String fechaHoraActual = formatoHoraFecha.format(fechaHora);
             Timestamp fechaHoraActualTimestamp = Timestamp.valueOf(fechaHoraActual);
-            sentenciaPreparada4.setTimestamp(2, fechaHoraActualTimestamp);
-            sentenciaPreparada4.setDouble(3, reserva.getTotal());
-            sentenciaPreparada4.setInt(4, idDireccionesCliente);
-            int filasAfectadas4 = sentenciaPreparada4.executeUpdate();
+            sentenciaPreparada1.setTimestamp(2, fechaHoraActualTimestamp);
+            sentenciaPreparada1.setDouble(3, reserva.getTotal());
+            sentenciaPreparada1.setInt(4, reserva.getIdDireccionCliente().getIdDireccionCliente());
+            int filasAfectadas1 = sentenciaPreparada1.executeUpdate();
 
-            int filasAfectadas5 = 0;
-            int filasAfectadas6 = 0;
+            int filasAfectadas2 = 0;
+            int filasAfectadas3 = 0;
             ArrayList<LíneaReserva> líneaReservas = reserva.getLíneasReserva();
             for (LíneaReserva líneaReserva: líneaReservas) {
                 //Inserto las líneas de reserva
                 int idProductoEmpresa = líneaReserva.getProductoPublicado().getIdProductoEmpresa();
                 int cantidadSolicitada = líneaReserva.getCantidad();
 
-                String ordenSQL5 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
-                PreparedStatement sentenciaPreparada5 = conexión.prepareStatement(ordenSQL5);
-                sentenciaPreparada5.setInt(1, líneaReserva.getIdLíneaReserva());
-                sentenciaPreparada5.setInt(2, idReserva);
-                sentenciaPreparada5.setInt(3, idProductoEmpresa);
-                sentenciaPreparada5.setInt(4, cantidadSolicitada);
-                filasAfectadas5 = sentenciaPreparada5.executeUpdate();
+                String ordenSQL2 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
+                PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
+                sentenciaPreparada2.setInt(1, líneaReserva.getIdLíneaReserva());
+                sentenciaPreparada2.setInt(2, idReserva);
+                sentenciaPreparada2.setInt(3, idProductoEmpresa);
+                sentenciaPreparada2.setInt(4, cantidadSolicitada);
+                filasAfectadas2 = sentenciaPreparada2.executeUpdate();
 
                 //Obtengo el stock del producto de la DB
-                String ordenSQL6 = "SELECT cantidad FROM productospublicados WHERE idproductoempresa = ?";
-                PreparedStatement sentenciaPreparada6 = conexión.prepareStatement(ordenSQL6);
-                sentenciaPreparada6.setInt(1, líneaReserva.getProductoPublicado().getIdProductoEmpresa());
-                ResultSet resultado = sentenciaPreparada6.executeQuery();
+                String ordenSQL3 = "SELECT cantidad FROM productospublicados WHERE idproductoempresa = ?";
+                PreparedStatement sentenciaPreparada3 = conexión.prepareStatement(ordenSQL3);
+                sentenciaPreparada3.setInt(1, líneaReserva.getProductoPublicado().getIdProductoEmpresa());
+                ResultSet resultado = sentenciaPreparada3.executeQuery();
                 int cantidadAlmacenadaEnDB = 0;
                 while (resultado.next()){
                     cantidadAlmacenadaEnDB = resultado.getInt("cantidad");
@@ -103,9 +75,6 @@ public class ReservaDB {
                 sentenciaPreparada1.close();
                 sentenciaPreparada2.close();
                 sentenciaPreparada3.close();
-                sentenciaPreparada4.close();
-                sentenciaPreparada5.close();
-                sentenciaPreparada6.close();
 
                 if (cantidadAlmacenadaEnDB == 0){
                     conexión.rollback();
@@ -123,18 +92,18 @@ public class ReservaDB {
                     //Resto la cantidad solicitada del producto a la cantidad disponible
                     cantidadAlmacenadaEnDB = cantidadAlmacenadaEnDB - cantidadSolicitada;
 
-                    String ordenSQL7 = "UPDATE productospublicados SET cantidad = ? WHERE idproductoempresa = ?";
-                    PreparedStatement sentenciaPreparada7 = conexión.prepareStatement(ordenSQL7);
-                    sentenciaPreparada7.setInt(1, cantidadAlmacenadaEnDB);
-                    sentenciaPreparada7.setInt(2, idProductoEmpresa);
-                    filasAfectadas6 = sentenciaPreparada7.executeUpdate();
-                    sentenciaPreparada7.close();
+                    String ordenSQL4 = "UPDATE productospublicados SET cantidad = ? WHERE idproductoempresa = ?";
+                    PreparedStatement sentenciaPreparada4 = conexión.prepareStatement(ordenSQL4);
+                    sentenciaPreparada4.setInt(1, cantidadAlmacenadaEnDB);
+                    sentenciaPreparada4.setInt(2, idProductoEmpresa);
+                    filasAfectadas3 = sentenciaPreparada4.executeUpdate();
+                    sentenciaPreparada4.close();
                 }
             }
 
             conexión.commit();
 
-            if(filasAfectadas1 > 0 && filasAfectadas2 > 0 && filasAfectadas3 > 0 && filasAfectadas4 > 0 && filasAfectadas5 > 0 && filasAfectadas6 > 0) {
+            if(filasAfectadas1 > 0 && filasAfectadas2 > 0 && filasAfectadas3 > 0) {
                 conexión.close();
                 return true;
             }else {
@@ -315,7 +284,6 @@ public class ReservaDB {
 
             return reservasDevueltas;
         } catch (SQLException e) {
-            e.printStackTrace();
             Log.i("SQL", "Error al mostrar las reservas de la base de datos");
             return null;
         }
