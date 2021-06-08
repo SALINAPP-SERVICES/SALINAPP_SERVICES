@@ -32,7 +32,6 @@ public class ReservasFragment extends Fragment {
         //PREPARO EL RECYCLER VIEW
         rvReservas = (RecyclerView) vista.findViewById(R.id.rvReservas);
         reservas = ReservaController.obtenerReservas();
-        Log.i("reservas", "Reservas -> " + reservas.toString());
         if (reservas != null){
             listaReservasAdapter = new ListaReservasAdapter(getActivity(), reservas);
             rvReservas.setAdapter(listaReservasAdapter);
@@ -42,6 +41,8 @@ public class ReservasFragment extends Fragment {
             }else {
                 rvReservas.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
             }
+        }else {
+            Log.i("", "Las reservas están vacías");
         }
 
         return vista;

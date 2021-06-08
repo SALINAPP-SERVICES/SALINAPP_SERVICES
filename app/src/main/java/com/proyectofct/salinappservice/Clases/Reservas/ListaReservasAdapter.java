@@ -54,7 +54,7 @@ public class ListaReservasAdapter extends RecyclerView.Adapter<ReservaViewHolder
         Reserva reservaActual = listaReservas.get(position);
         holder.txtIdReserva.setText("ID de la reserva: " + reservaActual.getIdReserva());
         holder.txtFechaReserva.setText("Fecha de la reserva: " + reservaActual.getFechaReserva());
-        holder.txtTotalReserva.setText("Precio total de la reserva: " + reservaActual.getFechaReserva() + "€");
+        holder.txtTotalReserva.setText("Precio total de la reserva: " + reservaActual.getTotal() + "€");
         holder.txtDatosClienteReserva.setText("Datos del cliente: " + reservaActual.getIdDireccionCliente().getCliente().getDatos());
         holder.txtDireccionClienteReserva.setText("Dirección del cliente: " + reservaActual.getIdDireccionCliente().getDireccion().getDireccion());
     }

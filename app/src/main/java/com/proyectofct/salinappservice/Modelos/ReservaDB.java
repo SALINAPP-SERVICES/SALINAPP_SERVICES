@@ -128,7 +128,7 @@ public class ReservaDB {
                     sentenciaPreparada7.setInt(1, cantidadAlmacenadaEnDB);
                     sentenciaPreparada7.setInt(2, idProductoEmpresa);
                     filasAfectadas6 = sentenciaPreparada7.executeUpdate();
-                    sentenciaPreparada4.close();
+                    sentenciaPreparada7.close();
                 }
             }
 
@@ -233,67 +233,77 @@ public class ReservaDB {
                 while (resultado2.next()){
                     //Obtengo el id de línea de reserva
                     int idLíneaReserva = resultado2.getInt("idlineasreserva");
-                    //Obtengo el id de producto empresa
-                    int idProductoEmpresa = resultado2.getInt("idproductoempresa");
                     //Obtengo el producto de la línea de reserva
-                    String ordenSQL3 = "SELECT pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado, pp.cod_producto, pp.cod_empresa, e.clave_empr, e.datos_empr, p.cod_QR, p.marca, p.modelo, p.descripcion FROM productospublicados pp INNER JOIN empresas e INNER JOIN productos p ON (pp.cod_producto = p.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0;";
-                    int cantidadEnStock = resultado2.getInt("cantidad");
-                    double precioVenta = resultado2.getDouble("precioventa");
-                    int habilitadoI = resultado2.getInt("habilitado");
-                    int archivadoI = resultado2.getInt("archivado");
-                    String cod_producto = resultado2.getString("cod_producto");
-                    String cod_QR = resultado2.getString("cod_QR");
-                    String marca = resultado2.getString("marca");
-                    String modelo = resultado2.getString("modelo");
-                    String descripción = resultado2.getString("descripcion");
-                    String cod_empr = resultado2.getString("cod_empr");
-                    String clave_empr = resultado2.getString("clave_empr");
-                    String datos_empr = resultado2.getString("datos_empr");
+                    Statement sentencia3 = conexión.createStatement();
+                    String ordenSQL3 = "SELECT pp.idproductoempresa, pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado, pp.cod_producto, pp.cod_empresa, e.clave_empr, e.datos_empr, p.cod_QR, p.marca, p.modelo, p.descripcion FROM productospublicados pp INNER JOIN empresas e INNER JOIN productos p ON (pp.cod_producto = p.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0;";
+                    ResultSet resultado3 = sentencia3.executeQuery(ordenSQL3);
+                    ProductosPublicados productosPublicados = null;
+                    while (resultado3.next()){
+                        int idProductoEmpresa = resultado3.getInt("idproductoempresa");
+                        int cantidadEnStock = resultado3.getInt("cantidad");
+                        double precioVenta = resultado3.getDouble("precioventa");
+                        int habilitadoI = resultado3.getInt("habilitado");
+                        int archivadoI = resultado3.getInt("archivado");
+                        String cod_producto = resultado3.getString("cod_producto");
+                        String cod_empr = resultado3.getString("cod_empresa");
+                        String clave_empr = resultado3.getString("clave_empr");
+                        String datos_empr = resultado3.getString("datos_empr");
+                        String cod_QR = resultado3.getString("cod_QR");
+                        String marca = resultado3.getString("marca");
+                        String modelo = resultado3.getString("modelo");
+                        String descripción = resultado3.getString("descripcion");
 
-                    boolean habilitado = false;
-                    boolean archivado = false;
+                        boolean habilitado = false;
+                        boolean archivado = false;
 
-                    if (habilitadoI == 1) {
-                        habilitado = true;
+                        if (habilitadoI == 1) {
+                            habilitado = true;
+                        }
+                        if (archivadoI == 1) {
+                            archivado = true;
+                        }
+
+                        productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr));
                     }
-                    if (archivadoI == 1) {
-                        archivado = true;
-                    }
+                    sentencia3.close();
+                    resultado3.close();
 
-                    ProductosPublicados productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr));
                     //Obtengo la cantidad solicitada de línea de reserva
                     int cantidadSolicitada = resultado2.getInt("cantidad");
                     LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicados, cantidadSolicitada);
                     líneasReserva.add(líneaReserva);
                 }
+                sentencia2.close();
+                resultado2.close();
+
                 //Obtengo la fecha de la reserva
                 Timestamp fechaReservaTimestamp = resultado1.getTimestamp("fechar");
                 Date fechaReserva = new Date(fechaReservaTimestamp.getTime());
                 //Obtengo el total de la reserva
                 double total = resultado1.getDouble("total");
                 //Obtengo las direcciones de cliente
-                Statement sentencia3 = conexión.createStatement();
-                String ordenSQL3 = "SELECT dc.iddireccioncliente, d.iddireccion, d.direccion, c.idcliente, c.emailc, c.clavec, c.datosc FROM direccionesclientes dc INNER JOIN direcciones d INNER JOIN clientes c ON (dc.iddireccion = d.iddireccion AND dc.idcliente = c.idcliente)";
-                ResultSet resultado3 = sentencia3.executeQuery(ordenSQL3);
+                Statement sentencia4 = conexión.createStatement();
+                String ordenSQL4 = "SELECT dc.iddireccioncliente, d.iddireccion, d.direccion, c.idcliente, c.emailc, c.clavec, c.datosc FROM direccionesclientes dc INNER JOIN direcciones d INNER JOIN clientes c ON (dc.iddireccion = d.iddireccion AND dc.idcliente = c.idcliente)";
+                ResultSet resultado4 = sentencia4.executeQuery(ordenSQL4);
                 DireccionesClientes direccionesCliente = null;
-                while (resultado3.next()){
+                while (resultado4.next()){
                     //Obtengo las direcciones
-                    int idDireccion = resultado3.getInt("iddireccion");
-                    String dirección = resultado3.getString("direccion");
+                    int idDireccion = resultado4.getInt("iddireccion");
+                    String dirección = resultado4.getString("direccion");
                     Direcciones direcciones = new Direcciones(idDireccion, dirección);
 
                     //Obtengo los clientes
-                    int idCliente = resultado3.getInt("idcliente");
-                    String email = resultado3.getString("emailc");
-                    String contraseña = resultado3.getString("clavec");
-                    String datos = resultado3.getString("datosc");
+                    int idCliente = resultado4.getInt("idcliente");
+                    String email = resultado4.getString("emailc");
+                    String contraseña = resultado4.getString("clavec");
+                    String datos = resultado4.getString("datosc");
                     Cliente cliente = new Cliente(idCliente, email, contraseña, datos);
 
-                    int idDireccionesCliente = resultado3.getInt("iddireccioncliente");
+                    int idDireccionesCliente = resultado4.getInt("iddireccioncliente");
                     direccionesCliente = new DireccionesClientes(idDireccionesCliente, direcciones, cliente);
                 }
-                resultado3.close();
-                sentencia3.close();
+                resultado4.close();
+                sentencia4.close();
 
                 Reserva r = new Reserva(idReserva, líneasReserva, fechaReserva, total, direccionesCliente);
                 reservasDevueltas.add(r);
@@ -305,6 +315,7 @@ public class ReservaDB {
 
             return reservasDevueltas;
         } catch (SQLException e) {
+            e.printStackTrace();
             Log.i("SQL", "Error al mostrar las reservas de la base de datos");
             return null;
         }
