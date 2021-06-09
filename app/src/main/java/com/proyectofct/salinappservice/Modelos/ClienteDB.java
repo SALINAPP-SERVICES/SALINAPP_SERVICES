@@ -2,6 +2,7 @@ package com.proyectofct.salinappservice.Modelos;
 
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
@@ -14,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ClienteDB {
+    public static FirebaseAuth firebaseAuth;
+
     public static int obtenerNuevoIDDireccionCliente() {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
@@ -99,6 +102,8 @@ public class ClienteDB {
     }
 
     public static DireccionesClientes obtenerDireccionesClientes() {
+        firebaseAuth = FirebaseAuth.getInstance();
+
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
@@ -106,7 +111,7 @@ public class ClienteDB {
         }
         try {
             Statement sentencia = conexión.createStatement();
-            String ordenSQL = "SELECT dc.iddireccioncliente, d.iddireccion, d.direccion, c.idcliente, c.emailc, c.clavec, c.datosc FROM direccionesclientes dc INNER JOIN direcciones d INNER JOIN clientes c ON (dc.iddireccion = d.iddireccion AND dc.idcliente = c.idcliente)";
+            String ordenSQL = "SELECT dc.iddireccioncliente, d.iddireccion, d.direccion, c.idcliente, c.emailc, c.clavec, c.datosc FROM direccionesclientes dc INNER JOIN direcciones d INNER JOIN clientes c ON (dc.iddireccion = d.iddireccion AND dc.idcliente = c.idcliente) WHERE c.emailc LIKE '" + firebaseAuth.getCurrentUser().getEmail() + "';";
             ResultSet resultado = sentencia.executeQuery(ordenSQL);
             DireccionesClientes direccionesCliente = null;
             while (resultado.next()) {

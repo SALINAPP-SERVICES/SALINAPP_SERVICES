@@ -39,4 +39,13 @@ public class DireccionesClientes implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    @Override
+    public String toString() {
+        return "DireccionesClientes{" +
+                "idDireccionCliente=" + idDireccionCliente +
+                ", direccion=" + direccion +
+                ", cliente=" + cliente +
+                '}';
+    }
 }

@@ -46,4 +46,14 @@ public class Cliente implements Serializable {
     public void setDatos(String datos) {
         this.datos = datos;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "idCliente=" + idCliente +
+                ", email='" + email + '\'' +
+                ", contraseña='" + contraseña + '\'' +
+                ", datos='" + datos + '\'' +
+                '}';
+    }
 }

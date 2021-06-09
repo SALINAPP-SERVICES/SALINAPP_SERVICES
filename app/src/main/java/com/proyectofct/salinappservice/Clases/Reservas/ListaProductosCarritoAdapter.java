@@ -80,7 +80,7 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
         holder.txtDescripciónProductoCarrito.setText("Descripción: " + String.valueOf(productoCarritoActual.getDescripción()));
         holder.txtMarcaProductoCarrito.setText("Marca: " + String.valueOf(productoCarritoActual.getMarca()));
         holder.txtCantidadProductoCarrito.setText("Cantidad: " + String.valueOf(productoCarritoActual.getCantidad()) + " unidades");
-        holder.txtPrecioProductoCarrito.setText("Precio :" + String.valueOf(productoCarritoActual.getPrecio()) + "€");
+        holder.txtPrecioProductoCarrito.setText("Precio: " + String.valueOf(productoCarritoActual.getPrecio()) + "€");
 
         //AUMENTAR O DISMINUIR CANTIDAD DEL PRODUCTO
         holder.btAumentarCantidad.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +102,10 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
                 if (productoCarritoActual.getCantidad() <= 1){
                     productoCarritoActual.setCantidad(productoCarritoActual.getCantidad() - 1);
                     borrarProductoFirestore(productoCarritoActual);
-                    listaProductosCarrito.remove(productoCarritoActual); //¿Esto es correcto?
+                    listaProductosCarrito.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, listaProductosCarrito.size());
+                    holder.itemView.setVisibility(View.GONE);
                 }else if(productoCarritoActual.getCantidad() > 1){
                     productoCarritoActual.setCantidad(productoCarritoActual.getCantidad() - 1);
                     disminuirCantidadProductoFirestore(productoCarritoActual);

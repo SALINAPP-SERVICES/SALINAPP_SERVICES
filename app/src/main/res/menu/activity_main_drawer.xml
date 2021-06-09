@@ -22,6 +22,11 @@
             android:id="@+id/nav_fragment_reservas"
             android:icon="@drawable/reserva"
             android:title="@string/reservas" />
+
+        <item
+            android:id="@+id/nav_fragment_completar_perfil"
+            android:icon="@drawable/perfil"
+            android:title="@string/completar_perfil"/>
     </group>
 
     <group android:checkableBehavior="single"

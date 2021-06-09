@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,7 @@ import com.proyectofct.salinappservice.Controladores.ReservaController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,18 +129,23 @@ public class CarritoFragment extends Fragment {
 
                                     //Obtengo el objeto DireccionesClientes
                                     DireccionesClientes direccionesClientes = ClienteController.obtenerDireccionesCliente();
-
-                                    //Creo la reserva
-                                    Date fechaActual = new Date();
-                                    double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
-                                    Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
-
-                                    //Inserto la reserva
-                                    boolean insertadoOk = ReservaController.insertarReserva(reserva);
-                                    if (insertadoOk){
-                                        Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                    if (direccionesClientes == null){
+                                        Toast.makeText(getActivity(), "COMPLETA TU PERFIL, ANTES DE HACER UNA RESERVA", Toast.LENGTH_LONG).show();
+                                        Navigation.findNavController(vista).navigate(R.id.nav_fragment_completar_perfil);
                                     }else {
-                                        Log.i("SQL", "Error al insertar la reserva en la base de datos");
+                                        //Creo la reserva
+                                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                                        Date fechaActual = new Date(timestamp.getTime());
+                                        double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
+                                        Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
+
+                                        //Inserto la reserva
+                                        boolean insertadoOk = ReservaController.insertarReserva(reserva);
+                                        if (insertadoOk){
+                                            Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                        }else {
+                                            Log.i("SQL", "Error al insertar la reserva en la base de datos");
+                                        }
                                     }
                                 }
                             });
