@@ -274,7 +274,10 @@ public class ReservaDB {
                 resultado4.close();
                 sentencia4.close();
 
+                int cancelado = resultado1.getInt("Cancelado");
+
                 Reserva r = new Reserva(idReserva, líneasReserva, fechaReserva, total, direccionesCliente);
+                r.setCancelado(cancelado);
                 reservasDevueltas.add(r);
             }
             resultado1.close();
@@ -286,6 +289,30 @@ public class ReservaDB {
         } catch (SQLException e) {
             Log.i("SQL", "Error al mostrar las reservas de la base de datos");
             return null;
+        }
+    }
+
+    public static boolean actualizarReservas(Reserva reserva){
+        Connection conexión = BaseDB.conectarConBaseDeDatos();
+        if(conexión == null) {
+            Log.i("SQL", "Error al establecer la conexión con la base de datos");
+            return false;
+        }
+        try {
+            String ordenSQL = "UPDATE reserva SET Cancelado = 1 WHERE idreserva = " + reserva.getIdReserva();
+            PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL);
+            int filasAfectadas1 = sentenciaPreparada.executeUpdate();
+
+            conexión.close();
+
+            if(filasAfectadas1 > 0) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            Log.i("SQL", "Error al actualizar en la base de datos");
+            return false;
         }
     }
 }

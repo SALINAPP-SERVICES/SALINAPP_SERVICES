@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.Controladores;
 
 import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
+import com.proyectofct.salinappservice.Tareas.TareasReserva.TareaActualizarReserva;
 import com.proyectofct.salinappservice.Tareas.TareasReserva.TareaInsertarReserva;
 import com.proyectofct.salinappservice.Tareas.TareasReserva.TareaObtenerNuevoIDLíneaReserva;
 import com.proyectofct.salinappservice.Tareas.TareasReserva.TareaObtenerNuevoIDReserva;
@@ -106,5 +107,30 @@ public class ReservaController {
             e.printStackTrace();
         }
         return reservasDevueltas;
+    }
+
+    public static boolean actualizarReserva(Reserva reservaActual) {
+        FutureTask tarea = new FutureTask(new TareaActualizarReserva(reservaActual));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(tarea);
+        boolean insertadoOk = false;
+        try {
+            insertadoOk = (boolean) tarea.get();
+            es.shutdown();
+            try {
+                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                    es.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                es.shutdownNow();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return insertadoOk;
+        }
     }
 }

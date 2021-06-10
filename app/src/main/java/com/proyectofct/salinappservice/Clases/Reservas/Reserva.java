@@ -12,6 +12,7 @@ public class Reserva implements Serializable {
     private Date fechaReserva;
     private double total;
     private DireccionesClientes idDireccionCliente;
+    private int cancelado;
 
     public Reserva(int idReserva, ArrayList<LíneaReserva> líneasReserva, Date fechaReserva, double total) {
         this.idReserva = idReserva;
@@ -69,6 +70,14 @@ public class Reserva implements Serializable {
 
     public void setIdDireccionCliente(DireccionesClientes idDireccionCliente) {
         this.idDireccionCliente = idDireccionCliente;
+    }
+
+    public int getCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(int cancelado) {
+        this.cancelado = cancelado;
     }
 
     @Override

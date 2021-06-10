@@ -131,4 +131,5 @@
     <string name="c_digo_postal">Código postal:</string>
     <string name="provincia">Provincia:</string>
     <string name="completar_informaci_n">COMPLETAR INFORMACIÓN</string>
+    <string name="cancelar_reserva">Cancelar reserva</string>
 </resources>

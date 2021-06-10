@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,13 +20,17 @@ public class ReservaViewHolder extends RecyclerView.ViewHolder {
     public TextView txtDireccionClienteReserva = null;
     public TextView txtDatosClienteReserva = null;
 
+    public Button btCancelarReserva = null;
+
     public ReservaViewHolder(@NonNull @NotNull View itemView, ListaReservasAdapter listaReservasAdapter) {
         super(itemView);
-        txtIdReserva = itemView.findViewById(R.id.txtIdReserva);
-        txtFechaReserva = itemView.findViewById(R.id.txtFechaReserva);
-        txtTotalReserva = itemView.findViewById(R.id.txtTotalReserva);
-        txtDireccionClienteReserva = itemView.findViewById(R.id.txtDireccionClienteReserva);
-        txtDatosClienteReserva = itemView.findViewById(R.id.txtDatosClienteReserva);
+        txtIdReserva = (TextView) itemView.findViewById(R.id.txtIdReserva);
+        txtFechaReserva = (TextView) itemView.findViewById(R.id.txtFechaReserva);
+        txtTotalReserva = (TextView) itemView.findViewById(R.id.txtTotalReserva);
+        txtDireccionClienteReserva = (TextView) itemView.findViewById(R.id.txtDireccionClienteReserva);
+        txtDatosClienteReserva = (TextView) itemView.findViewById(R.id.txtDatosClienteReserva);
         this.listaReservasAdapter = listaReservasAdapter;
+
+        btCancelarReserva = (Button) itemView.findViewById(R.id.btCancelarReserva);
     }
 }

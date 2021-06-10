@@ -53,6 +53,15 @@
                 android:text="Dirección del cliente"
                 android:textSize="20sp" />
 
+            <Button
+                android:id="@+id/btCancelarReserva"
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cancelar_reserva"
+                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                app:cornerRadius="20dip"/>
+
         </LinearLayout>
 
     </LinearLayout>
