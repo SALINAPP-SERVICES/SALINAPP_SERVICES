@@ -22,6 +22,8 @@ public class ReservaViewHolder extends RecyclerView.ViewHolder {
 
     public Button btCancelarReserva = null;
 
+    public TextView txtEstadoDeLaReserva;
+
     public ReservaViewHolder(@NonNull @NotNull View itemView, ListaReservasAdapter listaReservasAdapter) {
         super(itemView);
         txtIdReserva = (TextView) itemView.findViewById(R.id.txtIdReserva);
@@ -32,5 +34,7 @@ public class ReservaViewHolder extends RecyclerView.ViewHolder {
         this.listaReservasAdapter = listaReservasAdapter;
 
         btCancelarReserva = (Button) itemView.findViewById(R.id.btCancelarReserva);
+
+        txtEstadoDeLaReserva = (TextView) itemView.findViewById(R.id.txtEstadoDeLaReserva);
     }
 }

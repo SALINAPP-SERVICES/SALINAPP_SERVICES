@@ -54,12 +54,12 @@ public class ReservaDB {
                 int idProductoEmpresa = líneaReserva.getProductoPublicado().getIdProductoEmpresa();
                 int cantidadSolicitada = líneaReserva.getCantidad();
 
-                String ordenSQL2 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
+                String ordenSQL2 = "INSERT INTO lineasreserva ( idreserva, idproductoempresa, cantidad, precio) VALUES (?, ?, ?, ?);";
                 PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
-                sentenciaPreparada2.setInt(1, líneaReserva.getIdLíneaReserva());
-                sentenciaPreparada2.setInt(2, idReserva);
-                sentenciaPreparada2.setInt(3, idProductoEmpresa);
-                sentenciaPreparada2.setInt(4, cantidadSolicitada);
+                sentenciaPreparada2.setInt(1, idReserva);
+                sentenciaPreparada2.setInt(2, idProductoEmpresa);
+                sentenciaPreparada2.setInt(3, cantidadSolicitada);
+                sentenciaPreparada2.setDouble(4, líneaReserva.getProductoPublicado().getPrecioventa());
                 filasAfectadas2 = sentenciaPreparada2.executeUpdate();
 
                 //Obtengo el stock del producto de la DB
@@ -113,6 +113,7 @@ public class ReservaDB {
             }
         }catch (SQLException e1){
             try {
+                e1.printStackTrace();
                 conexión.rollback();
                 conexión.close();
             }catch (SQLException e2){
@@ -275,9 +276,13 @@ public class ReservaDB {
                 sentencia4.close();
 
                 int cancelado = resultado1.getInt("Cancelado");
+                int enProceso = resultado1.getInt("enproceso");
+                int finalizado = resultado1.getInt("finalizado");
 
                 Reserva r = new Reserva(idReserva, líneasReserva, fechaReserva, total, direccionesCliente);
                 r.setCancelado(cancelado);
+                r.setEnProceso(enProceso);
+                r.setFinalizado(finalizado);
                 reservasDevueltas.add(r);
             }
             resultado1.close();

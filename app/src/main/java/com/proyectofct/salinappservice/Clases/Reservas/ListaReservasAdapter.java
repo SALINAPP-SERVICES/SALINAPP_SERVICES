@@ -93,6 +93,14 @@ public class ListaReservasAdapter extends RecyclerView.Adapter<ReservaViewHolder
                 alertaBorrar.show();
             }
         });
+
+        if (reservaActual.getEnProceso() == 1 && reservaActual.getFinalizado() == 0){
+            holder.txtEstadoDeLaReserva.setText("Reserva en proceso");
+        }else if(reservaActual.getEnProceso() == 0 && reservaActual.getFinalizado() == 1){
+            holder.txtEstadoDeLaReserva.setText("Reserva finalizada");
+        }else if(reservaActual.getEnProceso() == 0 && reservaActual.getFinalizado() == 0){
+            holder.txtEstadoDeLaReserva.setVisibility(View.GONE);
+        }
     }
 
     @Override

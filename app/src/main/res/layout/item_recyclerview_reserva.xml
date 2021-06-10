@@ -62,6 +62,13 @@
                 android:layout_gravity="center_horizontal"
                 app:cornerRadius="20dip"/>
 
+            <TextView
+                android:id="@+id/txtEstadoDeLaReserva"
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:text="Estado de la reserva"
+                android:textSize="20sp" />
+
         </LinearLayout>
 
     </LinearLayout>

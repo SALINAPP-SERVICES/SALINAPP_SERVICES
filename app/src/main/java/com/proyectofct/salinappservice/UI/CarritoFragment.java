@@ -57,6 +57,13 @@ public class CarritoFragment extends Fragment {
 
     private Button btCrearReserva;
 
+    public double precioTotal = 0.0;
+    public int idReserva = 0;
+    public ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
+    public Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    public Date fechaActual = new Date(timestamp.getTime());
+    public DireccionesClientes direccionesClientes;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
 
@@ -114,42 +121,46 @@ public class CarritoFragment extends Fragment {
                             listaProductosCarritoAdapter.cargarRecyclerView(productoCarrito);
 
                             //CREAR RESERVA
-                            btCrearReserva = vista.findViewById(R.id.btCrearReserva);
-                            btCrearReserva.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //Creo la línea de reserva y la añado a un ArrayList
-                                    int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
-                                    int idReserva = ReservaController.obtenerNuevoIDReserva();
-                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
 
-                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, productoCarrito.getCantidad());
-                                    ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
-                                    líneasReserva.add(líneaReserva);
-
-                                    //Obtengo el objeto DireccionesClientes
-                                    DireccionesClientes direccionesClientes = ClienteController.obtenerDireccionesCliente();
-                                    if (direccionesClientes == null){
-                                        Toast.makeText(getActivity(), "COMPLETA TU PERFIL, ANTES DE HACER UNA RESERVA", Toast.LENGTH_LONG).show();
-                                        Navigation.findNavController(vista).navigate(R.id.nav_fragment_completar_perfil);
-                                    }else {
-                                        //Creo la reserva
-                                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                                        Date fechaActual = new Date(timestamp.getTime());
-                                        double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
-                                        Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
-
-                                        //Inserto la reserva
-                                        boolean insertadoOk = ReservaController.insertarReserva(reserva);
-                                        if (insertadoOk){
-                                            Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
-                                        }else {
-                                            Log.i("SQL", "Error al insertar la reserva en la base de datos");
-                                        }
-                                    }
-                                }
-                            });
                         }
+                        btCrearReserva = vista.findViewById(R.id.btCrearReserva);
+                        btCrearReserva.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Creo la línea de reserva y la añado a un ArrayList
+                                for (ProductoCarrito producto : listaProductosCarritoAdapter.listaProductosCarrito) {
+                                    int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
+                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(producto.getCodProducto(), producto.getCantidad(), producto.getPrecio(), true, false, new Producto(String.valueOf(producto.getCodProducto()), "codQR", producto.getMarca(), producto.getModelo(), producto.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(producto.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+
+                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, producto.getCantidad());
+
+                                    líneasReserva.add(líneaReserva);
+                                    double precio = producto.getCantidad() * producto.getPrecio();
+                                    precioTotal = precioTotal + precio;
+                                }
+                                //Obtengo el objeto DireccionesClientes
+                                idReserva = ReservaController.obtenerNuevoIDReserva();
+                                direccionesClientes = ClienteController.obtenerDireccionesCliente();
+                                if (direccionesClientes == null) {
+                                    Toast.makeText(getActivity(), "COMPLETA TU PERFIL, ANTES DE HACER UNA RESERVA", Toast.LENGTH_LONG).show();
+                                    Navigation.findNavController(vista).navigate(R.id.nav_fragment_completar_perfil);
+                                } else {
+                                    //Creo la reserva
+                                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                                    //Date fechaActual = new Date(timestamp.getTime());
+
+                                }
+                                Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
+                                boolean insertadoOk = ReservaController.insertarReserva(reserva);
+                                if (insertadoOk) {
+                                    Log.i("precio", "Precio -> " + reserva.getTotal());
+                                    Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Log.i("SQL", "Error al insertar la reserva en la base de datos");
+                                }
+                            }
+                        });
+
                     }
                 }else {
                     Log.i("ERROR", "Error al obtener los datos de Firestore");

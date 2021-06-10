@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoCarritoViewHolder> {
     private Context c;
-    private ArrayList<ProductoCarrito> listaProductosCarrito;
+    public ArrayList<ProductoCarrito> listaProductosCarrito;
     private LayoutInflater inflater;
 
     private FirebaseAuth firebaseAuth;

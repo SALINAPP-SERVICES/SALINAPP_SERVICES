@@ -13,6 +13,8 @@ public class Reserva implements Serializable {
     private double total;
     private DireccionesClientes idDireccionCliente;
     private int cancelado;
+    private int enProceso;
+    private int finalizado;
 
     public Reserva(int idReserva, ArrayList<LíneaReserva> líneasReserva, Date fechaReserva, double total) {
         this.idReserva = idReserva;
@@ -78,6 +80,22 @@ public class Reserva implements Serializable {
 
     public void setCancelado(int cancelado) {
         this.cancelado = cancelado;
+    }
+
+    public int getEnProceso() {
+        return enProceso;
+    }
+
+    public void setEnProceso(int enProceso) {
+        this.enProceso = enProceso;
+    }
+
+    public int getFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(int finalizado) {
+        this.finalizado = finalizado;
     }
 
     @Override
