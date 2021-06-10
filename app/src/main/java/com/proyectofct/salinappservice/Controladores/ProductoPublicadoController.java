@@ -4,6 +4,7 @@ import android.text.Editable;
 
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
+import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicadoEmpresa;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaCantidadProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaObtenerProductoPublicadoPorEmpresa;
@@ -40,9 +41,9 @@ public class ProductoPublicadoController {
         return productosPublicadosDevuelto;
     }
 
-    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empr) {
+    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(String cod_empr) {
         ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
-        FutureTask tarea = new FutureTask(new TareaObtenerProductoPublicadoPorEmpresa(página, cod_empr));
+        FutureTask tarea = new FutureTask(new TareaObtenerProductoPublicadoPorEmpresa(cod_empr));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
@@ -65,9 +66,33 @@ public class ProductoPublicadoController {
 
 
     //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
-    public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página, String marca){
+    public static ArrayList<ProductosPublicados> buscarProductoPublicado(String[] marca){
         ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
-        FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca, página));
+        FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca));
+
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(tarea);
+        try {
+            productoPublicadoEncontrado = (ArrayList<ProductosPublicados>) tarea.get();
+            es.shutdown();
+            try {
+                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                    es.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                es.shutdownNow();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return productoPublicadoEncontrado;
+    }
+
+    public static ArrayList<ProductosPublicados> buscarProductoPublicadoPorEmpresa(String[] marca, String codEmpresa){
+        ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
+        FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicadoEmpresa(marca,codEmpresa));
 
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);

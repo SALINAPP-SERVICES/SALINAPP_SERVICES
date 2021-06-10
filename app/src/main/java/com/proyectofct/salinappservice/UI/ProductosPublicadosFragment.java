@@ -41,7 +41,8 @@ public class ProductosPublicadosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
-
+        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
+        String codEmpresa = infoEmpresa.getCod_empresa();
 
         btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar);
         text_busqueda = (EditText) vista.findViewById(R.id.buscar_producto);
@@ -50,7 +51,8 @@ public class ProductosPublicadosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String busqueda = String.valueOf(text_busqueda.getText());
-                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicado(0, busqueda);
+                String[] palabras = busqueda.split("\\s+");
+                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicadoPorEmpresa(palabras,codEmpresa);
 
                 if (productosbuscados !=null){
                     rvProductosPublicados = vista.findViewById(R.id.rvProductosPublicados);
@@ -92,8 +94,7 @@ public class ProductosPublicadosFragment extends Fragment {
 
 
 
-        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
-        String codEmpresa = infoEmpresa.getCod_empresa();
+
 
         //RECYCLER VIEW CON LOS PRODUCTOS
         totalRegistros = ProductoPublicadoController.obtenerCantidadProductoPublicado(codEmpresa);
@@ -103,7 +104,7 @@ public class ProductosPublicadosFragment extends Fragment {
         Log.i("SQL", "Total de páginas -> " + String.valueOf(totalPáginas));
 
         páginaActual = 0;
-        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(codEmpresa);
         totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicadosPorEmpresa(codEmpresa);
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
         páginaActual = páginaActual + 1;
@@ -128,7 +129,7 @@ public class ProductosPublicadosFragment extends Fragment {
                 protected void loadMoreItems() {
                     int totalRegistrosLeídos = rvProductosPublicados.getLayoutManager().getItemCount();
                     if (totalRegistrosLeídos < totalRegistros) {
-                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(codEmpresa);
                         productosPublicadosLeídos = nuevosProductosPublicados.size();
                         páginaActual++;
 
