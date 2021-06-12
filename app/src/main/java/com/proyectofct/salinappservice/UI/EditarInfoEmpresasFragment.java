@@ -3,6 +3,7 @@ package com.proyectofct.salinappservice.UI;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,9 +11,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import android.util.Log;
@@ -43,6 +46,9 @@ import com.proyectofct.salinappservice.Camara;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.HomeActivity;
 import com.proyectofct.salinappservice.R;
+
+import java.io.File;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -202,13 +208,13 @@ public class EditarInfoEmpresasFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("Tomar Foto")){
-                    Intent intent = new Intent(getContext(), Camara.class);
-                    startActivity(intent);
+                    //
                 }else{
                     if (opciones[i].equals("Cargar Imagen")){
                         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("image/jpeg");
                         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                        System.out.println(Intent.EXTRA_LOCAL_ONLY);
                         startActivityForResult(intent.createChooser(intent, "Seleccione una imagen"), LOGO_SEND);
                     }else{
                         dialogInterface.dismiss();
@@ -223,6 +229,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == LOGO_SEND && resultCode == Activity.RESULT_OK) {
             Uri u = data.getData();
             storageReference = storage.getReference("logo_empresa");
