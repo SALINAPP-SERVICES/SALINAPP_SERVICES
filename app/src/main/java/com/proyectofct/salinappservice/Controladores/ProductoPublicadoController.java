@@ -1,7 +1,5 @@
 package com.proyectofct.salinappservice.Controladores;
 
-import android.text.Editable;
-
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaCantidadProductoPublicado;
@@ -63,10 +61,10 @@ public class ProductoPublicadoController {
         return productosPublicadosDevuelto;
     }
 
-    //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
     public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página, String marca){
         ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
         FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca, página));
+
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(tarea);
         try {
@@ -108,5 +106,28 @@ public class ProductoPublicadoController {
             e.printStackTrace();
         }
         return cantidadProductoPublicado;
+    }
+
+    public static ArrayList<ProductosPublicados> obtenerVariantesProductoPublicado(String cod_producto) {
+        ArrayList<ProductosPublicados> productosPublicadosDevuelto = null;
+        FutureTask tarea = new FutureTask(new TareaObtenerVariantesProductoPublicado(cod_producto));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(tarea);
+        try {
+            productosPublicadosDevuelto = (ArrayList<ProductosPublicados>) tarea.get();
+            es.shutdown();
+            try {
+                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                    es.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                es.shutdownNow();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return productosPublicadosDevuelto;
     }
 }

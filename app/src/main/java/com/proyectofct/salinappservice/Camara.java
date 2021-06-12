@@ -25,17 +25,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Camara extends AppCompatActivity {
     ImageView ivFoto;
-    Button btnTomarFoto;
 
-    final int COD_FOTO = 20;
-    final String CARPETA_RAIZ = "MisFotosApp";
-    final String CARPETA_IMAGENES = "imagenes";
-    final String RUTA_IMAGEN = CARPETA_RAIZ + CARPETA_IMAGENES;
-    String path;
-
+    String rutaImagen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +38,8 @@ public class Camara extends AppCompatActivity {
         setContentView(R.layout.activity_camara);
 
         ivFoto = findViewById(R.id.ivFoto);
-        btnTomarFoto = findViewById(R.id.btnTomarFoto);
-
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-        }
 
         TomarFoto();
-
-        btnTomarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TomarFoto();
-            }
-        });
 
         ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,32 +50,22 @@ public class Camara extends AppCompatActivity {
     }
 
     public void TomarFoto() {
-        String nombreImagen = "";
-
-        File fileImagen = new File(Environment.getExternalStorageDirectory(), RUTA_IMAGEN);
-        boolean isCreada = fileImagen.exists();
-
-        if(isCreada == false) {
-            isCreada = fileImagen.mkdirs();
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //if(intent.resolveActivity(getPackageManager())!= null) {
+        File imagenArchivo = null;
+        try{
+            imagenArchivo = crearImagen();
+        } catch(IOException ex){
+            Log.e("ERROR", ex.toString());
         }
 
-        if(isCreada == true) {
-            nombreImagen = (System.currentTimeMillis() / 1000) + ".jpg";
+        if(imagenArchivo != null){
+            Uri fotoUri = FileProvider.getUriForFile(this, "com.proyectofct.salinappservice", imagenArchivo);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
+            startActivityForResult(intent, 1);
         }
 
-        path = Environment.getExternalStorageDirectory()+File.separator+RUTA_IMAGEN+File.separator+nombreImagen;
-        File imagen = new File(path);
-
-        Intent intent = null;
-        intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String authorities = this.getPackageName()+".provider";
-            Uri imageUri = FileProvider.getUriForFile(this, authorities, imagen);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        } else {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagen));
-        }
-        startActivityForResult(intent, COD_FOTO);
+        //}
     }
 
     public void TomarImagen() {
@@ -120,23 +90,24 @@ public class Camara extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case COD_FOTO:
-                    MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                        @Override
-                        public void onScanCompleted(String path, Uri uri) {
-
-                        }
-                    });
-
-                    Bitmap bitmap = BitmapFactory.decodeFile(path);
-                    ivFoto.setImageBitmap(bitmap);
-
-                    break;
-            }
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            Bundle extras = data.getExtras();
+            Bitmap imgBitmap = BitmapFactory.decodeFile(rutaImagen);
+            ivFoto.setImageBitmap(imgBitmap);
         }
     }
 
+    public File crearImagen() throws IOException {
+        String nombreImagen = "IMG-";
+        File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File imagen = File.createTempFile(nombreImagen, ".jpg", directorio);
+
+        rutaImagen = imagen.getAbsolutePath();
+        return imagen;
+    }
+
+    public File getDirectorio() throws IOException{
+        File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return directorio;
+    }
 }

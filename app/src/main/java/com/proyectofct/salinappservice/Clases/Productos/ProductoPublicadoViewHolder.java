@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Controladores.ProductoPublicadoController;
 import com.proyectofct.salinappservice.R;
 
@@ -47,12 +48,12 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
         if (productosPublicados.getP() instanceof Moda){
             ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
             ArrayList<ProductosPublicados> grupoProductos = ProductoPublicadoController.obtenerVariantesProductoPublicado(productoPublicado.getP().getCod_producto());
-            if (grupoProductos != null && grupoProductos.size() == 0){
+            if (grupoProductos != null && grupoProductos.size() == 0) {
                 //PAGINA NORMAL SIN SPINNER
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO, productoPublicado);
                 Navigation.findNavController(v).navigate(R.id.nav_fragment_detalle_productos_publicados, bundle);
-            }else if (grupoProductos != null){
+            } else if (grupoProductos != null) {
                 //PÁGINA NORMAL CON SPINNER
                 grupoProductos.add(productoPublicado);
                 Bundle bundle = new Bundle();
