@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
+import com.proyectofct.salinappservice.Controladores.ClienteController;
 import com.proyectofct.salinappservice.Modelos.ClienteDB;
 import com.proyectofct.salinappservice.R;
 
@@ -51,12 +52,19 @@ public class CompletarPerfilUsuarioFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        DireccionesClientes direccionesObtenidas = ClienteController.obtenerDireccionesCliente();
+        if (direccionesObtenidas != null){
+            Toast.makeText(getActivity(), "Ya existe un dirección asignada a este usuario", Toast.LENGTH_LONG).show();
+            btCompletarInformación.setEnabled(false);
+        }
+
         btCompletarInformación.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DireccionesClientes direccionesClientes = completarInformaciónUsuario();
+                Log.i("DireccionesClientes", "DireccionesClientes -> " + direccionesClientes.toString());
                 if (direccionesClientes != null){
-                    boolean insertadoOk = ClienteDB.insertarDireccionesClientes(direccionesClientes);
+                    boolean insertadoOk = ClienteController.insertarDireccionesClientes(direccionesClientes);
                     if (insertadoOk){
                         Toast.makeText(getActivity(), "Información registrada correctamente", Toast.LENGTH_SHORT).show();
                         Navigation.findNavController(vista).navigate(R.id.nav_fragment_carrito);
@@ -68,7 +76,6 @@ public class CompletarPerfilUsuarioFragment extends Fragment {
                 }
             }
         });
-
         return vista;
     }
 

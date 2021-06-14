@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
-    private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito, camara;
+    private MenuItem logoutMenu, loginMenu, volverInicio, camara;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,19 +152,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        nav_carrito = (MenuItem) findViewById(R.id.nav_fragment_carrito);
-        nav_carrito.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Navigation.findNavController(nav_carrito.getActionView()).navigate(R.id.nav_fragment_carrito);
-                return false;
-            }
-        });
-        */
-
-
-            camara.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        camara.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(HomeActivity.this, Camara.class);

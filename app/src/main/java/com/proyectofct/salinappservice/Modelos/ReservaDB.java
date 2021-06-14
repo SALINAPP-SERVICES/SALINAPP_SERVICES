@@ -54,7 +54,7 @@ public class ReservaDB {
                 int idProductoEmpresa = líneaReserva.getProductoPublicado().getIdProductoEmpresa();
                 int cantidadSolicitada = líneaReserva.getCantidad();
 
-                String ordenSQL2 = "INSERT INTO lineasreserva ( idreserva, idproductoempresa, cantidad, precio) VALUES (?, ?, ?, ?);";
+                String ordenSQL2 = "INSERT INTO lineasreserva (idreserva, idproductoempresa, cantidad, precio) VALUES (?, ?, ?, ?);";
                 PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
                 sentenciaPreparada2.setInt(1, idReserva);
                 sentenciaPreparada2.setInt(2, idProductoEmpresa);
