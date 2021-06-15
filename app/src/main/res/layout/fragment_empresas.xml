@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".UI.EmpresasFragment">
 
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/buscar_producto_empresa"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp"
+            android:autofillHints="@string/buscar"
+            android:hint="@string/buscar"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/btn_buscar_empresa"
+            android:layout_width="86dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/buscar_producto_empresa"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="47dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/buscar_producto_empresa"
+            android:contentDescription="@string/imagenbuscar"
+            android:scaleType="centerInside"
+            android:src="@drawable/lupa" />
+
+        <ImageButton
+            android:id="@+id/btn_carrito_compra_empresa"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/buscar_producto_empresa"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-5dp"
+            android:layout_toStartOf="@+id/btn_buscar_empresa"
+            android:contentDescription="@string/imagencarrito"
+            android:scaleType="centerInside"
+            android:src="@drawable/carrito" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView16"
@@ -17,10 +63,7 @@
         android:text="@string/lista_de_empresas"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_empresas" />
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_empresas"
@@ -28,11 +71,6 @@
         android:layout_height="600dp"
         android:layout_margin="10dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16"
-        app:layout_constraintVertical_bias="0.0" />
+        android:descendantFocusability="beforeDescendants" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

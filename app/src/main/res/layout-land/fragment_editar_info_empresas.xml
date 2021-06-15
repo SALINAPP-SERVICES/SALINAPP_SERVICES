@@ -10,13 +10,129 @@
     <TextView
         android:id="@+id/txt_titulo_editInfoE"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+        android:layout_height="136dp"
+
         android:gravity="center"
         android:paddingTop="40dp"
         android:paddingBottom="30dp"
         android:text="@string/txt_titulo_editInfoE"
         android:textColor="@color/black"
         android:textSize="30sp"
+
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_logo_editInfoE"
+        android:layout_width="158dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="-400dp"
+        android:layout_marginTop="150dp"
+        android:maxWidth="100sp"
+        android:maxHeight="100sp"
+        android:requestLegacyExternalStorage="true"
+        android:src="@color/fondo"
+        app:civ_border_overlay="true"
+        app:civ_border_width="1sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_nombre_editInfoE"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="100dp"
+        android:autofillHints="@string/nombre"
+        android:background="@drawable/style_edt"
+        android:hint="@string/edt_nombre_editInfoE"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_localizacion_editInfoE"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/style_edt"
+        android:ems="10"
+        android:hint="Localización"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_nombre_editInfoE" />
+
+    <EditText
+        android:id="@+id/edt_CIF_editInfoE"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:autofillHints="@string/edt_CIF_editInfoE"
+        android:background="@drawable/style_edt"
+        android:ems="10"
+        android:hint="Resumen"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_sector" />
+
+    <EditText
+        android:id="@+id/edt_sector"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="32dp"
+        android:autofillHints="@string/sector"
+        android:background="@drawable/style_edt"
+        android:ems="10"
+        android:hint="Sector"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_localizacion_editInfoE" />
+
+    <Button
+        android:id="@+id/btn_editar_editInfoE"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/btn_editar_editInfoE"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:backgroundTint="@color/fondo"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_logo_editInfoE" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
         android:textStyle="bold" />
 
     <LinearLayout
@@ -176,3 +292,4 @@
 
 
 </LinearLayout>
+

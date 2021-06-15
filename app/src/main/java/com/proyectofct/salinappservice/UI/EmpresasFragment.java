@@ -2,10 +2,13 @@ package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +29,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Empresa.ListaEmpresasAdapter;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Controladores.ProductoPublicadoController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 import com.proyectofct.salinappservice.Utilidades.RecyclerItemClickListener;
@@ -35,6 +40,7 @@ import java.util.ArrayList;
 import static com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder.EXTRA_OBJETO_EMPRESA;
 
 public class EmpresasFragment extends Fragment {
+    public static final String EXTRA_OBJETO_PRODUCTOS = "";
     private RecyclerView rvEmpresas;
     private ListaEmpresasAdapter listaEmpresasAdapter;
     private ArrayList<InfoEmpresa> infoEmpresas;
@@ -43,6 +49,8 @@ public class EmpresasFragment extends Fragment {
     private int total_registros;
     private int total_paginas;
     private int num_columnas_landscape;
+    private ImageButton btn_buscar;
+    private EditText text_busqueda;
 
     private FirebaseFirestore db;
     private InfoEmpresa infoEmpresa;
@@ -52,6 +60,8 @@ public class EmpresasFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_empresas, container, false);
 
+        btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar_empresa);
+        text_busqueda = (EditText) vista.findViewById(R.id.buscar_producto_empresa);
         //COGER ELEMENTOS DE LA BASE DE DATOS DE FIREBASE
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -115,6 +125,17 @@ public class EmpresasFragment extends Fragment {
             }
         }));
 
+
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String busqueda = String.valueOf(text_busqueda.getText());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(EXTRA_OBJETO_PRODUCTOS,busqueda);
+                //bundle.putSerializable(EXTRA_OBJETO_PRODUCTOS, productosbuscados);
+                Navigation.findNavController(view).navigate(R.id.nav_fragment_galeria_productos, bundle);
+            }
+        });
         /*
         //PAGINACIÓN
         rvEmpresas.addOnScrollListener(new PaginationListener((LinearLayoutManager) rvEmpresas.getLayoutManager()) {

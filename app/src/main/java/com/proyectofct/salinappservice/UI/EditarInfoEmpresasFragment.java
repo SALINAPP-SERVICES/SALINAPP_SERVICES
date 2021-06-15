@@ -129,8 +129,8 @@ public class EditarInfoEmpresasFragment extends Fragment {
         direccionEmpresa = view.findViewById(R.id.edt_direccion_editInfoE);
         cifEmpresa = view.findViewById(R.id.edt_CIF_editInfoE);
         sectorEmpresa = view.findViewById(R.id.edt_sector_editInfoE);
-        codEmpEmpresa = view.findViewById(R.id.edt_codEmpr_editInfoE);
-        resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
+//        codEmpEmpresa = view.findViewById(R.id.edt_codEmpr_editInfoE);
+//        resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
         btnEditar = view.findViewById(R.id.btn_editar_editInfoE);
 
         ObtenerDatos();
