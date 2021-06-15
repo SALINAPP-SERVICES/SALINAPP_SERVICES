@@ -28,8 +28,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Camara extends AppCompatActivity {
+    public static String IMAGEN = "";
     ImageView ivFoto;
-
     String rutaImagen;
 
     @Override
@@ -77,6 +77,7 @@ public class Camara extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("Elegir empresa")){
                     Intent intent = new Intent(Camara.this, HomeActivity.class);
+                    IMAGEN = rutaImagen;
                     startActivity(intent);
                 }else{
                     dialogInterface.dismiss();

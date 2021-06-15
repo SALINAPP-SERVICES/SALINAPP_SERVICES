@@ -168,6 +168,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
                     String cod_producto = productosPublicados.getP().getCod_producto();
                     fp.setFotos(imagenNueva);
                     FotosProductosController.actualizarFoto(fp, cod_producto);
+                    Toast.makeText(getActivity(), "Imagen guardada correctamente", Toast.LENGTH_LONG).show();
                 }
             });
 
