@@ -1,7 +1,5 @@
 package com.proyectofct.salinappservice.Controladores;
 
-import android.text.Editable;
-
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicado;
 import com.proyectofct.salinappservice.Tareas.TareasProductoPublicado.TareaBuscarProductoPublicadoEmpresa;
@@ -65,8 +63,14 @@ public class ProductoPublicadoController {
     }
 
 
+
     //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
-    public static ArrayList<ProductosPublicados> buscarProductoPublicado(String[] marca){
+  
+  //CONFLICTO RAMA VICTOR
+    //public static ArrayList<ProductosPublicados> buscarProductoPublicado(String[] marca){
+
+    public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página, String marca){
+
         ArrayList<ProductosPublicados> productoPublicadoEncontrado = null;
         FutureTask tarea = new FutureTask(new TareaBuscarProductoPublicado(marca));
 

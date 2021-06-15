@@ -24,6 +24,10 @@ public class Producto {
         this.imagen = imagen;
     }
 
+    public Producto() {
+
+    }
+
     public String getCod_producto() {
         return cod_producto;
     }
