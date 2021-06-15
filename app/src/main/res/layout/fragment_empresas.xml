@@ -85,10 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
 
-        android:layout_marginTop="32dp"
-        android:descendantFocusability="beforeDescendants" />
 
 </LinearLayout>
 

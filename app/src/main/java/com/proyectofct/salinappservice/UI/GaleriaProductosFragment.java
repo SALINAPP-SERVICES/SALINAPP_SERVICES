@@ -35,6 +35,7 @@ public class GaleriaProductosFragment extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_galeria_productos, container, false);
         String busqueda = (String) getArguments().getSerializable(EmpresasFragment.EXTRA_OBJETO_PRODUCTOS);
         String[] palabras = busqueda.split("\\s+");
+        /*
         ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicado(palabras);
         rvProductosBuscados = (RecyclerView) vista.findViewById(R.id.rvProductosBuscados);
         if (productosbuscados != null) {
@@ -47,6 +48,8 @@ public class GaleriaProductosFragment extends Fragment {
                 rvProductosBuscados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
             }
         }
+
+         */
         return vista;
     }
 }
