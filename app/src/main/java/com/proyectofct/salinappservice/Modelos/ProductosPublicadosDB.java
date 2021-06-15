@@ -1,15 +1,19 @@
 package com.proyectofct.salinappservice.Modelos;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Coches;
+import com.proyectofct.salinappservice.Clases.Productos.FotosProducto;
 import com.proyectofct.salinappservice.Clases.Productos.Moda;
-import com.proyectofct.salinappservice.Clases.Productos.Producto;
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
+import com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -201,19 +205,15 @@ public class ProductosPublicadosDB {
         }
     }*/
 
-
-    //public static int obtenerCantidadProductosPublicados() {
-
     public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
-
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
-            return 0;
+            return null;
         }
 
-       // int cantidadProductosPublicados = 0;
-       // try {
+        // int cantidadProductosPublicados = 0;
+        // try {
 
         ArrayList<ProductosPublicados> productosPublicadosDevueltos = new ArrayList<ProductosPublicados>();
         try {
@@ -356,7 +356,7 @@ public class ProductosPublicadosDB {
     }
 
     //CORRECCIÓN DE VÍCTOR ABAJO obtenerCantidadProductosPublicados()
-    /*public static int obtenerCantidadProductosPublicados() {
+    public static int obtenerCantidadProductosPublicados() {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
@@ -381,11 +381,7 @@ public class ProductosPublicadosDB {
             Log.i("SQL", "Error al devolver el número de productos publicados de la base de datos");
             return 0;
         }
-
     }
-
-    }*/
-
 
     public static ArrayList<ProductosPublicados> buscarProductoPublicados(int página, String marca) {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
@@ -398,7 +394,7 @@ public class ProductosPublicadosDB {
             Empresa empresa = new Empresa("", "", "");
             Statement sentencia = conexión.createStatement();
 
-           
+
 
             //String ordenSQL = "SELECT count(*) as cantidad FROM productospublicados ";
             String ordenSQL ="SELECT count(*) as cantidad FROM productos p INNER JOIN productospublicados pp INNER JOIN empresas e ON p.cod_producto = pp.cod_producto AND pp.cod_empresa = e.cod_empr WHERE pp.habilitado = 1 AND pp.archivado = 0 AND p.variante IS NULL;";
@@ -489,6 +485,44 @@ public class ProductosPublicadosDB {
         } catch (SQLException e) {
             Log.i("SQL", "Error al mostrar los productos publicados de la base de datos");
             return null;
+        }
+    }
+
+    public static boolean actualizarFotoProducto(FotosProducto fp, String cod_producto) {
+        Connection conexion = BaseDB.conectarConBaseDeDatos();
+        if(conexion == null){
+            return false;
+        }
+        try{
+            String ordensql = "SELECT idfoto FROM productos WHERE cod_producto = ?";
+            PreparedStatement ps = conexion.prepareStatement(ordensql);
+            ps.setString(1, cod_producto);
+            ResultSet rs = ps.executeQuery();
+            int idFoto=1;
+            if(rs.next()) {
+                idFoto = rs.getInt("idfoto");
+            }
+            String ordensql2 = "UPDATE fotos_productos SET foto = ? WHERE idfotos = ?;";
+            PreparedStatement pst = conexion.prepareStatement(ordensql2);
+            Bitmap bitmap = fp.getFotos();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,0,baos);
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            pst.setBinaryStream(1,bais);
+            pst.setInt(2, idFoto);
+            int filasAfectadas = pst.executeUpdate();
+            pst.close();
+            conexion.close();
+            if(filasAfectadas > 0){
+                return true;
+            }else{
+                return false;
+            }
+
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
         }
     }
 

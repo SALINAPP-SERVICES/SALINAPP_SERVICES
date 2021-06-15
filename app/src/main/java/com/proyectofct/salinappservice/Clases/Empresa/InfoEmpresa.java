@@ -27,7 +27,7 @@ public class InfoEmpresa implements Serializable {
         this.sector = "sector";
         this.resumen = "resumen";
         this.direccion = "direccion";
-        this.cif = "";
+        this.cif = "cif";
         this.cod_empresa = "cod_empresa";
     }
 

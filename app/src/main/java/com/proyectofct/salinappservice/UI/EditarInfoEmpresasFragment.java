@@ -3,6 +3,9 @@ package com.proyectofct.salinappservice.UI;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,9 +13,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import android.util.Log;
@@ -44,6 +49,9 @@ import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.HomeActivity;
 import com.proyectofct.salinappservice.R;
 
+import java.io.File;
+import java.io.IOException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditarInfoEmpresasFragment extends Fragment {
@@ -52,6 +60,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private static final int LOGO_SEND = 1;
+    private static final int LOGO_FOTO = 2;
 
     private String mParam1;
     private String mParam2;
@@ -69,6 +78,9 @@ public class EditarInfoEmpresasFragment extends Fragment {
     private EditText codEmpEmpresa;
     private EditText resumenEmpresa;
     private Button btnEditar;
+    private String path;
+    File carpeta;
+    Bitmap bitmap;
 
     private InfoEmpresa infoEmpresa = new InfoEmpresa();
 
@@ -202,12 +214,30 @@ public class EditarInfoEmpresasFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("Tomar Foto")){
-                    Intent intent = new Intent(getContext(), Camara.class);
-                    startActivity(intent);
-                }else{
+                    File directorio = new File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES);
+                    boolean isCreada = directorio.exists();
+
+                    if (isCreada == false) {
+                        isCreada = directorio.mkdirs();
+                    }
+
+                    if (isCreada == true) {
+
+                        Long tiempo = System.currentTimeMillis() / 1000;
+                        String nombre = tiempo.toString() + ".jpg";
+
+                        path = Environment.getExternalStorageDirectory() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + nombre;
+
+                        carpeta = new File(path);
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(carpeta));
+
+                        startActivityForResult(intent, LOGO_FOTO);
+                    }
+                }else {
                     if (opciones[i].equals("Cargar Imagen")){
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("image/jpeg");
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/");
                         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                         startActivityForResult(intent.createChooser(intent, "Seleccione una imagen"), LOGO_SEND);
                     }else{
@@ -223,6 +253,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == LOGO_SEND && resultCode == Activity.RESULT_OK) {
             Uri u = data.getData();
             storageReference = storage.getReference("logo_empresa");
@@ -245,6 +276,15 @@ public class EditarInfoEmpresasFragment extends Fragment {
                     }
                 }
             });
+        } else if (requestCode == LOGO_FOTO && resultCode == Activity.RESULT_OK) {
+            MediaScannerConnection.scanFile(getContext(), new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(String path, Uri uri) {
+                    Log.i("", " Error al cargar la foto");
+                }
+            });
+            infoEmpresa.setLogoURL(path);
+            Glide.with(EditarInfoEmpresasFragment.this).load(path).into(logoEmpresa);
         }
     }
 }
