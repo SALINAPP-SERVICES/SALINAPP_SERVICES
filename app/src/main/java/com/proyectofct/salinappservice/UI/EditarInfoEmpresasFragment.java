@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.IDNA;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,7 +79,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
     private EditText direccionEmpresa;
     private EditText cifEmpresa;
     private EditText sectorEmpresa;
-    private EditText codEmpEmpresa;
+    private EditText codEmpresa;
     private EditText resumenEmpresa;
     private Button btnEditar;
     private String path;
@@ -135,7 +136,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
 
 
 //        codEmpEmpresa = view.findViewById(R.id.edt_codEmpr_editInfoE);
-//        resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
+       resumenEmpresa = view.findViewById(R.id.edt_resumen_editInfoE);
 
         btnEditar = view.findViewById(R.id.btn_editar_editInfoE);
 
@@ -155,7 +156,7 @@ public class EditarInfoEmpresasFragment extends Fragment {
                 infoEmpresa.setDireccion(direccionEmpresa.getText().toString());
                 infoEmpresa.setCif(cifEmpresa.getText().toString());
                 infoEmpresa.setSector(sectorEmpresa.getText().toString());
-                infoEmpresa.setCod_empresa(codEmpEmpresa.getText().toString());
+//                infoEmpresa.setCod_empresa(codEmpresa.getText().toString());
                 infoEmpresa.setResumen(resumenEmpresa.getText().toString());
                 infoEmpresa.setCod_empresa(firebaseAuth.getCurrentUser().getEmail());
 
@@ -192,12 +193,13 @@ public class EditarInfoEmpresasFragment extends Fragment {
                     if(document.exists()){
 
                         infoEmpresa = document.toObject((InfoEmpresa.class));
+
                         Glide.with(EditarInfoEmpresasFragment.this).load(infoEmpresa.getLogoURL()).into(logoEmpresa);
                         nombreEmpresa.setText(infoEmpresa.getNombre());
                         direccionEmpresa.setText(infoEmpresa.getDireccion());
                         cifEmpresa.setText(infoEmpresa.getCif());
                         sectorEmpresa.setText(infoEmpresa.getSector());
-                        codEmpEmpresa.setText(infoEmpresa.getCod_empresa());
+                        //codEmpresa.setText(infoEmpresa.getCod_empresa());
                         resumenEmpresa.setText(infoEmpresa.getResumen());
                     }
 

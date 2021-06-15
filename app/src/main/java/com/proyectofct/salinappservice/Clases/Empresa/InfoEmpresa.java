@@ -22,7 +22,7 @@ public class InfoEmpresa implements Serializable {
     }
 
     public InfoEmpresa() {
-        this.logoURL = "logoURL";
+        this.logoURL = "https://firebasestorage.googleapis.com/v0/b/salinappsdam.appspot.com/o/logo_empresa%2Fimages.jpg?alt=media&token=bed42a47-37f2-4329-a200-d3177b811e58";
         this.nombre = "nombre";
         this.sector = "sector";
         this.resumen = "resumen";
