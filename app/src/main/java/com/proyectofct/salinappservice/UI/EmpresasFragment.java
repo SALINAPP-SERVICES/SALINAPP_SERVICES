@@ -2,10 +2,13 @@ package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,13 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Empresa.ListaEmpresasAdapter;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
+import com.proyectofct.salinappservice.Controladores.ProductoPublicadoController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 import com.proyectofct.salinappservice.Utilidades.RecyclerItemClickListener;
@@ -33,23 +40,31 @@ import java.util.ArrayList;
 import static com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder.EXTRA_OBJETO_EMPRESA;
 
 public class EmpresasFragment extends Fragment {
+    public static final String EXTRA_OBJETO_PRODUCTOS = "";
     private RecyclerView rvEmpresas;
     private ListaEmpresasAdapter listaEmpresasAdapter;
     private ArrayList<InfoEmpresa> infoEmpresas;
+    private InfoEmpresa miEmpresa;
     private int pagina_actual;
     private int total_registros;
     private int total_paginas;
     private int num_columnas_landscape;
+    private ImageButton btn_buscar;
+    private EditText text_busqueda;
 
     private FirebaseFirestore db;
     private InfoEmpresa infoEmpresa;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_empresas, container, false);
 
+        btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar_empresa);
+        text_busqueda = (EditText) vista.findViewById(R.id.buscar_producto_empresa);
         //COGER ELEMENTOS DE LA BASE DE DATOS DE FIREBASE
         db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         infoEmpresas = new ArrayList<InfoEmpresa>();
         rvEmpresas = (RecyclerView) vista.findViewById(R.id.rv_empresas);
         listaEmpresasAdapter = new ListaEmpresasAdapter(getActivity(), infoEmpresas);
@@ -63,21 +78,28 @@ public class EmpresasFragment extends Fragment {
         db.collection("businessdata").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                Log.i("illo","Coge los datos de businessdata");
-                if (task.isSuccessful()){
-                    Log.i("illo","Tiene exito coger datos");
-                    for (QueryDocumentSnapshot document : task.getResult()){
+                Log.i("illo", "Coge los datos de businessdata");
+                if (task.isSuccessful()) {
+                    Log.i("illo", "Tiene exito coger datos");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         DocumentReference documentReference = db.collection("businessdata").document(document.getId()).collection("editinfoempresa").document("infoEmpresa");
                         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()){
-                                    Log.i("illo","Tiene exito coger el documento infoEmpresa");
+                                if (task.isSuccessful()) {
+                                    Log.i("illo", "Tiene exito coger el documento infoEmpresa");
                                     DocumentSnapshot info = task.getResult();
-                                    if (info.exists()){
+                                    if (info.exists()) {
                                         infoEmpresa = info.toObject(InfoEmpresa.class);
-                                        listaEmpresasAdapter.addEmpresa(infoEmpresa);
-                                        Log.i("illo","Añade empresas al ArrayList");
+                                        if (BienvenidaActivity.EMPRESA == true){
+                                            if(firebaseAuth.getCurrentUser().getEmail().equals(infoEmpresa.getCod_empresa())){
+                                               listaEmpresasAdapter.addEmpresa(infoEmpresa);
+                                                Log.i("illo", "Añade mi empresa al ArrayList");
+                                            }
+                                        } else{
+                                            listaEmpresasAdapter.addEmpresa(infoEmpresa);
+                                            Log.i("illo", "Añade empresas al ArrayList");
+                                        }
                                         //mAdapter.addEmpresa(infoEmpresa);
                                     }
                                 }
@@ -103,6 +125,17 @@ public class EmpresasFragment extends Fragment {
             }
         }));
 
+
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String busqueda = String.valueOf(text_busqueda.getText());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(EXTRA_OBJETO_PRODUCTOS,busqueda);
+                //bundle.putSerializable(EXTRA_OBJETO_PRODUCTOS, productosbuscados);
+                Navigation.findNavController(view).navigate(R.id.nav_fragment_galeria_productos, bundle);
+            }
+        });
         /*
         //PAGINACIÓN
         rvEmpresas.addOnScrollListener(new PaginationListener((LinearLayoutManager) rvEmpresas.getLayoutManager()) {
@@ -144,11 +177,12 @@ public class EmpresasFragment extends Fragment {
             }
         }});
         */
-
         return vista;
     }
 
-    private void mostrarToast(String texto) {
-        Toast.makeText(getActivity(),texto, Toast.LENGTH_SHORT).show();
+
+    private void mostrarToast (String texto){
+        Toast.makeText(getActivity(), texto, Toast.LENGTH_SHORT).show();
     }
+
 }

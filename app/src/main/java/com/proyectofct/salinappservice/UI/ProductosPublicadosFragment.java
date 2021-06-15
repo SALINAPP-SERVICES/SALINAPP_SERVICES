@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
 import com.proyectofct.salinappservice.Clases.Productos.ListaProductosPublicadosAdapter;
@@ -40,7 +41,16 @@ public class ProductosPublicadosFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
+        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
+        String codEmpresa = infoEmpresa.getCod_empresa();
+
+        //View vista;
+
+        if(BienvenidaActivity.EMPRESA == false) {
+            vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
+
 
 
         btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar);
@@ -50,7 +60,9 @@ public class ProductosPublicadosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String busqueda = String.valueOf(text_busqueda.getText());
-                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicado(0, busqueda);
+
+                String[] palabras = busqueda.split("\\s+");
+                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicadoPorEmpresa(palabras,codEmpresa);
 
                 if (productosbuscados !=null){
                     rvProductosPublicados = vista.findViewById(R.id.rvProductosPublicados);
@@ -61,12 +73,25 @@ public class ProductosPublicadosFragment extends Fragment {
                         rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
                     } else {
                         rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
-                    }
-                }
+/*
+                ArrayList<ProductosPublicados> productosbuscados= ProductoPublicadoController.buscarProductoPublicado(0, busqueda);
+                    if (productosbuscados !=null){
+                        rvProductosPublicados = vista.findViewById(R.id.rvProductosPublicados);
+                        listaProductosPublicadosAdapter = new ListaProductosPublicadosAdapter(getActivity(), productosbuscados);
+                        rvProductosPublicados.setAdapter(listaProductosPublicadosAdapter);
 
+                        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        } else {
+                            rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
+                        }
+*/
+                    }
             }
         });
-
+        } else{
+            vista = inflater.inflate(R.layout.fragment_imagenes_productos, container, false);
+        }
 
         /*
         //BOTÓN IR ATRÁS
@@ -90,18 +115,19 @@ public class ProductosPublicadosFragment extends Fragment {
         */
 
 
+
+
+
+
         //RECYCLER VIEW CON LOS PRODUCTOS
-        totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicados();
+        totalRegistros = ProductoPublicadoController.obtenerCantidadProductoPublicado(codEmpresa);
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
 
         Log.i("SQL", "Total de registros -> " + String.valueOf(totalRegistros));
         Log.i("SQL", "Total de páginas -> " + String.valueOf(totalPáginas));
 
-        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
-        String codEmpresa = infoEmpresa.getCod_empresa();
-
         páginaActual = 0;
-        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+        productosPublicados = ProductoPublicadoController.obtenerProductosPublicadosPorEmpresa(codEmpresa);
         totalRegistros = ProductosPublicadosDB.obtenerCantidadProductosPublicadosPorEmpresa(codEmpresa);
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
         páginaActual = páginaActual + 1;
@@ -112,10 +138,18 @@ public class ProductosPublicadosFragment extends Fragment {
             listaProductosPublicadosAdapter = new ListaProductosPublicadosAdapter(getActivity(), productosPublicados);
             rvProductosPublicados.setAdapter(listaProductosPublicadosAdapter);
 
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
-            } else {
-                rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
+            if(BienvenidaActivity.EMPRESA == false) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
+                } else {
+                    rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
+                }
+            }else{
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    rvProductosPublicados.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                } else {
+                    rvProductosPublicados.setLayoutManager(new GridLayoutManager(getActivity(), ConfiguracionesGeneralesDB.LANDSCAPE_NUM_COLUMNAS));
+                }
             }
 
             //PAGINACIÓN
@@ -126,7 +160,7 @@ public class ProductosPublicadosFragment extends Fragment {
                 protected void loadMoreItems() {
                     int totalRegistrosLeídos = rvProductosPublicados.getLayoutManager().getItemCount();
                     if (totalRegistrosLeídos < totalRegistros) {
-                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(páginaActual, codEmpresa);
+                        ArrayList<ProductosPublicados> nuevosProductosPublicados = ProductosPublicadosDB.obtenerProductosPublicadosPorEmpresa(codEmpresa);
                         productosPublicadosLeídos = nuevosProductosPublicados.size();
                         páginaActual++;
 

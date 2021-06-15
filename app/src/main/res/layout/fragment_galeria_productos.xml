@@ -6,17 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".UI.GaleriaProductosFragment">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/buscar_producto_empresa_producto"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp"
+            android:autofillHints="@string/buscar"
+            android:hint="@string/buscar"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/btn_buscar_empresa_producto"
+            android:layout_width="86dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/buscar_producto_empresa_producto"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="47dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@+id/buscar_producto_empresa_producto"
+            android:contentDescription="@string/imagenbuscar"
+            android:scaleType="centerInside"
+            android:src="@drawable/lupa" />
+
+        <ImageButton
+            android:id="@+id/btn_carrito_compra_empresa_producto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/buscar_producto_empresa_producto"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-5dp"
+            android:layout_toStartOf="@+id/btn_buscar_empresa_producto"
+            android:contentDescription="@string/imagencarrito"
+            android:scaleType="centerInside"
+            android:src="@drawable/carrito" />
+
+    </RelativeLayout>
+
     <TextView
+        android:id="@+id/textView19"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10sp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="@string/galer_a_de_productos"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProductosBuscados"
+        android:layout_width="0dp"
+        android:layout_height="575dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView19"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

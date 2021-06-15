@@ -117,7 +117,12 @@
     <string name="marca_producto_carrito">Marca producto carrito</string>
     <string name="cantidad_producto_carrito">Cantidad producto carrito</string>
     <string name="precio_producto_carrito">Precio producto carrito</string>
+
     <string name="reservas">RESERVAS</string>
+
+    <string name="btn_guardar_fdipp">GUARDAR</string>
+    <string name="btnGuardar_fdgipp">GUARDAR</string>
+
 
     <string name="edt_localizacion_editInfoE">Localización</string>
     <string name="disminuir_cantidad">Disminuir cantidad</string>

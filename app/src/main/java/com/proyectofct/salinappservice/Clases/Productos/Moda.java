@@ -1,10 +1,11 @@
 package com.proyectofct.salinappservice.Clases.Productos;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Moda extends Producto{
+public class Moda extends Producto implements Serializable {
     private String talla;
     private String color;
     private String material;

@@ -3,14 +3,14 @@
     package="com.proyectofct.salinappservice">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
-        android:name="android.hardware.Camera"
+        android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -43,7 +43,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.proyectofct.salinappservice"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

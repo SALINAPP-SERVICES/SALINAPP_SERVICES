@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
@@ -48,18 +49,26 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
     @NonNull
     @Override
     public ProductoPublicadoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mItemView = mInflater.inflate(R.layout.item_recyclerview_producto_publicado, parent, false);
+        View mItemView;
+        if(BienvenidaActivity.EMPRESA == false) {
+            mItemView = mInflater.inflate(R.layout.item_recyclerview_producto_publicado, parent, false);
+        }else{
+            mItemView = mInflater.inflate(R.layout.item_recyclerview_imagenes_producto, parent, false);
+        }
         return new ProductoPublicadoViewHolder(mItemView, this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductoPublicadoViewHolder holder, int position) {
         ProductosPublicados productosPublicadosActual = listaProductosPublicados.get(position);
-        holder.txtMarcaProductoPublicado.setText(String.valueOf("Marca : " + productosPublicadosActual.getP().getMarca()));
+        if(BienvenidaActivity.EMPRESA == false) {
+            holder.txtMarcaProductoPublicado.setText(String.valueOf("Marca : " + productosPublicadosActual.getP().getMarca()));
+            holder.txtPrecioProductoPublicado.setText(String.valueOf("Precio : " + productosPublicadosActual.getPrecioventa() + " €"));
+            holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productosPublicadosActual.getCantidad() + " unidades"));
+            holder.txtDescripciónProductoPublicado.setText(String.valueOf("Descripción : " + productosPublicadosActual.getP().getDescripción()));
+        }
         holder.txtModeloProductoPublicado.setText(String.valueOf("Modelo : " + productosPublicadosActual.getP().getModelo()));
-        holder.txtPrecioProductoPublicado.setText(String.valueOf("Precio : " + productosPublicadosActual.getPrecioventa() + " €"));
-        holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productosPublicadosActual.getCantidad() + " unidades"));
-        holder.txtDescripciónProductoPublicado.setText(String.valueOf("Descripción : " + productosPublicadosActual.getP().getDescripción()));
+
         if(productosPublicadosActual.getP().getImagen() == null){
             holder.imgProductoPublicado.setImageResource(R.drawable.producto);
         } else{
