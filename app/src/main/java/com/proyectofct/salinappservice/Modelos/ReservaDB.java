@@ -2,6 +2,12 @@ package com.proyectofct.salinappservice.Modelos;
 
 import android.util.Log;
 
+import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
+import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
+import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
+import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
+import com.proyectofct.salinappservice.Clases.Productos.Producto;
+import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
 import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
@@ -26,26 +32,19 @@ public class ReservaDB {
         try {
             conexión.setAutoCommit(false);
 
-            //Inserto los clientes, las direcciones y las direcciones de cliente
-            /*
-            * POR HACER
-            */
-
             //Inserto la reserva
             int idReserva = reserva.getIdReserva();
-
             String ordenSQL1 = "INSERT INTO reserva (idreserva, fechar, total, iddireccioncliente) VALUES (?, ?, ?, ?);";
-            PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL1);
-            sentenciaPreparada.setInt(1, idReserva);
+            PreparedStatement sentenciaPreparada1 = conexión.prepareStatement(ordenSQL1);
+            sentenciaPreparada1.setInt(1, idReserva);
             SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date fechaHora = reserva.getFechaReserva();
             String fechaHoraActual = formatoHoraFecha.format(fechaHora);
             Timestamp fechaHoraActualTimestamp = Timestamp.valueOf(fechaHoraActual);
-            sentenciaPreparada.setTimestamp(2, fechaHoraActualTimestamp);
-            sentenciaPreparada.setDouble(3, reserva.getTotal());
-            sentenciaPreparada.setInt(4, reserva.getIdDireccionCliente().getIdDireccionCliente());
-            int filasAfectadas = sentenciaPreparada.executeUpdate();
-            sentenciaPreparada.close();
+            sentenciaPreparada1.setTimestamp(2, fechaHoraActualTimestamp);
+            sentenciaPreparada1.setDouble(3, reserva.getTotal());
+            sentenciaPreparada1.setInt(4, reserva.getIdDireccionCliente().getIdDireccionCliente());
+            int filasAfectadas1 = sentenciaPreparada1.executeUpdate();
 
             int filasAfectadas2 = 0;
             int filasAfectadas3 = 0;
@@ -55,14 +54,13 @@ public class ReservaDB {
                 int idProductoEmpresa = líneaReserva.getProductoPublicado().getIdProductoEmpresa();
                 int cantidadSolicitada = líneaReserva.getCantidad();
 
-                String ordenSQL2 = "INSERT INTO lineasreserva (idlineasreserva, idreserva, idproductoempresa, cantidad) VALUES (?, ?, ?, ?);";
+                String ordenSQL2 = "INSERT INTO lineasreserva (idreserva, idproductoempresa, cantidad, precio) VALUES (?, ?, ?, ?);";
                 PreparedStatement sentenciaPreparada2 = conexión.prepareStatement(ordenSQL2);
-                sentenciaPreparada2.setInt(1, líneaReserva.getIdLíneaReserva());
-                sentenciaPreparada2.setInt(2, idReserva);
-                sentenciaPreparada2.setInt(3, idProductoEmpresa);
-                sentenciaPreparada2.setInt(4, cantidadSolicitada);
+                sentenciaPreparada2.setInt(1, idReserva);
+                sentenciaPreparada2.setInt(2, idProductoEmpresa);
+                sentenciaPreparada2.setInt(3, cantidadSolicitada);
+                sentenciaPreparada2.setDouble(4, líneaReserva.getProductoPublicado().getPrecioventa());
                 filasAfectadas2 = sentenciaPreparada2.executeUpdate();
-                sentenciaPreparada2.close();
 
                 //Obtengo el stock del producto de la DB
                 String ordenSQL3 = "SELECT cantidad FROM productospublicados WHERE idproductoempresa = ?";
@@ -74,6 +72,8 @@ public class ReservaDB {
                     cantidadAlmacenadaEnDB = resultado.getInt("cantidad");
                 }
                 resultado.close();
+                sentenciaPreparada1.close();
+                sentenciaPreparada2.close();
                 sentenciaPreparada3.close();
 
                 if (cantidadAlmacenadaEnDB == 0){
@@ -103,7 +103,7 @@ public class ReservaDB {
 
             conexión.commit();
 
-            if(filasAfectadas > 0 && filasAfectadas2 > 0 && filasAfectadas3 > 0) {
+            if(filasAfectadas1 > 0 && filasAfectadas2 > 0 && filasAfectadas3 > 0) {
                 conexión.close();
                 return true;
             }else {
@@ -113,6 +113,7 @@ public class ReservaDB {
             }
         }catch (SQLException e1){
             try {
+                e1.printStackTrace();
                 conexión.rollback();
                 conexión.close();
             }catch (SQLException e2){
@@ -176,6 +177,147 @@ public class ReservaDB {
         } catch (SQLException e) {
             Log.i("SQL", "Error al devolver el nuevo ID de reserva");
             return 0;
+        }
+    }
+
+    public static ArrayList<Reserva> obtenerReservas(){
+        Connection conexión = BaseDB.conectarConBaseDeDatos();
+        if(conexión == null) {
+            Log.i("SQL", "Error al establecer la conexión con la base de datos");
+            return null;
+        }
+        ArrayList<Reserva> reservasDevueltas = new ArrayList<Reserva>();
+        try {
+            Statement sentencia1 = conexión.createStatement();
+            String ordenSQL1 = "SELECT * FROM reserva";
+            ResultSet resultado1 = sentencia1.executeQuery(ordenSQL1);
+            while(resultado1.next()) {
+                //Obtengo el id de la reserva
+                int idReserva = resultado1.getInt("idreserva");
+                //Obtengo las líneas de reserva
+                ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
+
+                Statement sentencia2 = conexión.createStatement();
+                String ordenSQL2 = "SELECT * FROM lineasreserva";
+                ResultSet resultado2 = sentencia2.executeQuery(ordenSQL2);
+                while (resultado2.next()){
+                    //Obtengo el id de línea de reserva
+                    int idLíneaReserva = resultado2.getInt("idlineasreserva");
+                    //Obtengo el producto de la línea de reserva
+                    Statement sentencia3 = conexión.createStatement();
+                    String ordenSQL3 = "SELECT pp.idproductoempresa, pp.cantidad, pp.precioventa, pp.habilitado, pp.archivado, pp.cod_producto, pp.cod_empresa, e.clave_empr, e.datos_empr, p.cod_QR, p.marca, p.modelo, p.descripcion FROM productospublicados pp INNER JOIN empresas e INNER JOIN productos p ON (pp.cod_producto = p.cod_producto AND pp.cod_empresa = e.cod_empr) WHERE pp.habilitado = 1 AND pp.archivado = 0;";
+                    ResultSet resultado3 = sentencia3.executeQuery(ordenSQL3);
+                    ProductosPublicados productosPublicados = null;
+                    while (resultado3.next()){
+                        int idProductoEmpresa = resultado3.getInt("idproductoempresa");
+                        int cantidadEnStock = resultado3.getInt("cantidad");
+                        double precioVenta = resultado3.getDouble("precioventa");
+                        int habilitadoI = resultado3.getInt("habilitado");
+                        int archivadoI = resultado3.getInt("archivado");
+                        String cod_producto = resultado3.getString("cod_producto");
+                        String cod_empr = resultado3.getString("cod_empresa");
+                        String clave_empr = resultado3.getString("clave_empr");
+                        String datos_empr = resultado3.getString("datos_empr");
+                        String cod_QR = resultado3.getString("cod_QR");
+                        String marca = resultado3.getString("marca");
+                        String modelo = resultado3.getString("modelo");
+                        String descripción = resultado3.getString("descripcion");
+
+                        boolean habilitado = false;
+                        boolean archivado = false;
+
+                        if (habilitadoI == 1) {
+                            habilitado = true;
+                        }
+                        if (archivadoI == 1) {
+                            archivado = true;
+                        }
+
+                        productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr));
+                    }
+                    sentencia3.close();
+                    resultado3.close();
+
+                    //Obtengo la cantidad solicitada de línea de reserva
+                    int cantidadSolicitada = resultado2.getInt("cantidad");
+                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicados, cantidadSolicitada);
+                    líneasReserva.add(líneaReserva);
+                }
+                sentencia2.close();
+                resultado2.close();
+
+                //Obtengo la fecha de la reserva
+                Timestamp fechaReservaTimestamp = resultado1.getTimestamp("fechar");
+                Date fechaReserva = new Date(fechaReservaTimestamp.getTime());
+                //Obtengo el total de la reserva
+                double total = resultado1.getDouble("total");
+                //Obtengo las direcciones de cliente
+                Statement sentencia4 = conexión.createStatement();
+                String ordenSQL4 = "SELECT dc.iddireccioncliente, d.iddireccion, d.direccion, c.idcliente, c.emailc, c.clavec, c.datosc FROM direccionesclientes dc INNER JOIN direcciones d INNER JOIN clientes c ON (dc.iddireccion = d.iddireccion AND dc.idcliente = c.idcliente)";
+                ResultSet resultado4 = sentencia4.executeQuery(ordenSQL4);
+                DireccionesClientes direccionesCliente = null;
+                while (resultado4.next()){
+                    //Obtengo las direcciones
+                    int idDireccion = resultado4.getInt("iddireccion");
+                    String dirección = resultado4.getString("direccion");
+                    Direcciones direcciones = new Direcciones(idDireccion, dirección);
+
+                    //Obtengo los clientes
+                    int idCliente = resultado4.getInt("idcliente");
+                    String email = resultado4.getString("emailc");
+                    String contraseña = resultado4.getString("clavec");
+                    String datos = resultado4.getString("datosc");
+                    Cliente cliente = new Cliente(idCliente, email, contraseña, datos);
+
+                    int idDireccionesCliente = resultado4.getInt("iddireccioncliente");
+                    direccionesCliente = new DireccionesClientes(idDireccionesCliente, direcciones, cliente);
+                }
+                resultado4.close();
+                sentencia4.close();
+
+                int cancelado = resultado1.getInt("Cancelado");
+                int enProceso = resultado1.getInt("enproceso");
+                int finalizado = resultado1.getInt("finalizado");
+
+                Reserva r = new Reserva(idReserva, líneasReserva, fechaReserva, total, direccionesCliente);
+                r.setCancelado(cancelado);
+                r.setEnProceso(enProceso);
+                r.setFinalizado(finalizado);
+                reservasDevueltas.add(r);
+            }
+            resultado1.close();
+            sentencia1.close();
+
+            conexión.close();
+
+            return reservasDevueltas;
+        } catch (SQLException e) {
+            Log.i("SQL", "Error al mostrar las reservas de la base de datos");
+            return null;
+        }
+    }
+
+    public static boolean actualizarReservas(Reserva reserva){
+        Connection conexión = BaseDB.conectarConBaseDeDatos();
+        if(conexión == null) {
+            Log.i("SQL", "Error al establecer la conexión con la base de datos");
+            return false;
+        }
+        try {
+            String ordenSQL = "UPDATE reserva SET Cancelado = 1 WHERE idreserva = " + reserva.getIdReserva();
+            PreparedStatement sentenciaPreparada = conexión.prepareStatement(ordenSQL);
+            int filasAfectadas1 = sentenciaPreparada.executeUpdate();
+
+            conexión.close();
+
+            if(filasAfectadas1 > 0) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            Log.i("SQL", "Error al actualizar en la base de datos");
+            return false;
         }
     }
 }

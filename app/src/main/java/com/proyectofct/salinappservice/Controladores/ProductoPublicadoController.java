@@ -64,10 +64,12 @@ public class ProductoPublicadoController {
 
 
 
+
     //REPASAR MÉTODO PARA BUSCAR PRODUCTOS
   
   //CONFLICTO RAMA VICTOR
     //public static ArrayList<ProductosPublicados> buscarProductoPublicado(String[] marca){
+
 
     public static ArrayList<ProductosPublicados> buscarProductoPublicado(int página, String marca){
 

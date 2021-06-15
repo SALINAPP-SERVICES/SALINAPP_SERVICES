@@ -21,7 +21,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,9 +36,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
 
-
-    private MenuItem logoutMenu, loginMenu, volverInicio, nav_empresas, nav_galeria_productos, nav_carrito, camara;
-
+    private MenuItem logoutMenu, loginMenu, volverInicio, camara;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +49,16 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+                startActivity(intent);
+
             }
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_carrito , R.id.nav_fragment_editar_info_empresas).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_fragment_empresas, R.id.nav_fragment_productos_publicados, R.id.nav_fragment_detalle_productos_publicados, R.id.nav_fragment_carrito, R.id.nav_fragment_reservas, R.id.nav_fragment_editar_info_empresas, R.id.nav_fragment_galeria_productos, R.id.nav_fragment_completar_perfil).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -154,19 +152,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        nav_carrito = (MenuItem) findViewById(R.id.nav_fragment_carrito);
-        nav_carrito.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Navigation.findNavController(nav_carrito.getActionView()).navigate(R.id.nav_fragment_carrito);
-                return false;
-            }
-        });
-        */
-
-
-            camara.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        camara.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(HomeActivity.this, Camara.class);

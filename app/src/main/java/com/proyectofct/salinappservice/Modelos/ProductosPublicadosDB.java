@@ -213,8 +213,8 @@ public class ProductosPublicadosDB {
     //CONFLICTO RAMA VICTOR
     //public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(String cod_empresa) {
 
-    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
 
+    public static ArrayList<ProductosPublicados> obtenerProductosPublicadosPorEmpresa(int página, String cod_empresa) {
         Connection conexión = BaseDB.conectarConBaseDeDatos();
         if (conexión == null) {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
@@ -333,10 +333,13 @@ public class ProductosPublicadosDB {
     }
 
 
+
+
     
 
     //CONFLICTO RAMA VICTOR
     //public static ArrayList<ProductosPublicados> buscarProductoPublicados(String[] listamarca) {
+
 
     public static ArrayList<ProductosPublicados> buscarProductoPublicados(int página, String marca) {
 

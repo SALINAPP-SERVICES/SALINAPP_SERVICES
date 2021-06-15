@@ -99,10 +99,9 @@
     <string name="resumen">Resumen</string>
     <string name="sector">Sector</string>
     <string name="imagencarrito">imagenCarrito</string>
-    <string name="buscar">Buscar...</string>
+    <string name="buscar">Buscar…</string>
 
     <string name="imagenbuscar">imagenbuscar</string>
-
 
     <string name="nav_camara">CÁMARA</string>
 
@@ -111,15 +110,31 @@
     <string name="carrito">CARRITO</string>
     <string name="productos_publicados">PRODUCTOS PUBLICADOS</string>
     <string name="empresas">EMPRESAS</string>
-    <string name="unidades_deseadas">Unidades deseadas...</string>
+    <string name="unidades_deseadas">Unidades deseadas…</string>
     <string name="crear_reserva">CREAR RESERVA</string>
     <string name="img_producto_carrito">img_producto_carrito</string>
     <string name="descripci_n_producto_carrito">Descripción producto carrito</string>
     <string name="marca_producto_carrito">Marca producto carrito</string>
     <string name="cantidad_producto_carrito">Cantidad producto carrito</string>
     <string name="precio_producto_carrito">Precio producto carrito</string>
+
+    <string name="reservas">RESERVAS</string>
+
     <string name="btn_guardar_fdipp">GUARDAR</string>
     <string name="btnGuardar_fdgipp">GUARDAR</string>
 
 
+    <string name="edt_localizacion_editInfoE">Localización</string>
+    <string name="disminuir_cantidad">Disminuir cantidad</string>
+    <string name="aumentar_cantidad">Aumentar cantidad</string>
+    <string name="completar_perfil">COMPLETAR PERFIL</string>
+    <string name="completar_informaci_n_de_usuario">COMPLETAR INFORMACIÓN DE USUARIO</string>
+    <string name="apellidos">Apellidos:</string>
+    <string name="calle">Calle:</string>
+    <string name="n_mero">Número:</string>
+    <string name="localidad">Localidad:</string>
+    <string name="c_digo_postal">Código postal:</string>
+    <string name="provincia">Provincia:</string>
+    <string name="completar_informaci_n">COMPLETAR INFORMACIÓN</string>
+    <string name="cancelar_reserva">Cancelar reserva</string>
 </resources>

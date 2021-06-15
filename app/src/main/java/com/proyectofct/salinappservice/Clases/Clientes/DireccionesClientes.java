@@ -13,6 +13,9 @@ public class DireccionesClientes implements Serializable {
         this.cliente = cliente;
     }
 
+    public DireccionesClientes() {
+    }
+
     public int getIdDireccionCliente() {
         return idDireccionCliente;
     }
@@ -35,5 +38,14 @@ public class DireccionesClientes implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    @Override
+    public String toString() {
+        return "DireccionesClientes{" +
+                "idDireccionCliente=" + idDireccionCliente +
+                ", direccion=" + direccion +
+                ", cliente=" + cliente +
+                '}';
     }
 }

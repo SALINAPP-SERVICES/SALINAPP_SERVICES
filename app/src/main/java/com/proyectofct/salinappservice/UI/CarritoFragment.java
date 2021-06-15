@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.UI;
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +27,6 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
-import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Productos.Producto;
@@ -39,6 +40,7 @@ import com.proyectofct.salinappservice.Controladores.ReservaController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +56,13 @@ public class CarritoFragment extends Fragment {
     private ListaProductosCarritoAdapter listaProductosCarritoAdapter;
 
     private Button btCrearReserva;
+
+    public double precioTotal = 0.0;
+    public int idReserva = 0;
+    public ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
+    public Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    public Date fechaActual = new Date(timestamp.getTime());
+    public DireccionesClientes direccionesClientes;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
@@ -75,6 +84,7 @@ public class CarritoFragment extends Fragment {
 
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot documento = task.getResult();
@@ -109,43 +119,38 @@ public class CarritoFragment extends Fragment {
 
                             //CARGO EL RECYCLER VIEW CON EL ARRAY LIST DE LOS PRODUCTOS QUE OBTENGO DE FIRESTORE
                             listaProductosCarritoAdapter.cargarRecyclerView(productoCarrito);
+                        }
 
-                            //CREAR RESERVA
-                            btCrearReserva = vista.findViewById(R.id.btCrearReserva);
-                            btCrearReserva.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //Creo la línea de reserva y la añado a un ArrayList
+                        btCrearReserva = vista.findViewById(R.id.btCrearReserva);
+                        btCrearReserva.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                for (ProductoCarrito producto : listaProductosCarritoAdapter.listaProductosCarrito) {
                                     int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
-                                    int idReserva = ReservaController.obtenerNuevoIDReserva();
-                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(productoCarrito.getCodProducto(), productoCarrito.getCantidad(), productoCarrito.getPrecio(), true, false, new Producto(String.valueOf(productoCarrito.getCodProducto()), "codQR", productoCarrito.getMarca(), productoCarrito.getModelo(), productoCarrito.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(productoCarrito.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(producto.getCodProducto(), producto.getCantidad(), producto.getPrecio(), true, false, new Producto(String.valueOf(producto.getCodProducto()), "codQR", producto.getMarca(), producto.getModelo(), producto.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(producto.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
 
-                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, productoCarrito.getCantidad());
-                                    ArrayList<LíneaReserva> líneasReserva = new ArrayList<LíneaReserva>();
+                                    LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, producto.getCantidad());
+
                                     líneasReserva.add(líneaReserva);
-
-                                    //Creo la reserva
-                                    Date fechaActual = new Date();
-                                    double precioTotal = productoCarrito.getCantidad() * productoCarrito.getPrecio();
-                                    int idCliente = ClienteController.obtenerNuevoIDCliente();
-                                    int idDirección = ClienteController.obtenerNuevoIDDirección();
-                                    int idDirecciónCliente = ClienteController.obtenerNuevoIDDirecciónCliente();
-                                    Cliente cliente = new Cliente(idCliente, "email", "pass", "datos");
-                                    Direcciones direccion = new Direcciones(idDirección, "direccion");
-                                    DireccionesClientes direccionesClientes = new DireccionesClientes(idDirecciónCliente, direccion, cliente);
-
+                                    double precio = producto.getCantidad() * producto.getPrecio();
+                                    precioTotal = precioTotal + precio;
+                                }
+                                idReserva = ReservaController.obtenerNuevoIDReserva();
+                                direccionesClientes = ClienteController.obtenerDireccionesCliente();
+                                if (direccionesClientes == null) {
+                                    Toast.makeText(getActivity(), "COMPLETA TU PERFIL, ANTES DE HACER UNA RESERVA", Toast.LENGTH_LONG).show();
+                                    Navigation.findNavController(vista).navigate(R.id.nav_fragment_completar_perfil);
+                                } else {
                                     Reserva reserva = new Reserva(idReserva, líneasReserva, fechaActual, precioTotal, direccionesClientes);
-
-                                    //Inserto la reserva
                                     boolean insertadoOk = ReservaController.insertarReserva(reserva);
-                                    if (insertadoOk){
+                                    if (insertadoOk) {
                                         Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
-                                    }else {
+                                    } else {
                                         Log.i("SQL", "Error al insertar la reserva en la base de datos");
                                     }
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 }else {
                     Log.i("ERROR", "Error al obtener los datos de Firestore");
@@ -157,8 +162,6 @@ public class CarritoFragment extends Fragment {
                 Log.i("ERROR", "Error al obtener los productos del carrito de Firestore");
             }
         });
-
-
         return vista;
     }
 }
