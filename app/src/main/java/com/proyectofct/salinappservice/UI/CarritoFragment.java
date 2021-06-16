@@ -130,7 +130,7 @@ public class CarritoFragment extends Fragment {
                             public void onClick(View v) {
                                 for (ProductoCarrito producto : listaProductosCarritoAdapter.listaProductosCarrito) {
                                     int idLíneaReserva = ReservaController.obtenerNuevoIDLíneaReserva();
-                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(producto.getCodProducto(), producto.getCantidad(), producto.getPrecio(), true, false, new Producto(String.valueOf(producto.getCodProducto()), "codQR", producto.getMarca(), producto.getModelo(), producto.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(producto.getCodEmpresa(), "claveEmpresa", "datosEmpresa"));
+                                    ProductosPublicados productosPublicadosCarrito = new ProductosPublicados(producto.getCodProducto(), producto.getCantidad(), producto.getPrecio(), true, false, new Producto(String.valueOf(producto.getCodProducto()), "codQR", producto.getMarca(), producto.getModelo(), producto.getDescripción(), null /*productoCarrito.getFotoURL()*/), new Empresa(producto.getCodEmpresa(), "claveEmpresa", "datosEmpresa"), Integer.valueOf(producto.getFotoURL()));
 
                                     LíneaReserva líneaReserva = new LíneaReserva(idLíneaReserva, idReserva, productosPublicadosCarrito, producto.getCantidad());
 

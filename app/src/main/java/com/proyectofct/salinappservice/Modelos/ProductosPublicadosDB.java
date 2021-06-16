@@ -22,6 +22,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
+
 public class ProductosPublicadosDB {
     //OBTENER TODOS LOS PRODUCTOS PUBLICADOS DE MOMENTO NO SE ESTÁ USANDO
     /*
@@ -191,6 +193,26 @@ public class ProductosPublicadosDB {
         }
     }*/
 
+    public static Bitmap obtenerFotoProducto(int id_foto){
+        Connection conexion = BaseDB.conectarConBaseDeDatos();
+        Blob imagen = null;
+        Bitmap bitmap = null;
+        try{
+            String ordenSQL = "SELECT foto FROM fotos_productos WHERE idfotos = ?";
+            PreparedStatement sentenciaPreparada = conexion.prepareStatement(ordenSQL);
+            sentenciaPreparada.setInt(1, id_foto);
+            ResultSet resultado3 = sentenciaPreparada.executeQuery();
+            while (resultado3.next()) {
+                imagen = resultado3.getBlob("foto");
+                bitmap = blob_to_bitmap(imagen, ConfiguracionesGeneralesDB.ANCHO_FOTO, ConfiguracionesGeneralesDB.ALTO_FOTO);
+
+            }
+        }catch (Exception ex){
+
+        }
+        return bitmap;
+    }
+
     private static boolean contiene(ArrayList<ProductosPublicados> productosPublicadosDevueltos, Moda p) {
         for(ProductosPublicados p1: productosPublicadosDevueltos)
         {
@@ -279,7 +301,7 @@ public class ProductosPublicadosDB {
                         archivado = false;
                     }
 
-                    ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
+                    ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa, id_foto);
                     if (!contiene(productosPublicadosDevueltos, (Moda) productoPublicado.getP())){
                         productosPublicadosDevueltos.add(productoPublicado);
                     }
@@ -413,7 +435,7 @@ public class ProductosPublicadosDB {
                     archivado = true;
                 }
 
-                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
+                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa, id_foto);
                 productosPublicadosDevueltos.add(productoPublicado);
             }
             sentenciaPreparada.close();
@@ -481,7 +503,7 @@ public class ProductosPublicadosDB {
                     archivado = false;
                 }
 
-                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, coches, empresa);
+                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, coches, empresa, id_foto);
                 productosPublicadosDevueltos.add(productoPublicado);
             }
             sentenciaPreparada3.close();
@@ -612,7 +634,7 @@ public class ProductosPublicadosDB {
                     archivado = false;
                 }
 
-                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
+                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa,id_foto);
                 productosPublicadosDevueltos.add(productoPublicado);
             }
             resultado2.close();
@@ -724,7 +746,7 @@ public class ProductosPublicadosDB {
                     archivado = true;
                 }
 
-                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa);
+                ProductosPublicados productoPublicado = new ProductosPublicados(idproductoempresa, cantidad, precioventa, habilitado, archivado, moda, empresa, id_foto);
                 productosPublicadosDevueltos.add(productoPublicado);
             }
             resultado2.close();

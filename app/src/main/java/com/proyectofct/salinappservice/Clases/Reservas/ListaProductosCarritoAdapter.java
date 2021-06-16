@@ -1,6 +1,7 @@
 package com.proyectofct.salinappservice.Clases.Reservas;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.proyectofct.salinappservice.Clases.Productos.ProductoCarrito;
+import com.proyectofct.salinappservice.Modelos.ProductosPublicadosDB;
 import com.proyectofct.salinappservice.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -72,10 +74,12 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
     @Override
     public void onBindViewHolder(@NonNull @NotNull ProductoCarritoViewHolder holder, int position) {
         ProductoCarrito productoCarritoActual = listaProductosCarrito.get(position);
-        if (productoCarritoActual.getFotoURL() == "fotoURL"){
+        Bitmap bitmap = ProductosPublicadosDB.obtenerFotoProducto(Integer.valueOf(productoCarritoActual.getFotoURL()));
+        if (productoCarritoActual.getFotoURL().equals("fotoURL") || bitmap== null){
             holder.imgProductoCarrito.setImageResource(R.drawable.producto);
         }else {
-            Glide.with(c).load(listaProductosCarrito.get(position).getFotoURL()).into(holder.imgProductoCarrito);
+            holder.imgProductoCarrito.setImageBitmap(bitmap);
+            //Glide.with(c).load(listaProductosCarrito.get(position).getFotoURL()).into(holder.imgProductoCarrito);
         }
         holder.txtDescripciónProductoCarrito.setText("Descripción: " + String.valueOf(productoCarritoActual.getDescripción()));
         holder.txtMarcaProductoCarrito.setText("Marca: " + String.valueOf(productoCarritoActual.getMarca()));

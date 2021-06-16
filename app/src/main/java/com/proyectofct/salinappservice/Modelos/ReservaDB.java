@@ -226,7 +226,7 @@ public class ReservaDB {
                         String marca = resultado3.getString("marca");
                         String modelo = resultado3.getString("modelo");
                         String descripción = resultado3.getString("descripcion");
-
+                        int id_foto = resultado3.getInt("idfoto");
                         boolean habilitado = false;
                         boolean archivado = false;
 
@@ -237,7 +237,7 @@ public class ReservaDB {
                             archivado = true;
                         }
 
-                        productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr));
+                        productosPublicados = new ProductosPublicados(idProductoEmpresa, cantidadEnStock, precioVenta, habilitado, archivado, new Producto(cod_producto, cod_QR, marca, modelo, descripción, null /*No me interesa la imagen*/), new Empresa(cod_empr, clave_empr, datos_empr),id_foto);
                     }
                     sentencia3.close();
                     resultado3.close();

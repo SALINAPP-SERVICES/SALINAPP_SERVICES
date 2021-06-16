@@ -59,7 +59,7 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
         ProductosPublicados productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
         listaProductosPublicadosAdapter.notifyDataSetChanged();
         if (productosPublicados.getP() instanceof Moda){
-            ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE());
+            ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE(), productosPublicados.getId_foto());
             ArrayList<ProductosPublicados> grupoProductos = ProductoPublicadoController.obtenerVariantesProductoPublicado(productoPublicado.getP().getCod_producto());
             if(!Camara.IMAGEN.equals("")){
                 Bitmap imgBitmap = BitmapFactory.decodeFile(Camara.IMAGEN);

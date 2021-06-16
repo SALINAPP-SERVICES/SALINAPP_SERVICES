@@ -19,7 +19,7 @@ public class ProductosPublicados implements Serializable {
     private Producto p;
     private Empresa e;
 
-    public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
+    public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e, int id_foto) {
         this.idProductoEmpresa = idproductoempresa;
         this.cantidad = cantidad;
         this.precioventa = precioventa;
@@ -27,6 +27,15 @@ public class ProductosPublicados implements Serializable {
         this.archivado = archivado;
         this.p = p;
         this.e = e;
+        this.id_foto = id_foto;
+    }
+
+    public int getId_foto() {
+        return id_foto;
+    }
+
+    public void setId_foto(int id_foto) {
+        this.id_foto = id_foto;
     }
 
     public int getIdProductoEmpresa() {
