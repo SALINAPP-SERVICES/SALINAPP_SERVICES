@@ -30,6 +30,17 @@ public class ProductosPublicados implements Serializable {
         this.id_foto = id_foto;
     }
 
+    public ProductosPublicados(int idproductoempresa, int cantidad, double precioventa, boolean habilitado, boolean archivado, Producto p, Empresa e) {
+        this.idProductoEmpresa = idproductoempresa;
+        this.cantidad = cantidad;
+        this.precioventa = precioventa;
+        this.habilitado = habilitado;
+        this.archivado = archivado;
+        this.p = p;
+        this.e = e;
+
+    }
+
     public int getId_foto() {
         return id_foto;
     }

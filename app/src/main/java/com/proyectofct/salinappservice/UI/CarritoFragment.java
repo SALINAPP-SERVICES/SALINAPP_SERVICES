@@ -148,6 +148,7 @@ public class CarritoFragment extends Fragment {
                                     boolean insertadoOk = ReservaController.insertarReserva(reserva);
                                     if (insertadoOk) {
                                         Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                        Navigation.findNavController(vista).navigate(R.id.nav_fragment_reservas);
 
                                         boolean resultadoObtenido = vaciarCarritoFirestore();
                                         if (resultadoObtenido){

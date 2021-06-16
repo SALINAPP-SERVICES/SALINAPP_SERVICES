@@ -182,7 +182,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
             btAñadirAlCarrito.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ProductoCarrito productoCarrito = new ProductoCarrito(productosPublicados.getIdProductoEmpresa(), 1, productosPublicados.getP().getDescripción(), productosPublicados.getE().getCod_empresa(), "fotoURL", productosPublicados.getP().getMarca(), productosPublicados.getP().getModelo(), productosPublicados.getPrecioventa());
+                    ProductoCarrito productoCarrito = new ProductoCarrito(productosPublicados.getIdProductoEmpresa(), 1, productosPublicados.getP().getDescripción(), productosPublicados.getE().getCod_empresa(),String.valueOf(productosPublicados.getId_foto()), productosPublicados.getP().getMarca(), productosPublicados.getP().getModelo(), productosPublicados.getPrecioventa());
 
                     DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
                     documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

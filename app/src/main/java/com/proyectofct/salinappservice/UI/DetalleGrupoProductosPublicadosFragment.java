@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -186,7 +187,7 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
                         btAñadirAlCarrito.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), 1, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), "fotoURL", productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
+                                ProductoCarrito productoCarrito = new ProductoCarrito(productoPublicado.getIdProductoEmpresa(), 1, productoPublicado.getP().getDescripción(), productoPublicado.getE().getCod_empresa(), String.valueOf(productoPublicado.getId_foto()), productoPublicado.getP().getMarca(), productoPublicado.getP().getModelo(), productoPublicado.getPrecioventa());
                                 DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
                                 documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
@@ -202,6 +203,7 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
                                             } else {
                                                 ActualizarProductoCarrito(productoCarrito, documentReference);
                                             }
+                                            Navigation.findNavController(vista).navigate(R.id.nav_fragment_carrito);
                                         }
                                     }
                                 });
