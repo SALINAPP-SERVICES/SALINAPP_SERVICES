@@ -10,6 +10,7 @@ import com.proyectofct.salinappservice.Clases.Productos.Producto;
 import com.proyectofct.salinappservice.Clases.Productos.ProductosPublicados;
 import com.proyectofct.salinappservice.Clases.Reservas.LíneaReserva;
 import com.proyectofct.salinappservice.Clases.Reservas.Reserva;
+import com.proyectofct.salinappservice.Controladores.ClienteController;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
 
 import java.sql.Connection;
@@ -186,10 +187,13 @@ public class ReservaDB {
             Log.i("SQL", "Error al establecer la conexión con la base de datos");
             return null;
         }
+        DireccionesClientes direccionesClientes = ClienteController.obtenerDireccionesCliente();
+        int idDireccionCliente = direccionesClientes.getIdDireccionCliente();
+
         ArrayList<Reserva> reservasDevueltas = new ArrayList<Reserva>();
         try {
             Statement sentencia1 = conexión.createStatement();
-            String ordenSQL1 = "SELECT * FROM reserva";
+            String ordenSQL1 = "SELECT * FROM reserva WHERE iddireccioncliente = " + idDireccionCliente;
             ResultSet resultado1 = sentencia1.executeQuery(ordenSQL1);
             while(resultado1.next()) {
                 //Obtengo el id de la reserva
