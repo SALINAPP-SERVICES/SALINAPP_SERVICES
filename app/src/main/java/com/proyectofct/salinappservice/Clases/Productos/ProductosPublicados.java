@@ -15,6 +15,7 @@ public class ProductosPublicados implements Serializable {
     private double precioventa;
     private boolean habilitado;
     private boolean archivado;
+    private int id_foto;
     private Producto p;
     private Empresa e;
 
