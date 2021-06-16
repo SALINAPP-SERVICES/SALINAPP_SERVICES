@@ -7,9 +7,6 @@
     android:orientation="vertical"
     tools:context=".UI.EmpresasFragment">
 
-
-
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="wrap_content"
@@ -56,7 +53,6 @@
 
     </RelativeLayout>
 
-
     <TextView
         android:id="@+id/textView16"
         android:layout_width="match_parent"
@@ -65,27 +61,20 @@
         android:text="@string/lista_de_empresas"
         android:textAlignment="center"
         android:textSize="30sp"
-
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        android:textStyle="bold" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_empresas"
-        android:layout_width="390dp"
-        android:layout_height="600dp"
+        android:layout_width="383dp"
+        android:layout_height="500dp"
         android:layout_margin="10dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-
 
 </LinearLayout>
 
