@@ -148,15 +148,8 @@ public class CarritoFragment extends Fragment {
                                     boolean insertadoOk = ReservaController.insertarReserva(reserva);
                                     if (insertadoOk) {
                                         Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                        vaciarCarritoFirestore();
                                         Navigation.findNavController(vista).navigate(R.id.nav_fragment_reservas);
-
-                                        boolean resultadoObtenido = vaciarCarritoFirestore();
-                                        if (resultadoObtenido){
-                                            Toast.makeText(getActivity(), "Carrito vaciado", Toast.LENGTH_LONG).show();
-                                            listaProductosCarritoAdapter.vaciarCarrito();
-                                        }else {
-                                            Log.i("", "Error al vaciar el carrito");
-                                        }
                                     } else {
                                         Log.i("SQL", "Error al insertar la reserva en la base de datos");
                                     }
@@ -178,7 +171,7 @@ public class CarritoFragment extends Fragment {
     }
 
     //MÉTODO PARA VACÍAR EL CARRITO
-    public boolean vaciarCarritoFirestore() {
+    public void vaciarCarritoFirestore() {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
@@ -189,21 +182,16 @@ public class CarritoFragment extends Fragment {
             productosCarrito.put(String.valueOf(productoCarrito.getCodProducto()), FieldValue.delete());
         }
 
-        resultado = false;
-
         documentReference.update(productosCarrito).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<Void> task) {
-                resultado = true;
             }
         });
 
         documentReference.update(productosCarrito).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
-                resultado = false;
             }
         });
-        return resultado;
     }
 }
