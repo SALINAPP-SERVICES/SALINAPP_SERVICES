@@ -219,4 +219,9 @@ public class ListaProductosCarritoAdapter extends RecyclerView.Adapter<ProductoC
             }
         });
     }
+
+    //MÉTODO PARA VACIAR EL CARRITO
+    public void vaciarCarrito() {
+
+    }
 }

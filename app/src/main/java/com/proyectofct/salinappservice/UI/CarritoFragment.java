@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
@@ -63,6 +64,8 @@ public class CarritoFragment extends Fragment {
     public Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     public Date fechaActual = new Date(timestamp.getTime());
     public DireccionesClientes direccionesClientes;
+
+    public boolean resultado;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
@@ -145,7 +148,14 @@ public class CarritoFragment extends Fragment {
                                     boolean insertadoOk = ReservaController.insertarReserva(reserva);
                                     if (insertadoOk) {
                                         Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
-                                        //vaciarCarrito();
+
+                                        boolean resultadoObtenido = vaciarCarritoFirestore();
+                                        if (resultadoObtenido){
+                                            Toast.makeText(getActivity(), "Carrito vaciado", Toast.LENGTH_LONG).show();
+                                            listaProductosCarritoAdapter.vaciarCarrito();
+                                        }else {
+                                            Log.i("", "Error al vaciar el carrito");
+                                        }
                                     } else {
                                         Log.i("SQL", "Error al insertar la reserva en la base de datos");
                                     }
@@ -166,10 +176,33 @@ public class CarritoFragment extends Fragment {
         return vista;
     }
 
-    /*
     //MÉTODO PARA VACÍAR EL CARRITO
-    public void vaciarCarrito() {
+    public boolean vaciarCarritoFirestore() {
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        DocumentReference documentReference = db.collection("shoppingcars").document(firebaseAuth.getCurrentUser().getUid());
 
+        Map<String, Object> productosCarrito = new HashMap<>();
+
+        for (ProductoCarrito productoCarrito: listaProductosCarritoAdapter.listaProductosCarrito) {
+            productosCarrito.put(String.valueOf(productoCarrito.getCodProducto()), FieldValue.delete());
+        }
+
+        resultado = false;
+
+        documentReference.update(productosCarrito).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<Void> task) {
+                resultado = true;
+            }
+        });
+
+        documentReference.update(productosCarrito).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @org.jetbrains.annotations.NotNull Exception e) {
+                resultado = false;
+            }
+        });
+        return resultado;
     }
-    */
 }
