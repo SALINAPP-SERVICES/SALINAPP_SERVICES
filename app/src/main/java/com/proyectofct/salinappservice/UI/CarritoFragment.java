@@ -145,6 +145,7 @@ public class CarritoFragment extends Fragment {
                                     boolean insertadoOk = ReservaController.insertarReserva(reserva);
                                     if (insertadoOk) {
                                         Toast.makeText(getActivity(), "Reserva creada correctamente", Toast.LENGTH_LONG).show();
+                                        //vaciarCarrito();
                                     } else {
                                         Log.i("SQL", "Error al insertar la reserva en la base de datos");
                                     }
@@ -164,4 +165,11 @@ public class CarritoFragment extends Fragment {
         });
         return vista;
     }
+
+    /*
+    //MÉTODO PARA VACÍAR EL CARRITO
+    public void vaciarCarrito() {
+
+    }
+    */
 }
