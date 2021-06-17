@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("", "signInWithCredential:success");
                     if(nuevoUsuario){
-                        addToFirebase("Usuarios"); //Las empresas no se pueden registrar con su cuenta de Google :)
+                        addToFirestore("Usuarios"); //Las empresas no se pueden registrar con su cuenta de Google :)
                     }
                     //FirebaseUser user = firebaseAuth.getCurrentUser();
                     //updateUI(user);
@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void addToFirebase(String tipoUsuario) {
+    private void addToFirestore(String tipoUsuario) {
         Map<String, Object> usuario = new HashMap<>();
         usuario.put("Nombre", firebaseAuth.getCurrentUser().getDisplayName());
         usuario.put("Email", firebaseAuth.getCurrentUser().getEmail());

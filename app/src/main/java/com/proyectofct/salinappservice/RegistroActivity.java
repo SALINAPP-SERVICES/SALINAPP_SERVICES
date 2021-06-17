@@ -124,7 +124,6 @@ public class RegistroActivity extends AppCompatActivity {
                 }else {
                     addToFirestore(tipoUsuario);
                     Toast.makeText(RegistroActivity.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
