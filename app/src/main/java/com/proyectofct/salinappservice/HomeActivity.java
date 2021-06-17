@@ -34,8 +34,6 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseFirestore db;
 
-    private NavigationView navigationView;
-
     private MenuItem logoutMenu, loginMenu, volverInicio, camara;
 
     @Override

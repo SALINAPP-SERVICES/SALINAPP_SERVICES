@@ -44,7 +44,7 @@
     <string name="email">Email:</string>
     <string name="nombre">Nombre:</string>
     <string name="bienvenid_a_nuestra_app">¡BIENVENID@ A NUESTRA APP!</string>
-    <string name="entrar_ya">Usuarios</string>
+    <string name="loginUsuarios">Usuarios</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="salir_de_la_cuenta">Salir de la cuenta</string>
     <string name="volver_a_la_ventana_principal">Volver a la ventana principal</string>
