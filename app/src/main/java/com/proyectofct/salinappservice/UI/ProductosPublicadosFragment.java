@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Clases.Empresa.EmpresaViewHolder;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
@@ -38,12 +39,17 @@ public class ProductosPublicadosFragment extends Fragment {
     private int totalPáginas;
     private ImageButton btn_buscar;
     private EditText text_busqueda;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista;
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        if(BienvenidaActivity.EMPRESA == false) {
+        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
+        String codEmpresa = infoEmpresa.getCod_empresa();
+
+        if(firebaseAuth.getCurrentUser().getEmail().equals(codEmpresa)) {
             vista = inflater.inflate(R.layout.fragment_productos_publicados, container, false);
 
             btn_buscar = (ImageButton) vista.findViewById(R.id.btn_buscar);
@@ -92,12 +98,6 @@ public class ProductosPublicadosFragment extends Fragment {
         //requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
         */
 
-
-
-
-        InfoEmpresa infoEmpresa = (InfoEmpresa)getArguments().getSerializable(EmpresaViewHolder.EXTRA_OBJETO_EMPRESA);
-        String codEmpresa = infoEmpresa.getCod_empresa();
-
         //RECYCLER VIEW CON LOS PRODUCTOS
         totalRegistros = ProductoPublicadoController.obtenerCantidadProductoPublicado(codEmpresa);
         totalPáginas = (totalRegistros / ConfiguracionesGeneralesDB.ELEMENTOS_POR_PAGINA) + 1;
@@ -118,7 +118,7 @@ public class ProductosPublicadosFragment extends Fragment {
             rvProductosPublicados.setAdapter(listaProductosPublicadosAdapter);
 
 
-            if(BienvenidaActivity.EMPRESA == false) {
+            if(!firebaseAuth.getCurrentUser().getEmail().equals(codEmpresa)) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     rvProductosPublicados.setLayoutManager(new LinearLayoutManager(getActivity()));
                 } else {

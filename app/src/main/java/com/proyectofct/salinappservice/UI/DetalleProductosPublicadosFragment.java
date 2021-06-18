@@ -52,9 +52,11 @@ import com.proyectofct.salinappservice.R;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_GRUPO_PRODUCTO_PUBLICADO;
 import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_PRODUCTO_PUBLICADO;
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
 
@@ -82,7 +84,13 @@ public class DetalleProductosPublicadosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista;
-        if(BienvenidaActivity.EMPRESA == true){
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        String cod_empresa="";
+        ProductosPublicados productosPublicados = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
+        cod_empresa = productosPublicados.getE().getCod_empresa();
+
+        if(firebaseAuth.getCurrentUser().getEmail().equals(cod_empresa)){
             vista = inflater.inflate(R.layout.fragment_detalle_imagenes_productos_publicados, container, false);
         } else{
             vista = inflater.inflate(R.layout.fragment_detalle_productos_publicados, container, false);
@@ -95,7 +103,6 @@ public class DetalleProductosPublicadosFragment extends Fragment {
         txtMarcaDetalleProductoPublicado = (TextView) vista.findViewById(R.id.txtMarcaDetalleProductoPublicado);
         txtModeloDetalleProductoPublicado = (TextView) vista.findViewById(R.id.txtModeloDetalleProductoPublicado);
 
-        ProductosPublicados productosPublicados = (ProductosPublicados) getArguments().getSerializable(EXTRA_OBJETO_PRODUCTO_PUBLICADO);
         if (productosPublicados != null){
             Blob imagenProductoPublicado = productosPublicados.getP().getImagen();
             if (imagenProductoPublicado != null){
@@ -111,7 +118,7 @@ public class DetalleProductosPublicadosFragment extends Fragment {
             Log.i("ERROR", "El producto publicado no se ha recibido del fragment anterior correctamente");
         }
 
-        if(BienvenidaActivity.EMPRESA == true) {
+        if(firebaseAuth.getCurrentUser().getEmail().equals(productosPublicados.getE().getCod_empresa())) {
             imgDetalleProductoPublicado.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
