@@ -65,8 +65,6 @@ public class CarritoFragment extends Fragment {
     public Date fechaActual = new Date(timestamp.getTime());
     public DireccionesClientes direccionesClientes;
 
-    public boolean resultado;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_carrito, container, false);
 

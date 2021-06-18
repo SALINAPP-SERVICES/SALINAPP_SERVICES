@@ -34,8 +34,6 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseFirestore db;
 
-    private NavigationView navigationView;
-
     private MenuItem logoutMenu, loginMenu, volverInicio, camara;
 
     @Override
@@ -49,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+                Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
                 startActivity(intent);
 
             }

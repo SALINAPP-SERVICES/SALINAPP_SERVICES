@@ -136,25 +136,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("", "signInWithCredential:success");
-                            if(nuevoUsuario){
-                                addToFirestore("Usuarios"); //Las empresas no se pueden registrar con su cuenta de Google :)
-                            }
-                            //FirebaseUser user = firebaseAuth.getCurrentUser();
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("", "signInWithCredential:failure", task.getException());
-                            //updateUI(null);
-                        }
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("", "signInWithCredential:success");
+                    if(nuevoUsuario){
+                        addToFirestore("Usuarios"); //Las empresas no se pueden registrar con su cuenta de Google :)
                     }
-                });
+                    //FirebaseUser user = firebaseAuth.getCurrentUser();
+                    //updateUI(user);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("", "signInWithCredential:failure", task.getException());
+                    //updateUI(null);
+                }
+            }
+        });
     }
 
     private void addToFirestore(String tipoUsuario) {
@@ -166,14 +165,14 @@ public class LoginActivity extends AppCompatActivity {
         db.collection(tipoUsuario).document(firebaseAuth.getCurrentUser().getUid()).set(usuario).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Log.i("", "Nuevo usuario en firestore");
+                Log.i("", "Nuevo usuario en firebase");
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i("", "Error al añadir el usuario en firestore", e);
+                Log.i("", "Error al añadir el usuario en firebase", e);
             }
         });
     }

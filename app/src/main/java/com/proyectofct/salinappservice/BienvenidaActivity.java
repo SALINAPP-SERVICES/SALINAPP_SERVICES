@@ -16,13 +16,13 @@ public class BienvenidaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bienvenida);
     }
 
-    public void entrarALaApp(View view) {
+    public void loginUsuarios(View view) {
         Intent intent = new Intent(BienvenidaActivity.this, LoginActivity.class);
         EMPRESA = false;
         startActivity(intent);
     }
 
-    public void inciarSesión(View view) {
+    public void loginEmpresas(View view) {
         Intent intent = new Intent(BienvenidaActivity.this, EmpresaLoginActivity.class);
         EMPRESA = true;
         startActivity(intent);
