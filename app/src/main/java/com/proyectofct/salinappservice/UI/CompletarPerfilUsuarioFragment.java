@@ -18,7 +18,6 @@ import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Controladores.ClienteController;
-import com.proyectofct.salinappservice.Modelos.ClienteDB;
 import com.proyectofct.salinappservice.R;
 
 public class CompletarPerfilUsuarioFragment extends Fragment {
@@ -84,15 +83,15 @@ public class CompletarPerfilUsuarioFragment extends Fragment {
             Toast.makeText(getActivity(), "COMPLETA TODOS LOS CAMPOS", Toast.LENGTH_LONG).show();
             return null;
         }else {
-            int idDireccion = ClienteDB.obtenerNuevoIDDireccion();
+            int idDireccion = ClienteController.obtenerNuevoIDDirección();
             String direccionTexto = "C/" + String.valueOf(edtCalle.getText()) + ", Nº" + String.valueOf(edtNúmero.getText()) + ", " + String.valueOf(edtProvincia.getText()) + ", " + String.valueOf(edtLocalidad.getText()) + ", CP: " + String.valueOf(edtCP.getText());
             Direcciones direccion = new Direcciones(idDireccion, direccionTexto);
 
-            int idCliente = ClienteDB.obtenerNuevoIdCliente();
+            int idCliente = ClienteController.obtenerNuevoIDCliente();
             String datosUsuario = String.valueOf(edtNombre.getText()) + " " + String.valueOf(edtApellidos.getText());
             Cliente cliente = new Cliente(idCliente, firebaseAuth.getCurrentUser().getEmail(), "contraseña", datosUsuario);
 
-            int idDireccionesClientes = ClienteDB.obtenerNuevoIDDireccionCliente();
+            int idDireccionesClientes = ClienteController.obtenerNuevoIDDirecciónCliente();
             DireccionesClientes direccionesClientes = new DireccionesClientes(idDireccionesClientes, direccion, cliente);
             return direccionesClientes;
         }
