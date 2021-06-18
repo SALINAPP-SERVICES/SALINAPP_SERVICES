@@ -323,7 +323,7 @@ public class ProductosPublicadosDB {
 
 
 
-    //public static int obtenerCantidadProductosPublicados() {
+    //Método para actualizar la foto de un producto
     public static boolean actualizarFotoProducto(FotosProducto fp, String cod_producto) {
         Connection conexion = BaseDB.conectarConBaseDeDatos();
         if(conexion == null){
