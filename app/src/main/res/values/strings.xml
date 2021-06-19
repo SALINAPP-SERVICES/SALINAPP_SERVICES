@@ -137,4 +137,5 @@
     <string name="provincia">Provincia:</string>
     <string name="completar_informaci_n">COMPLETAR INFORMACIÓN</string>
     <string name="cancelar_reserva">Cancelar reserva</string>
+    <string name="autoFillHints">autofillHints</string>
 </resources>
