@@ -106,9 +106,4 @@ public class Camara extends AppCompatActivity {
         rutaImagen = imagen.getAbsolutePath();
         return imagen;
     }
-
-    public File getDirectorio() throws IOException{
-        File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return directorio;
-    }
 }
