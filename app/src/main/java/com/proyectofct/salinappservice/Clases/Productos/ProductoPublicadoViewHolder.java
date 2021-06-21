@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Camara;
 import com.proyectofct.salinappservice.Controladores.FotosProductosController;
@@ -41,6 +42,8 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
     public TextView txtStockProductoPublicado = null;
     public TextView txtDescripciónProductoPublicado = null;
 
+    private FirebaseAuth firebaseAuth;
+
     public ProductoPublicadoViewHolder(@NonNull View itemView, ListaProductosPublicadosAdapter listaProductosPublicadosAdapter) {
         super(itemView);
         imgProductoPublicado = (ImageView)  itemView.findViewById(R.id.imgProductoPublicado);
@@ -55,13 +58,15 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
 
     @Override
     public void onClick(View v) {
+        firebaseAuth = FirebaseAuth.getInstance();
+
         int posición = getLayoutPosition();
         ProductosPublicados productosPublicados = this.listaProductosPublicadosAdapter.getListaProductosPublicados().get(posición);
         listaProductosPublicadosAdapter.notifyDataSetChanged();
         if (productosPublicados.getP() instanceof Moda){
             ProductosPublicados productoPublicado = new ProductosPublicados(productosPublicados.getIdProductoEmpresa(), productosPublicados.getCantidad(), productosPublicados.getPrecioventa(), productosPublicados.isHabilitado(), productosPublicados.isArchivado(), productosPublicados.getP(), productosPublicados.getE(), productosPublicados.getId_foto());
             ArrayList<ProductosPublicados> grupoProductos = ProductoPublicadoController.obtenerVariantesProductoPublicado(productoPublicado.getP().getCod_producto());
-            if(!Camara.IMAGEN.equals("")){
+            if(!Camara.IMAGEN.equals("") && firebaseAuth.getCurrentUser().getEmail().equals(productoPublicado.getE().getCod_empresa())){
                 Bitmap imgBitmap = BitmapFactory.decodeFile(Camara.IMAGEN);
                 FotosProducto fp = new FotosProducto();
 

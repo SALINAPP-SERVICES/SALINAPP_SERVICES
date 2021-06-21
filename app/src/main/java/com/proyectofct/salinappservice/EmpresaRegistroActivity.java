@@ -20,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Clases.Empresa.InfoEmpresa;
+import com.proyectofct.salinappservice.Controladores.EmpresaController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,6 +130,8 @@ public class EmpresaRegistroActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(EmpresaRegistroActivity.this, "Empresa registrada correctamente", Toast.LENGTH_SHORT).show();
                     addToFirestore();
+                    Empresa empresa = new Empresa(email, "claveEmpresa", "datos");
+                    boolean insertadoOK = EmpresaController.insertarEmpresa(empresa);
                 }
             }
         });

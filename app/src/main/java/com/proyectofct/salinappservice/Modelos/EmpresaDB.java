@@ -7,6 +7,7 @@ import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.BaseDB;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -68,6 +69,39 @@ public class EmpresaDB {
         } catch (SQLException e) {
             Log.i("SQL", "Error al devolver el número de empresas de la base de datos");
             return 0;
+        }
+    }
+
+    public static boolean insertarEmpresa(Empresa empresa) {
+        Connection conexión = BaseDB.conectarConBaseDeDatos();
+        if(conexión == null) {
+            Log.i("SQL", "Error al establecer la conexión con la base de datos");
+            return false;
+        }
+        try {
+            //Inserto la empresa
+            String ordenSQL1 = "INSERT INTO empresas (cod_empr, clave_empr, datos_empr) VALUES (?, ?, ?);";
+            PreparedStatement sentenciaPreparada1 = conexión.prepareStatement(ordenSQL1);
+            sentenciaPreparada1.setString(1, empresa.getCod_empresa());
+            sentenciaPreparada1.setString(2, empresa.getClave_empr());
+            sentenciaPreparada1.setString(3, empresa.getDatos_empr());
+            int filasAfectadas1 = sentenciaPreparada1.executeUpdate();
+            sentenciaPreparada1.close();
+            if (filasAfectadas1 > 0){
+                conexión.close();
+                return true;
+            }else {
+                conexión.close();
+                return false;
+            }
+        }catch (SQLException e){
+            try {
+                conexión.close();
+            } catch (SQLException e1) {
+                return false;
+            }
+            Log.i("SQL", "Error al insertar la empresa");
+            return false;
         }
     }
 }

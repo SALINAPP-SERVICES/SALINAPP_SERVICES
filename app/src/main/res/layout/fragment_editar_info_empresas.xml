@@ -108,23 +108,6 @@
         android:layout_height="10dp" />
 
     <EditText
-        android:id="@+id/edt_codEmpr_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_codEmpr_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
-
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <EditText
         android:id="@+id/edt_resumen_editInfoE"
         android:layout_width="350dp"
         android:layout_height="wrap_content"

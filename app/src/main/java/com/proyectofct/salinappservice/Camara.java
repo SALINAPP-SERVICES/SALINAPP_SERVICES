@@ -69,13 +69,13 @@ public class Camara extends AppCompatActivity {
     }
 
     public void TomarImagen() {
-        final CharSequence[] opciones={"Elegir empresa","Cancelar"};
+        final CharSequence[] opciones={"Elegir producto","Cancelar"};
         final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(Camara.this);
         alertOpciones.setTitle("Seleccione una Opción");
         alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (opciones[i].equals("Elegir empresa")){
+                if (opciones[i].equals("Elegir producto")){
                     Intent intent = new Intent(Camara.this, HomeActivity.class);
                     IMAGEN = rutaImagen;
                     startActivity(intent);
@@ -105,10 +105,5 @@ public class Camara extends AppCompatActivity {
 
         rutaImagen = imagen.getAbsolutePath();
         return imagen;
-    }
-
-    public File getDirectorio() throws IOException{
-        File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return directorio;
     }
 }
