@@ -2,6 +2,7 @@ package com.proyectofct.salinappservice.Controladores;
 
 import com.proyectofct.salinappservice.Clases.Empresa.Empresa;
 import com.proyectofct.salinappservice.Tareas.TareasEmpresa.TareaCantidadEmpresas;
+import com.proyectofct.salinappservice.Tareas.TareasEmpresa.TareaInsertarEmpresas;
 import com.proyectofct.salinappservice.Tareas.TareasEmpresa.TareaObtenerEmpresas;
 
 import java.util.ArrayList;
@@ -56,5 +57,28 @@ public class EmpresaController {
             e.printStackTrace();
         }
         return cantidadEmpresas;
+    }
+
+    public static boolean insertarEmpresa(Empresa empresa) {
+        boolean insertadoOK = false;
+        FutureTask tarea = new FutureTask (new TareaInsertarEmpresas(empresa));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(tarea);
+        try {
+            insertadoOK = (boolean) tarea.get();
+            es.shutdown();
+            try {
+                if (!es.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                    es.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                es.shutdownNow();
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return insertadoOK;
     }
 }
