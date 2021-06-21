@@ -334,22 +334,54 @@ public class ProductosPublicadosDB {
             PreparedStatement ps = conexion.prepareStatement(ordensql);
             ps.setString(1, cod_producto);
             ResultSet rs = ps.executeQuery();
-            int idFoto=1;
+            int idFoto=0;
             if(rs.next()) {
                 idFoto = rs.getInt("idfoto");
             }
-            String ordensql2 = "UPDATE fotos_productos SET foto = ? WHERE idfotos = ?;";
-            PreparedStatement pst = conexion.prepareStatement(ordensql2);
-            Bitmap bitmap = fp.getFotos();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG,0,baos);
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            pst.setBinaryStream(1,bais);
-            pst.setInt(2, idFoto);
-            int filasAfectadas = pst.executeUpdate();
-            pst.close();
-            conexion.close();
-            if(filasAfectadas > 0){
+            PreparedStatement pst = null;
+            int filasAfectadas;
+            int filasAfectadas1 = 0;
+            if(idFoto != 1) {
+                String ordensql2 = "UPDATE fotos_productos SET foto = ? WHERE idfotos = ?;";
+                pst = conexion.prepareStatement(ordensql2);
+                Bitmap bitmap = fp.getFotos();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,0,baos);
+                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                pst.setBinaryStream(1,bais);
+                pst.setInt(2, idFoto);
+                filasAfectadas = pst.executeUpdate();
+                pst.close();
+                conexion.close();
+            } else{
+                String ordensql3 = "INSERT INTO fotos_productos (foto) VALUES (?) ;";
+                pst = conexion.prepareStatement(ordensql3);
+                Bitmap bitmap = fp.getFotos();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,0,baos);
+                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                pst.setBinaryStream(1,bais);
+                filasAfectadas = pst.executeUpdate();
+
+                String ordensql4 = "SELECT MAX(idfotos) AS idfotos FROM fotos_productos LIMIT 1";
+                Statement sentencia = conexion.createStatement();
+                ResultSet resultado = sentencia.executeQuery(ordensql4);
+                int idfotos = 0;
+                while (resultado.next()) {
+                    idfotos = resultado.getInt("idfotos");
+                }
+                resultado.close();
+                sentencia.close();
+                String ordensql5 = "UPDATE productos SET idfoto = ? WHERE cod_producto = ?";
+                pst = conexion.prepareStatement(ordensql5);
+                pst.setInt(1, idfotos);
+                pst.setString(2, cod_producto);
+                filasAfectadas1 = pst.executeUpdate();
+                pst.close();
+                conexion.close();
+            }
+
+            if(filasAfectadas > 0 || filasAfectadas1 > 0) {
                 return true;
             }else{
                 return false;
