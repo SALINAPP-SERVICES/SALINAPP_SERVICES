@@ -1,5 +1,6 @@
 package com.proyectofct.salinappservice.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +18,7 @@ import com.proyectofct.salinappservice.Clases.Clientes.Cliente;
 import com.proyectofct.salinappservice.Clases.Clientes.Direcciones;
 import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
 import com.proyectofct.salinappservice.Controladores.ClienteController;
+import com.proyectofct.salinappservice.LoginActivity;
 import com.proyectofct.salinappservice.R;
 
 public class CompletarPerfilUsuarioFragment extends Fragment {
@@ -66,7 +67,8 @@ public class CompletarPerfilUsuarioFragment extends Fragment {
                     boolean insertadoOk = ClienteController.insertarDireccionesClientes(direccionesClientes);
                     if (insertadoOk){
                         Toast.makeText(getActivity(), "Información registrada correctamente", Toast.LENGTH_SHORT).show();
-                        Navigation.findNavController(vista).navigate(R.id.nav_fragment_carrito);
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
                     }else {
                         Log.i("", "Error al insertar las direcciones de clientes");
                     }

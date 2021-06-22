@@ -12,7 +12,6 @@ import com.proyectofct.salinappservice.R;
 import org.jetbrains.annotations.NotNull;
 
 public class ReservaViewHolder extends RecyclerView.ViewHolder {
-
     public ListaReservasAdapter listaReservasAdapter;
     public TextView txtIdReserva = null;
     public TextView txtFechaReserva = null;
@@ -21,8 +20,6 @@ public class ReservaViewHolder extends RecyclerView.ViewHolder {
     public TextView txtDatosClienteReserva = null;
 
     public Button btCancelarReserva = null;
-
-    public TextView txtEstadoDeLaReserva;
 
     public ReservaViewHolder(@NonNull @NotNull View itemView, ListaReservasAdapter listaReservasAdapter) {
         super(itemView);
@@ -34,7 +31,5 @@ public class ReservaViewHolder extends RecyclerView.ViewHolder {
         this.listaReservasAdapter = listaReservasAdapter;
 
         btCancelarReserva = (Button) itemView.findViewById(R.id.btCancelarReserva);
-
-        txtEstadoDeLaReserva = (TextView) itemView.findViewById(R.id.txtEstadoDeLaReserva);
     }
 }

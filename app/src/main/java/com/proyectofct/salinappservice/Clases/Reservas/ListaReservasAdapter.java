@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,11 +65,8 @@ public class ListaReservasAdapter extends RecyclerView.Adapter<ReservaViewHolder
         holder.txtDireccionClienteReserva.setText("Dirección del cliente: " + direccionesClientes.getDireccion().getDireccion());
 
         int cancelado = reservaActual.getCancelado();
-
-        if (cancelado == 1){
-            holder.btCancelarReserva.setText("Reserva cancelada");
-            holder.btCancelarReserva.setEnabled(false);
-        }
+        int enProceso = reservaActual.getEnProceso();
+        int finalizado = reservaActual.getFinalizado();
 
         holder.btCancelarReserva.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +80,6 @@ public class ListaReservasAdapter extends RecyclerView.Adapter<ReservaViewHolder
                         if (insertadoOk){
                             holder.btCancelarReserva.setText("Reserva cancelada");
                             holder.btCancelarReserva.setEnabled(false);
-                            Toast.makeText(getC(), "Reserva cancelada", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -97,12 +92,15 @@ public class ListaReservasAdapter extends RecyclerView.Adapter<ReservaViewHolder
             }
         });
 
-        if (reservaActual.getEnProceso() == 1 && reservaActual.getFinalizado() == 0){
-            holder.txtEstadoDeLaReserva.setText("Reserva en proceso");
-        }else if(reservaActual.getEnProceso() == 0 && reservaActual.getFinalizado() == 1){
-            holder.txtEstadoDeLaReserva.setText("Reserva finalizada");
-        }else if(reservaActual.getEnProceso() == 0 && reservaActual.getFinalizado() == 0){
-            holder.txtEstadoDeLaReserva.setVisibility(View.GONE);
+        if (cancelado == 1 && enProceso == 0 && finalizado == 0){
+            holder.btCancelarReserva.setText("Reserva cancelada");
+            holder.btCancelarReserva.setEnabled(false);
+        }else if (cancelado == 0 && enProceso == 1 && finalizado == 0){
+            holder.btCancelarReserva.setText("Reserva en proceso");
+            holder.btCancelarReserva.setEnabled(false);
+        }else if (cancelado == 0 && enProceso == 0 && finalizado == 1){
+            holder.btCancelarReserva.setText("Reserva finalizada");
+            holder.btCancelarReserva.setEnabled(false);
         }
     }
 
