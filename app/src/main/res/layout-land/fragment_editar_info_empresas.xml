@@ -17,147 +17,145 @@
         android:text="@string/txt_titulo_editInfoE"
         android:textColor="#2bab63"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_logo_editInfoE"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="158dp"
-        android:maxWidth="100sp"
-        android:maxHeight="100sp"
-        android:requestLegacyExternalStorage="true"
-        android:src="@color/fondo"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        app:civ_border_overlay="true"
-        app:civ_border_width="1sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="110dp" />
+        <LinearLayout
+            android:layout_width="285dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_logo_editInfoE"
+                android:layout_width="285dp"
+                android:layout_height="158dp"
+                android:maxWidth="100sp"
+                android:maxHeight="100sp"
+                android:requestLegacyExternalStorage="true"
+                android:src="@color/fondo"
 
+                app:civ_border_overlay="true"
+                app:civ_border_width="1sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="110dp" />
 
-    <EditText
-        android:id="@+id/edt_nombre_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_nombre_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+            <Button
+                android:id="@+id/btn_editar_editInfoE"
+                android:layout_width="251dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/btn_editar_editInfoE"
+                android:textColor="@color/white"
+                android:textStyle="bold"
 
-    <EditText
-        android:id="@+id/edt_direccion_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_direccion_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+                app:backgroundTint="@color/fondo"
+                app:cornerRadius="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.839" />
+        </LinearLayout>
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edt_CIF_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_CIF_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+            <EditText
+                android:id="@+id/edt_nombre_editInfoE"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/style_edt"
+                android:hint="@string/edt_nombre_editInfoE"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-    <EditText
-        android:id="@+id/edt_sector_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_sector_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+            <EditText
+                android:id="@+id/edt_CIF_editInfoE"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/style_edt"
+                android:hint="@string/edt_CIF_editInfoE"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-    <EditText
-        android:id="@+id/edt_codEmpr_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_codEmpr_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+            <EditText
+                android:id="@+id/edt_direccion_editInfoE"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/style_edt"
+                android:hint="@string/edt_direccion_editInfoE"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-    <EditText
-        android:id="@+id/edt_resumen_editInfoE"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/style_edt"
-        android:hint="@string/edt_resumen_editInfoE"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+            <EditText
+                android:id="@+id/edt_sector_editInfoE"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/style_edt"
+                android:hint="@string/edt_sector_editInfoE"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-    <View
-        android:id="@+id/divider7"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-    <Button
-        android:id="@+id/btn_editar_editInfoE"
-        android:layout_width="251dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/btn_editar_editInfoE"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+            <EditText
+                android:id="@+id/edt_resumen_editInfoE"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/style_edt"
+                android:hint="@string/edt_resumen_editInfoE"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black" />
 
-        app:backgroundTint="@color/fondo"
-        app:cornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.839" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>

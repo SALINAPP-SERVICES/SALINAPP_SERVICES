@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.proyectofct.salinappservice.BienvenidaActivity;
 import com.proyectofct.salinappservice.Modelos.ConfiguraciónDB.ConfiguracionesGeneralesDB;
 import com.proyectofct.salinappservice.R;
 
 import java.util.ArrayList;
 
+import static com.proyectofct.salinappservice.Clases.Productos.ProductoPublicadoViewHolder.EXTRA_OBJETO_GRUPO_PRODUCTO_PUBLICADO;
 import static com.proyectofct.salinappservice.Utilidades.ImagenesBlobBitmap.blob_to_bitmap;
 
 
@@ -22,6 +24,7 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
     private ArrayList<ProductosPublicados> listaProductosPublicados;
     private LayoutInflater mInflater;
     private int página;
+    private FirebaseAuth firebaseAuth;
 
     public ListaProductosPublicadosAdapter(Context c, ArrayList<ProductosPublicados> listaProductosPublicados) {
         this.c = c;
@@ -50,18 +53,26 @@ public class ListaProductosPublicadosAdapter extends RecyclerView.Adapter<Produc
     @Override
     public ProductoPublicadoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View mItemView;
-        if(BienvenidaActivity.EMPRESA == false) {
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        String cod_empresa="";
+        if(listaProductosPublicados.size()>0){
+            cod_empresa = listaProductosPublicados.get(0).getE().getCod_empresa();
+        }
+
+        if(!firebaseAuth.getCurrentUser().getEmail().equals(cod_empresa)){
             mItemView = mInflater.inflate(R.layout.item_recyclerview_producto_publicado, parent, false);
-        }else{
+        } else{
             mItemView = mInflater.inflate(R.layout.item_recyclerview_imagenes_producto, parent, false);
         }
+
         return new ProductoPublicadoViewHolder(mItemView, this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductoPublicadoViewHolder holder, int position) {
         ProductosPublicados productosPublicadosActual = listaProductosPublicados.get(position);
-        if(BienvenidaActivity.EMPRESA == false) {
+        if(!firebaseAuth.getCurrentUser().getEmail().equals(listaProductosPublicados.get(position).getE().getCod_empresa())) {
             holder.txtMarcaProductoPublicado.setText(String.valueOf("Marca : " + productosPublicadosActual.getP().getMarca()));
             holder.txtPrecioProductoPublicado.setText(String.valueOf("Precio : " + productosPublicadosActual.getPrecioventa() + " €"));
             holder.txtStockProductoPublicado.setText(String.valueOf("Cantidad : " + productosPublicadosActual.getCantidad() + " unidades"));

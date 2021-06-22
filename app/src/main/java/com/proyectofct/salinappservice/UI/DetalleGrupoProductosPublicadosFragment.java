@@ -81,7 +81,15 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View vista;
-        if(BienvenidaActivity.EMPRESA == true){
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        String cod_empresa="";
+        ArrayList<ProductosPublicados> productosPublicado = (ArrayList<ProductosPublicados>) getArguments().getSerializable(EXTRA_OBJETO_GRUPO_PRODUCTO_PUBLICADO);
+        if(productosPublicado.size()>0){
+            cod_empresa = productosPublicado.get(0).getE().getCod_empresa();
+        }
+
+        if(firebaseAuth.getCurrentUser().getEmail().equals(cod_empresa)){
             vista = inflater.inflate(R.layout.fragment_detalle_grupo_imagenes_productos_publicados, container, false);
         } else{
             vista = inflater.inflate(R.layout.fragment_detalle_grupo_productos_publicados, container, false);
@@ -96,7 +104,6 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
         txtModeloDetalleProductoPublicado = (TextView) vista.findViewById(R.id.txtModeloDetalleGrupoProductoPublicado);
         spTallasColor = (Spinner) vista.findViewById(R.id.spTallasColor);
 
-        ArrayList<ProductosPublicados> productosPublicado = (ArrayList<ProductosPublicados>) getArguments().getSerializable(EXTRA_OBJETO_GRUPO_PRODUCTO_PUBLICADO);
         ArrayAdapter<ProductosPublicados> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_tallas_color_item,R.id.txtSpinnerTallaColor,productosPublicado);
         adapter.setDropDownViewResource(R.layout.spinner_tallas_color_item);
         spTallasColor.setAdapter(adapter);
@@ -117,7 +124,7 @@ public class DetalleGrupoProductosPublicadosFragment extends Fragment {
                     txtMarcaDetalleProductoPublicado.setText(String.valueOf(productoPublicado.getP().getMarca()));
                     txtModeloDetalleProductoPublicado.setText(String.valueOf(productoPublicado.getP().getModelo()));
 
-                    if(BienvenidaActivity.EMPRESA == true) {
+                    if(firebaseAuth.getCurrentUser().getEmail().equals(productoPublicado.getE().getCod_empresa())) {
                         imgDetalleProductoPublicado.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

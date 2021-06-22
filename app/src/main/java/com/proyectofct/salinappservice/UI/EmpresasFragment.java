@@ -91,12 +91,11 @@ public class EmpresasFragment extends Fragment {
                                     DocumentSnapshot info = task.getResult();
                                     if (info.exists()) {
                                         infoEmpresa = info.toObject(InfoEmpresa.class);
-                                        if (BienvenidaActivity.EMPRESA == true){
-                                            if(firebaseAuth.getCurrentUser().getEmail().equals(infoEmpresa.getCod_empresa())){
-                                               listaEmpresasAdapter.addEmpresa(infoEmpresa);
-                                                Log.i("illo", "Añade mi empresa al ArrayList");
-                                            }
-                                        } else{
+
+                                        if(firebaseAuth.getCurrentUser().getEmail().equals(infoEmpresa.getCod_empresa())){
+                                           listaEmpresasAdapter.addEmpresa(infoEmpresa);
+                                            Log.i("illo", "Añade mi empresa al ArrayList");
+                                        }else{
                                             listaEmpresasAdapter.addEmpresa(infoEmpresa);
                                             Log.i("illo", "Añade empresas al ArrayList");
                                         }

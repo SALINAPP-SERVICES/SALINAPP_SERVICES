@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.proyectofct.salinappservice.Clases.Clientes.DireccionesClientes;
+import com.proyectofct.salinappservice.Controladores.ClienteController;
 
 public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -95,6 +97,14 @@ public class HomeActivity extends AppCompatActivity {
                                 navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, true);
                                 navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, false);
                                 Log.d("", "DocumentSnapshot data: " + document.getData());
+
+                                DireccionesClientes direccionesClientes = ClienteController.obtenerDireccionesCliente();
+                                if (direccionesClientes == null) {
+                                    navigationView.getMenu().findItem(R.id.nav_fragment_completar_perfil).setVisible(true);
+                                }else {
+                                    navigationView.getMenu().findItem(R.id.nav_fragment_completar_perfil).setVisible(false);
+                                }
+
                             } else { //El documento corresponde a una empresa
                                 navigationView.getMenu().setGroupVisible(R.id.menuUsuarios, false);
                                 navigationView.getMenu().setGroupVisible(R.id.menuEmpresas, true);

@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class BienvenidaActivity extends AppCompatActivity {
 
-    public static boolean EMPRESA;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,13 +16,11 @@ public class BienvenidaActivity extends AppCompatActivity {
 
     public void loginUsuarios(View view) {
         Intent intent = new Intent(BienvenidaActivity.this, LoginActivity.class);
-        EMPRESA = false;
         startActivity(intent);
     }
 
     public void loginEmpresas(View view) {
         Intent intent = new Intent(BienvenidaActivity.this, EmpresaLoginActivity.class);
-        EMPRESA = true;
         startActivity(intent);
     }
 }
