@@ -76,6 +76,7 @@ public class ProductoPublicadoViewHolder  extends RecyclerView.ViewHolder implem
                                 FotosProductosController.actualizarFoto(fp, cod_producto);
                                 Camara.IMAGEN = "";
                                 Toast.makeText(v.getContext(), "Imagen guardada correctamente", Toast.LENGTH_LONG).show();
+                                Navigation.findNavController(itemView).navigate(R.id.nav_fragment_empresas);
                             }
                         });
                 alertOpciones.setNegativeButton("No", new DialogInterface.OnClickListener() {
